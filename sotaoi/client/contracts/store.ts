@@ -1,0 +1,54 @@
+import { Lang, State } from '@sotaoi/omni/state';
+import { AuthRecord } from '@sotaoi/omni/artifacts';
+import { StoreCreator, Store as ReduxStore } from 'redux';
+import { InputValidator, Storage } from '@sotaoi/client/contracts';
+
+type StoreType = { getState: () => { [key: string]: any }; dispatch: any; subscribe: any } | ReduxStore;
+
+abstract class Store {
+  protected apiUrl: string;
+  protected createStore: StoreCreator;
+  protected inputValidator: InputValidator;
+  protected storage: Storage;
+
+  protected store: StoreType;
+  protected initialState: State;
+
+  constructor(apiUrl: string, createStore: StoreCreator, inputValidator: InputValidator, storage: Storage) {
+    this.apiUrl = apiUrl;
+    this.createStore = createStore;
+    this.inputValidator = inputValidator;
+    this.storage = storage;
+    this.store = {
+      getState: () => (): { [key: string]: any } => ({}),
+      dispatch: () => (): void => undefined,
+      subscribe: () => (): void => undefined,
+    };
+    this.initialState = {
+      'app.meta.title': '',
+      'app.credentials.authRecord': null,
+      'app.lang.selected': { code: 'en', name: 'English' },
+      'app.lang.default': { code: 'en', name: 'English' },
+      'app.lang.available': [{ code: 'en', name: 'English' }],
+    };
+  }
+
+  abstract async init(): Promise<void>;
+  abstract async setAuthRecord(authRecord: null | AuthRecord): Promise<void>;
+  abstract async setCurrentPath(currentPath: string): Promise<void>;
+  abstract getCurrentPath(): string;
+  abstract getAuthRecord(): null | AuthRecord;
+  abstract getAccessToken(): null | string;
+  abstract hasMultiLang(): boolean;
+  abstract setTitle(title: string): void;
+  abstract setSelectedLang(lang: Lang): void;
+  abstract setDefaultLang(lang: Lang): void;
+  abstract getSelectedLang(): Lang;
+  abstract getDefaultLang(): Lang;
+  abstract getAvailableLangs(): Lang[];
+  abstract subscribe(callback: () => void): () => void;
+  abstract getState(): State;
+  abstract getApiUrl(): string;
+}
+
+export { Store };

@@ -1,0 +1,6 @@
+{
+  "watch": ["./app/api/proxy.entry.ts", "./app/omni/info.json", "./app/client/public"],
+  "ext": "*",
+  "ignore": [],
+  "exec": "ts-node ./app/api/proxy.entry.ts"
+}

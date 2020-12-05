@@ -1,0 +1,5 @@
+#import <Foundation/Foundation.h>
+@interface PodsDummy_Pods_qwertypnksmobileboilerplate_qwertypnksmobileboilerplateTests : NSObject
+@end
+@implementation PodsDummy_Pods_qwertypnksmobileboilerplate_qwertypnksmobileboilerplateTests
+@end

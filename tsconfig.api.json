@@ -1,0 +1,21 @@
+{
+  "extends": "./tsconfig.json",
+  "exclude": [
+    "./app/client",
+    "./sotaoi/client",
+    "./android",
+    "./var/build",
+    "./ios",
+    "./knexfile.ts",
+    "./node_modules",
+    "./babel.config.js",
+    "./index.js",
+    "./jest.config.js",
+    "./metro.config.js",
+    "./postcss.config.js",
+    "./tailwind.config.js",
+    "./var/pmhook.js",
+    "./var/todel",
+    "./sotaoi/client/mocks"
+  ]
+}

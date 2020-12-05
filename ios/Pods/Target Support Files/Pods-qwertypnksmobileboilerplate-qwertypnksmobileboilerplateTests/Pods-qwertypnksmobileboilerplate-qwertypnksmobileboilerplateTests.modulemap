@@ -1,0 +1,6 @@
+module Pods_qwertypnksmobileboilerplate_qwertypnksmobileboilerplateTests {
+  umbrella header "Pods-qwertypnksmobileboilerplate-qwertypnksmobileboilerplateTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

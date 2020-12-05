@@ -1,0 +1,19 @@
+module.exports = {
+  presets: ['module:metro-react-native-babel-preset'],
+  plugins: [
+    [
+      'module-resolver',
+      {
+        root: ['./app/client', './app/omni', './sotaoi/client', './sotaoi/omni'],
+        alias: {
+          '@app/api': './app/api',
+          '@app/client': './app/client',
+          '@app/omni': './app/omni',
+          '@sotaoi/api': './famework/api',
+          '@sotaoi/client': './sotaoi/client',
+          '@sotaoi/omni': './sotaoi/omni',
+        },
+      },
+    ],
+  ],
+};

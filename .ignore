@@ -1,0 +1,9 @@
+!.env
+!.env.production
+!.env.staging
+!.env.development
+!.env.testing
+!.env.local
+var/build/release
+package-lock.json
+yarn.lock

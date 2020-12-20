@@ -4,7 +4,7 @@
 
 # Starting up
 
-## Setting up the applciation
+## Setting up the application
 
 Run the following commands in the command line to setup the application
 

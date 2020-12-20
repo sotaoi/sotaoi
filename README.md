@@ -1,16 +1,5 @@
 # THIS IS A SIMPLE WORK IN PROGRESS BLOG DEMO FOR ALPHA
 
-# Will have:
-
-## 1. Implementations for: Vue, Angular
-
-## 2. Handling of validation on both client and api; API implementation with Swagger, alongside:
-
-1. Implementation with Joi on top of hapi.js
-2. Implementation with Express
-3. Implementation with Laravel
-4. Implementation with Koa
-
 # Starting up
 
 ## Setting up the applciation

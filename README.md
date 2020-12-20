@@ -1,16 +1,3 @@
-# HEROKU TODOs
-
-1. Redirect from http to https
-
-# WHAT DOES THIS FORM SERVICE HAVE MORE THAN THE OTHER FORM LIBRARIES?
-
-1. It's a complete service
-2. It handles collections
-3. Handles min / max for collections
-4. It handles collection order
-5. Handles client-to-api payload transfer, you get a recursive data object ready to be validated and processed
-6. Implementation for ReactJS and ReactNative
-
 # Will have:
 
 ## 1. Implementations for: Vue, Angular

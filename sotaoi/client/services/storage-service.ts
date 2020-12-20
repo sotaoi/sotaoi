@@ -29,10 +29,10 @@ class StorageService extends Storage {
     const stringified = JSON.stringify(value);
     switch (true) {
       case Helper.isWeb():
-        window.localStorage.setItem('app.storage', stringified);
+        window.localStorage.setItem(key, stringified);
         break;
       case Helper.isMobile():
-        await AsyncStorage.setItem('app.storage', stringified);
+        await AsyncStorage.setItem(key, stringified);
         break;
       case Helper.isElectron():
         console.warn('no electron yet');

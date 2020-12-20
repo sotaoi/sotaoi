@@ -5,69 +5,28 @@ import AsyncStorage from '@react-native-community/async-storage';
 class StorageService extends Storage {
   protected allowedKeys: string[];
 
-  constructor() {
+  constructor(allowedKeys: string[]) {
     super();
-    this.allowedKeys = [];
-  }
-
-  public async init(allowedKeys: string[]): Promise<void> {
-    let parsed: any;
     this.allowedKeys = allowedKeys;
-    this.data = {};
-    try {
-      switch (true) {
-        case Helper.isWeb():
-          parsed = JSON.parse(window.localStorage.getItem('app.storage') || '{}');
-          this.data = (typeof parsed === 'object' ? parsed : {}) as { [key: string]: any };
-          break;
-        case Helper.isMobile():
-          parsed = JSON.parse((await AsyncStorage.getItem('app.storage')) || '{}');
-          this.data = (typeof parsed === 'object' ? parsed : {}) as { [key: string]: any };
-          break;
-        case Helper.isElectron():
-          console.warn('no electron yet');
-          break;
-        default:
-          throw new Error('unknown environment');
-      }
-    } catch (err) {
-      console.warn(err);
-    }
-    for (const key of Object.keys(this.data)) {
-      this.allowedKeys.indexOf(key) === -1 && delete this.data[key];
-    }
-    await this.save(true);
   }
 
   public async set(key: string, value: any): Promise<void> {
     this.checkKey(key);
-    if (!this.data) {
-      throw new Error('something went wrong - tried to set, but storage is not init');
-    }
-    this.data[key] = value;
-    await this.save(true);
+    await this._set(key, value);
   }
 
-  public get(key: string): any {
+  public async get(key: string): Promise<any> {
     this.checkKey(key);
-    if (!this.data) {
-      throw new Error('something went wrong - tried to set, but storage is not init');
-    }
-    return this.data[key];
+    return this._get(key);
   }
 
   public async remove(key: string): Promise<void> {
     this.checkKey(key);
-    if (!this.data) {
-      throw new Error('something went wrong - tried to set, but storage is not init');
-    }
-    delete this.data[key];
-    await this.save(false);
+    await this._remove(key);
   }
 
-  protected async save(update: boolean): Promise<void> {
-    const stringified = JSON.stringify(this.data);
-    update && (this.data = JSON.parse(stringified));
+  protected async _set(key: string, value: any): Promise<void> {
+    const stringified = JSON.stringify(value);
     switch (true) {
       case Helper.isWeb():
         window.localStorage.setItem('app.storage', stringified);
@@ -78,6 +37,34 @@ class StorageService extends Storage {
       case Helper.isElectron():
         console.warn('no electron yet');
         break;
+      default:
+        throw new Error('unknown environment');
+    }
+  }
+
+  protected async _get(key: string): Promise<any> {
+    switch (true) {
+      case Helper.isWeb():
+        return window.localStorage.getItem(key) || null;
+      case Helper.isMobile():
+        return (await AsyncStorage.getItem(key)) || null;
+      case Helper.isElectron():
+        throw new Error('no electron yet');
+      default:
+        throw new Error('unknown environment');
+    }
+  }
+
+  protected async _remove(key: string): Promise<void> {
+    switch (true) {
+      case Helper.isWeb():
+        window.localStorage.removeItem(key);
+        break;
+      case Helper.isMobile():
+        await AsyncStorage.removeItem(key);
+        break;
+      case Helper.isElectron():
+        throw new Error('no electron yet');
       default:
         throw new Error('unknown environment');
     }

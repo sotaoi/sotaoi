@@ -28,8 +28,11 @@ interface DefaultLangAction {
 type Action = AppTitleAction | AuthRecordAction | SelectedLangAction | DefaultLangAction;
 
 class StoreService extends Store {
+  protected currentPath: null | string;
+
   constructor(apiUrl: string, createStore: StoreCreator, inputValidator: InputValidator, storage: Storage) {
     super(apiUrl, createStore, inputValidator, storage);
+    this.currentPath = null;
   }
 
   public async init(): Promise<void> {
@@ -38,11 +41,12 @@ class StoreService extends Store {
     let seed: null | Seed = null;
     let getSeedTries = 0;
 
-    await this.storage.init(['authRecord', 'currentPath']);
+    const accessToken = JSON.parse((await this.storage.get('authRecord')) || '{}').accessToken || '';
+    this.currentPath = (await this.storage.get('currentPath')) || '/';
 
     const getSeed = async (): Promise<void> => {
       const formData = new FormData();
-      formData.append('accessToken', this.storage.get('authRecord')?.accessToken || '');
+      formData.append('accessToken', accessToken);
       seed = await (await fetch(`${this.apiUrl}/seed`, { method: 'POST', body: formData })).json();
     };
 
@@ -109,10 +113,11 @@ class StoreService extends Store {
   }
 
   public async setCurrentPath(currentPath: string): Promise<void> {
+    this.currentPath = currentPath;
     await this.storage.set('currentPath', currentPath);
   }
   public getCurrentPath(): string {
-    return this.storage.get('currentPath') || '/';
+    return this.currentPath || '/';
   }
 
   public getAuthRecord(): null | AuthRecord {

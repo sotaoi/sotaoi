@@ -38,7 +38,7 @@ class AppKernel {
     app().singleton<Storage>(
       Storage,
       (): StorageService => {
-        return new StorageService();
+        return new StorageService(['authRecord', 'currentPath']);
       },
     );
   }

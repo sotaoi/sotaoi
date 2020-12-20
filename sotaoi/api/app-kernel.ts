@@ -1,10 +1,12 @@
 import { AppContainer } from '@sotaoi/api/app-container';
 import { db } from '@sotaoi/api/db';
 import { Helper } from '@sotaoi/api/helper';
-import { InputValidator, Logger, Permissions } from '@sotaoi/api/contracts';
+import { InputValidator, Logger, Permissions, Storage } from '@sotaoi/api/contracts';
 import { LoggerService } from '@sotaoi/api/services/logger-service';
 import { InputValidatorOmni } from '@sotaoi/omni/services/input-validator-omni';
 import { PermissionsService } from '@sotaoi/api/services/permissions-service';
+import { StorageService } from '@sotaoi/api/services/storage-service';
+import path from 'path';
 
 let appContainer: AppContainer;
 let app: () => AppContainer = () => appContainer;
@@ -54,6 +56,15 @@ class AppKernel {
         Permissions,
         (): PermissionsService => {
           return new PermissionsService();
+        },
+      );
+
+    // permissions
+    !app().has(Storage) &&
+      app().singleton<Storage>(
+        Storage,
+        (): StorageService => {
+          return new StorageService(path.resolve('./storage'));
         },
       );
   }

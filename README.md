@@ -1,3 +1,5 @@
+# THIS IS A SIMPLE WORK IN PROGRESS BLOG DEMO FOR ALPHA
+
 # Will have:
 
 ## 1. Implementations for: Vue, Angular
@@ -41,12 +43,4 @@ sudo npm run start:proxy
 
 ```
 
-Afterwards in the browser go to the *https://qwertyboilerplate.com*
-
-## Documentation API
-
-TO-DO
-
-## Documentation Client
-
-TO-DO
+Afterwards in the browser go to the *https://monologz.dev*

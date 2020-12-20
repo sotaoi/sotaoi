@@ -23,8 +23,8 @@
 /var/build/sdk
 
 # ide
-.idea
-.vscode
+/.idea
+/.vscode
 
 # android
 /output.log
@@ -32,7 +32,11 @@
 /android/.gradle
 /android/app/build
 
-#ios
+# ios
 /template/ios/Pods/
 /template/ios/Podfile.lock
 /packages/rn-tester/Gemfile.lock
+
+# storage
+/sotaoi/api/storage/*
+!/sotaoi/api/storage/.gitkeep

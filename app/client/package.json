@@ -1,0 +1,7 @@
+{
+  "name": "@app/client",
+  "version": "1.0.0",
+  "devDependencies": {
+    "@types/draft-js": "^0.10.44"
+  }
+}

@@ -1,0 +1,78 @@
+import React from 'react';
+import { ViewComponent, ViewPromises, ViewData } from '@sotaoi/client/components';
+import { FormConstructor, UpdateFormFactory } from '@sotaoi/client/forms';
+import { Artifacts } from '@sotaoi/omni/artifacts';
+import { getAllCountriesQuery } from '@app/client/queries/country-queries';
+import { pushRoute } from '@sotaoi/client/router';
+import { getUser } from '@app/client/queries/user-queries';
+import { WebUpdateUserForm } from '@app/client/main-layout/forms/update-user-form/web.update-user-form';
+import { InputField } from '@sotaoi/client/forms/fields/input-field';
+import { RefSelectField } from '@sotaoi/client/forms/fields/ref-select-field';
+import { FileField } from '@sotaoi/client/forms/fields/file-field';
+import { getUserCommandFormValidations } from '@app/client/queries/validation-queries';
+
+// todo here: (and in any component in general) handle component error
+interface UpdateUserFormProps {
+  uuid: string;
+}
+class UpdateUserForm extends ViewComponent<UpdateUserFormProps> {
+  public promises(): ViewPromises<UpdateUserFormProps> {
+    return {
+      countries: getAllCountriesQuery(),
+      user: getUser(),
+      validations: getUserCommandFormValidations(),
+    };
+  }
+
+  public init({ results, props }: ViewData<UpdateUserFormProps>): any {
+    const user = results.user.result.record;
+    const countries = results.countries.result.records;
+
+    const storeUserFormConstructor = FormConstructor(
+      {
+        email: InputField.input(user.email),
+        password: InputField.input(user.password),
+        avatar: FileField.input(null),
+        address: {
+          fields: {
+            street: InputField.input(user.address.street),
+            country: RefSelectField.input(user.address.country),
+          },
+        },
+      },
+      results.validations,
+    );
+
+    const Form = UpdateFormFactory(null, new Artifacts(), null, 'user', storeUserFormConstructor, props.uuid);
+    Form.init();
+
+    React.useEffect(() => (): void => Form.destroy(), []);
+
+    Form.onCommandSuccess(async (result) => {
+      if (!result.ref) {
+        throw new Error('something went wrong');
+      }
+      pushRoute(`/user/view/${result.ref.uuid}`);
+    });
+
+    return {
+      form: Form,
+      countries,
+    };
+  }
+
+  public web(data: ViewData<UpdateUserFormProps>): null | React.ReactElement {
+    const { form, countries } = this.init(data);
+    return <WebUpdateUserForm form={form} countries={countries} />;
+  }
+
+  public mobile(): null {
+    return null;
+  }
+
+  public electron(): null {
+    return null;
+  }
+}
+
+export { UpdateUserForm };

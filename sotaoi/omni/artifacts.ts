@@ -16,6 +16,7 @@ class Artifact {
 
 class AuthRecord extends Artifact {
   public createdAt: Date;
+  // todo here: remove access token from auth record (and web storage)
   public accessToken: string;
   public active: boolean;
 

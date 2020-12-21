@@ -64,7 +64,14 @@ class AppKernel {
       app().singleton<Storage>(
         Storage,
         (): StorageService => {
-          return new StorageService(path.resolve('./storage'));
+          return new StorageService(
+            path.resolve('./storage'),
+            async (role: string, pathname: string): Promise<boolean> => {
+              console.info('role:', role);
+              console.info('pathame:', pathname);
+              return true;
+            },
+          );
         },
       );
   }

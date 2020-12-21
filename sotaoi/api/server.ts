@@ -14,6 +14,7 @@ import { retrieveRoute } from '@sotaoi/api/routes/retrieve-route';
 import { removeRoute } from '@sotaoi/api/routes/remove-route';
 import { authRoute } from '@sotaoi/api/routes/auth-route';
 import { taskRoute } from '@sotaoi/api/routes/task-route';
+import { storageRoute } from '@sotaoi/api/routes/storage-route';
 import Inert from '@hapi/inert';
 import Vision from '@hapi/vision';
 import { Helper } from '@sotaoi/api/helper';
@@ -53,11 +54,6 @@ class Server {
       const server = Hapi.server({
         port: process.env.PORT || 3000,
         host: '0.0.0.0',
-        routes: {
-          files: {
-            relativeTo: Helper.getPublicPath(),
-          },
-        },
         ...(isHeroku
           ? {}
           : {
@@ -78,6 +74,8 @@ class Server {
       server.route(removeRoute);
       server.route(authRoute);
       server.route(taskRoute);
+
+      server.route(storageRoute);
 
       process.env.NODE_ENV === 'production' && server.route(renderWebRoute);
       server.route(notFoundRoute);

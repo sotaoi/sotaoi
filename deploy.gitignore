@@ -4,19 +4,19 @@
 /logs
 
 # certs
-# todo here: decide on this
-# /sotaoi/api/certs
+/sotaoi/api/certs/privkey.pem
+/sotaoi/api/certs/fullchain.pem
 
 # app
 /todo.txt
-# /app/client/build
+/app/client/build
 /node_modules
 /var/build/release
 /var/build/sdk
 
 # ide
-.idea
-.vscode
+/.idea
+/.vscode
 
 # android
 /output.log
@@ -24,7 +24,11 @@
 /android/.gradle
 /android/app/build
 
-#ios
+# ios
 /template/ios/Pods/
 /template/ios/Podfile.lock
 /packages/rn-tester/Gemfile.lock
+
+# storage
+!/.gitkeep
+/storage/*

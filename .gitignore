@@ -38,5 +38,5 @@
 /packages/rn-tester/Gemfile.lock
 
 # storage
-/sotaoi/api/storage/*
-!/sotaoi/api/storage/.gitkeep
+!/.gitkeep
+/storage/*

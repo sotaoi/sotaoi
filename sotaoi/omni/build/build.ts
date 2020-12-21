@@ -27,7 +27,7 @@ const main = async (): Promise<void> => {
 
   // copy folders
   Helper.copyRecursiveSync(paths.appPath, `${paths.apiBuild}/app`);
-  Helper.copyRecursiveSync(paths.frameworkPath, `${paths.apiBuild}/framework`);
+  Helper.copyRecursiveSync(paths.sotaoiPath, `${paths.apiBuild}/sotaoi`);
 
   // copy files
   const items = Helper.readdirSync(path.resolve('./'));
@@ -61,8 +61,8 @@ const main = async (): Promise<void> => {
   }
 
   // remove dev certificates
-  const devPrivkey = path.resolve(paths.apiBuild, 'framework', 'api', 'certs', 'privkey.pem');
-  const devFullchain = path.resolve(paths.apiBuild, 'framework', 'api', 'certs', 'fullchain.pem');
+  const devPrivkey = path.resolve(paths.apiBuild, 'sotaoi', 'api', 'certs', 'privkey.pem');
+  const devFullchain = path.resolve(paths.apiBuild, 'sotaoi', 'api', 'certs', 'fullchain.pem');
   fs.existsSync(devPrivkey) && fs.unlinkSync(devPrivkey);
   fs.existsSync(devFullchain) && fs.unlinkSync(devFullchain);
 

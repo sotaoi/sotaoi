@@ -10,6 +10,6 @@ module.exports = {
     }),
   },
   resolver: {
-    blacklistRE: exclusionList([/var\/.*/, /app\/api\/.*/, /framework\/api\/.*/]),
+    blacklistRE: exclusionList([/var\/.*/, /app\/api\/.*/, /sotaoi\/api\/.*/]),
   },
 };

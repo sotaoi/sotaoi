@@ -15,7 +15,7 @@ const main = async () => {
   // @app {
 
   const appSymlinkPath = path.resolve(__dirname, '../node_modules/@app');
-  const frameworkSymlinkPath = path.resolve(__dirname, '../node_modules/@sotaoi');
+  const sotaoiSymlinkPath = path.resolve(__dirname, '../node_modules/@sotaoi');
 
   const createAppSymlinks = () => {
     fs.rmdirSync(appSymlinkPath, { recursive: true });
@@ -25,12 +25,12 @@ const main = async () => {
     fs.symlinkSync('../../app/omni', path.resolve(`${appSymlinkPath}/omni`));
   };
 
-  const createFrameworkSymlinks = () => {
-    fs.rmdirSync(frameworkSymlinkPath, { recursive: true });
-    fs.mkdirSync(frameworkSymlinkPath);
-    fs.symlinkSync('../../sotaoi/api', path.resolve(`${frameworkSymlinkPath}/api`));
-    fs.symlinkSync('../../sotaoi/client', path.resolve(`${frameworkSymlinkPath}/client`));
-    fs.symlinkSync('../../sotaoi/omni', path.resolve(`${frameworkSymlinkPath}/omni`));
+  const createsotaoiSymlinks = () => {
+    fs.rmdirSync(sotaoiSymlinkPath, { recursive: true });
+    fs.mkdirSync(sotaoiSymlinkPath);
+    fs.symlinkSync('../../sotaoi/api', path.resolve(`${sotaoiSymlinkPath}/api`));
+    fs.symlinkSync('../../sotaoi/client', path.resolve(`${sotaoiSymlinkPath}/client`));
+    fs.symlinkSync('../../sotaoi/omni', path.resolve(`${sotaoiSymlinkPath}/omni`));
   };
 
   // ensure symlinks {
@@ -38,8 +38,8 @@ const main = async () => {
   if (!fs.existsSync(appSymlinkPath)) {
     createAppSymlinks();
   }
-  if (!fs.existsSync(frameworkSymlinkPath)) {
-    createFrameworkSymlinks();
+  if (!fs.existsSync(sotaoiSymlinkPath)) {
+    createsotaoiSymlinks();
   }
 
   // }

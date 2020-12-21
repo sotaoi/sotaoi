@@ -16,13 +16,13 @@ const paths = {
   appApiPath: resolveRoot('./app/api'),
   appClientPath: resolveRoot('./app/client'),
   appOmniPath: resolveRoot('./app/omni'),
-  frameworkApiPath: resolveRoot('./sotaoi/api'),
-  frameworkClientPath: resolveRoot('./sotaoi/client'),
-  frameworkOmniPath: resolveRoot('./sotaoi/omni'),
+  sotaoiApiPath: resolveRoot('./sotaoi/api'),
+  sotaoiClientPath: resolveRoot('./sotaoi/client'),
+  sotaoiOmniPath: resolveRoot('./sotaoi/omni'),
   // api
   apiBuild: resolveRoot('./var/build/release'),
   appPath: resolveRoot('./app'),
-  frameworkPath: resolveRoot('./framework'),
+  sotaoiPath: resolveRoot('./sotaoi'),
   // general
   nodeModulesPath: resolveRoot('./node_modules'),
 };

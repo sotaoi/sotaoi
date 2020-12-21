@@ -1,13 +1,5 @@
 !.gitkeep
 
-# env
-/.env
-/.env.production
-/.env.staging
-/.env.development
-/.env.testing
-/.env.local
-
 # logs
 /logs
 

@@ -10,9 +10,9 @@ const renderWebRoute: ServerRoute = {
       (!request.params.path || !fs.existsSync(Helper.getPublicPath(request.params.path))) &&
       fs.existsSync(Helper.getPublicPath('index.html'))
     ) {
-      return handler.file('index.html');
+      return handler.file(Helper.getPublicPath('index.html'));
     }
-    return handler.file(request.params.path);
+    return handler.file(Helper.getPublicPath(request.params.path));
   },
 };
 

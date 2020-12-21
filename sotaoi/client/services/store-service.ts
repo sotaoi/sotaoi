@@ -41,7 +41,7 @@ class StoreService extends Store {
     let seed: null | Seed = null;
     let getSeedTries = 0;
 
-    const accessToken = JSON.parse((await this.storage.get('authRecord')) || '{}').accessToken || '';
+    const accessToken = JSON.parse((await this.storage.get('authRecord')) || '{}')?.accessToken || '';
     this.currentPath = (await this.storage.get('currentPath')) || '/';
 
     const getSeed = async (): Promise<void> => {

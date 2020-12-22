@@ -29,10 +29,12 @@ type Action = AppTitleAction | AuthRecordAction | SelectedLangAction | DefaultLa
 
 class StoreService extends Store {
   protected currentPath: null | string;
+  protected accessToken: null | string;
 
   constructor(apiUrl: string, createStore: StoreCreator, inputValidator: InputValidator, storage: Storage) {
     super(apiUrl, createStore, inputValidator, storage);
     this.currentPath = null;
+    this.accessToken = null;
   }
 
   public async init(): Promise<void> {
@@ -41,15 +43,11 @@ class StoreService extends Store {
     let seed: null | Seed = null;
     let getSeedTries = 0;
 
-    const accessToken = JSON.parse((await this.storage.get('authRecord')) || '{}')?.accessToken || '';
     this.currentPath = (await this.storage.get('currentPath')) || '/';
 
     const getSeed = async (): Promise<void> => {
-      const formData = new FormData();
-      formData.append('accessToken', accessToken);
-      seed = await (await fetch(`${this.apiUrl}/seed`, { method: 'POST', body: formData })).json();
+      seed = await (await fetch(`${this.apiUrl}/seed`, { method: 'GET' })).json();
     };
-
     while (!seed && getSeedTries < 15) {
       try {
         await getSeed();
@@ -63,8 +61,8 @@ class StoreService extends Store {
       throw new Error('failed to fetch seed');
     }
 
+    this.accessToken = seed['app.credentials.accessToken'];
     BaseForm.setup(this.inputValidator);
-
     this.initialState = {
       'app.meta.title': '',
       'app.credentials.authRecord': seed['app.credentials.authRecord'],
@@ -72,7 +70,6 @@ class StoreService extends Store {
       'app.lang.default': seed['app.lang.default'],
       'app.lang.available': seed['app.lang.available'],
     };
-
     this.store = this.createStore<State, Action, any, any>((state = this.initialState, action: Action) => {
       switch (action.type) {
         case 'app.meta.title':
@@ -103,13 +100,13 @@ class StoreService extends Store {
     unsubscribe = this.store.subscribe(() => Navigation.refresh());
   }
 
-  public async setAuthRecord(authRecord: null | AuthRecord): Promise<void> {
-    // todo here: change storage strategy to secure one
+  public async setAuthRecord(authRecord: null | AuthRecord, accessToken: null | string): Promise<void> {
     this.store.dispatch({
       type: 'app.credentials.authRecord',
       value: authRecord,
     });
     this.storage.set('authRecord', authRecord);
+    this.accessToken = accessToken;
   }
 
   public async setCurrentPath(currentPath: string): Promise<void> {
@@ -125,7 +122,7 @@ class StoreService extends Store {
   }
 
   public getAccessToken(): null | string {
-    return this.getState()?.['app.credentials.authRecord']?.accessToken || null;
+    return this.accessToken;
   }
 
   public hasMultiLang(): boolean {

@@ -13,11 +13,11 @@ import { queryRoute } from '@sotaoi/api/routes/query-route';
 import { retrieveRoute } from '@sotaoi/api/routes/retrieve-route';
 import { removeRoute } from '@sotaoi/api/routes/remove-route';
 import { authRoute } from '@sotaoi/api/routes/auth-route';
+import { deauthRoute } from '@sotaoi/api/routes/deauth-route';
 import { taskRoute } from '@sotaoi/api/routes/task-route';
 import { storageRoute } from '@sotaoi/api/routes/storage-route';
 import Inert from '@hapi/inert';
 import Vision from '@hapi/vision';
-import { Helper } from '@sotaoi/api/helper';
 import { AppInfo } from '@sotaoi/omni/state';
 import { Logger } from '@sotaoi/api/contracts';
 import { AuthRecord } from '@sotaoi/omni/artifacts';
@@ -30,10 +30,15 @@ class Server {
     appKernel: AppKernel,
     handlers: { [key: string]: RepositoryHandlers },
     forms: { [key: string]: { [key: string]: () => Promise<FormValidations> } },
-    translateAccessToken: (handler: ResponseToolkit, accessToken: string) => Promise<null | AuthRecord>,
+    translateAccessToken: (
+      handler: ResponseToolkit,
+      accessToken: string,
+    ) => Promise<[null | AuthRecord, null | string]>,
+    deauth: (handler: ResponseToolkit) => Promise<void>,
   ): Promise<void> {
     try {
       AuthHandler.setTranslateAccessToken(translateAccessToken);
+      AuthHandler.setDeauth(deauth);
 
       appKernel.bootstrap();
       const isHeroku = process.env.NODE_ENV !== 'development' && appInfo.deploymentTarget === 'heroku';
@@ -73,6 +78,7 @@ class Server {
       server.route(retrieveRoute);
       server.route(removeRoute);
       server.route(authRoute);
+      server.route(deauthRoute);
       server.route(taskRoute);
 
       server.route(storageRoute);

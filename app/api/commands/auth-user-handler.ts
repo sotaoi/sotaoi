@@ -25,7 +25,7 @@ class AuthUserHandler extends AuthHandler {
     }
     const accessToken = Helper.uuid();
     // better token encryption needed here
-    const authRecord = new AuthRecord('user', user.uuid, user.createdAt, Helper.sha1(accessToken), true);
+    const authRecord = new AuthRecord('user', user.uuid, user.createdAt, true);
     await db('access-token').insert({
       uuid: Helper.uuid(),
       user: authRecord.serial,
@@ -39,6 +39,7 @@ class AuthUserHandler extends AuthHandler {
         title: 'Success',
         msg: 'Authentication success',
         authRecord,
+        accessToken,
       },
       null,
     );

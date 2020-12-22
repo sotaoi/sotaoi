@@ -14,7 +14,9 @@ abstract class AuthHandler extends BaseHandler {
   protected static _translateAccessToken = async (
     handler: ResponseToolkit,
     accessToken: string,
-  ): Promise<null | AuthRecord> => null;
+  ): Promise<[null | AuthRecord, null | string]> => [null, null];
+
+  protected static _deauth = async (handler: ResponseToolkit): Promise<void> => undefined;
 
   public saveAccessToken(value: string): void {
     this.handler.state('accessToken', value);
@@ -28,14 +30,32 @@ abstract class AuthHandler extends BaseHandler {
     return handler.request.state.accessToken || '';
   }
 
+  public static removeAccessToken(handler: ResponseToolkit): void {
+    handler.unstate('accessToken');
+  }
+
   public static setTranslateAccessToken(
-    translateAccessTokenFn: (handler: ResponseToolkit, accessToken: string) => Promise<null | AuthRecord>,
+    translateAccessTokenFn: (
+      handler: ResponseToolkit,
+      accessToken: string,
+    ) => Promise<[null | AuthRecord, null | string]>,
   ): void {
     this._translateAccessToken = translateAccessTokenFn;
   }
 
-  public static async translateAccessToken(handler: ResponseToolkit, accessToken: string): Promise<null | AuthRecord> {
+  public static async translateAccessToken(
+    handler: ResponseToolkit,
+    accessToken: string,
+  ): Promise<[null | AuthRecord, null | string]> {
     return await this._translateAccessToken(handler, accessToken);
+  }
+
+  public static setDeauth(deauth: (handler: ResponseToolkit) => Promise<void>): void {
+    this._deauth = deauth;
+  }
+
+  public static async deauth(handler: ResponseToolkit): Promise<void> {
+    return await this._deauth(handler);
   }
 }
 

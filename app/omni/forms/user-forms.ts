@@ -5,7 +5,7 @@ const user: { [key: string]: () => Promise<FormValidations> } = {
   'user-command-form': async () => ({
     email: [...validations.user.email, { method: 'required' }],
     password: [...validations.user.password, { method: 'required' }],
-    avatar: [],
+    avatar: [{ method: 'required' }],
     address: {
       fields: {
         street: [...validations.address.street, { method: 'required' }],

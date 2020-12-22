@@ -16,5 +16,8 @@ ApiInit.registerInputs();
 // translate access token
 const translateAccessToken = ApiInit.translateAccessToken;
 
+// deauth
+const deauth = ApiInit.deauth;
+
 // start
-Server.init(appInfo, appKernel, handlers, forms, translateAccessToken);
+Server.init(appInfo, appKernel, handlers, forms, translateAccessToken, deauth);

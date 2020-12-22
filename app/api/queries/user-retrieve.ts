@@ -8,6 +8,7 @@ class UserRetrieve extends RetrieveHandler {
     try {
       const user = await db('user').where('uuid', retrieve.uuid).first();
       user.address = await db('address').where('uuid', JSON.parse(user.address).uuid).first();
+      user.avatar = `/api/storage/public-user-avatar${user.avatar}`;
       if (!user.address) {
         throw new Error('failed to fetch address for user');
       }

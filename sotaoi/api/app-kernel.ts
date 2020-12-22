@@ -67,6 +67,7 @@ class AppKernel {
           return new StorageService(
             path.resolve('./storage'),
             async (role: string, pathname: string): Promise<boolean> => {
+              console.info('checking storage permissions');
               console.info('role:', role);
               console.info('pathame:', pathname);
               return true;

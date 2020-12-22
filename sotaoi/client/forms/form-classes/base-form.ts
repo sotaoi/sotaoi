@@ -284,7 +284,7 @@ abstract class BaseForm {
           this.setSending(false);
           this.reset();
 
-          await store().setAuthRecord(authOutput.result.authRecord);
+          await store().setAuthRecord(authOutput.result.authRecord, authOutput.result.accessToken);
           await this._realOnAuthSuccess(authOutput.result);
 
           return;

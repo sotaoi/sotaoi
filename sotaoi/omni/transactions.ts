@@ -139,8 +139,9 @@ class AuthResultSuccess {
   title: string;
   msg: string;
   authRecord: AuthRecord;
+  accessToken: string;
 
-  constructor(result: { code: number; title: string; msg: string; authRecord: AuthRecord }) {
+  constructor(result: { code: number; title: string; msg: string; authRecord: AuthRecord; accessToken: string }) {
     if (result.authRecord !== null && !(result.authRecord instanceof AuthRecord)) {
       throw new Error('something went wrong, result.authRecord should be null or AuthRecord');
     }
@@ -149,6 +150,7 @@ class AuthResultSuccess {
     this.title = result.title;
     this.msg = result.msg;
     this.authRecord = result.authRecord;
+    this.accessToken = result.accessToken;
   }
 }
 class AuthResult extends BaseCommandResult {

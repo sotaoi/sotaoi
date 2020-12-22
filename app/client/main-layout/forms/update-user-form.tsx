@@ -32,7 +32,7 @@ class UpdateUserForm extends ViewComponent<UpdateUserFormProps> {
       {
         email: InputField.input(user.email),
         password: InputField.input(user.password),
-        avatar: FileField.input(null),
+        avatar: FileField.input(user.avatar),
         address: {
           fields: {
             street: InputField.input(user.address.street),

@@ -16,27 +16,18 @@ class Artifact {
 
 class AuthRecord extends Artifact {
   public createdAt: Date;
-  // todo here: remove access token from auth record (and web storage)
-  public accessToken: string;
   public active: boolean;
 
-  constructor(repository: string, uuid: string, createdAt: Date, accessToken: string, active: boolean) {
+  constructor(repository: string, uuid: string, createdAt: Date, active: boolean) {
     super(repository, uuid);
 
     this.repository = repository;
     this.uuid = uuid;
     this.createdAt = createdAt;
-    this.accessToken = accessToken;
     this.active = active;
   }
 
-  public static deserialize(value: {
-    repository: string;
-    uuid: string;
-    createdAt: Date;
-    accessToken: string;
-    active: boolean;
-  }): AuthRecord {
+  public static deserialize(value: { repository: string; uuid: string; createdAt: Date; active: boolean }): AuthRecord {
     Joi.object({
       repository: Joi.string(),
       uuid: Joi.string(),
@@ -44,7 +35,7 @@ class AuthRecord extends Artifact {
       accessToken: Joi.string(),
       active: Joi.boolean(),
     }).validate(value);
-    return new AuthRecord(value.repository, value.uuid, value.createdAt, value.accessToken, value.active);
+    return new AuthRecord(value.repository, value.uuid, value.createdAt, value.active);
   }
 }
 

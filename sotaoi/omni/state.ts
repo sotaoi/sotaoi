@@ -20,6 +20,7 @@ class Lang {
 
 class Seed {
   public 'app.meta.title': string;
+  public 'app.credentials.accessToken': null | string;
   public 'app.credentials.authRecord': null | AuthRecord;
   public 'app.lang.selected': Lang;
   public 'app.lang.default': Lang;

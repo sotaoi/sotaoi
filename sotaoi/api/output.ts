@@ -143,7 +143,7 @@ class Output extends OmniOutput {
       [key: string]: any;
     };
 
-    const authRecord = await AuthHandler.translateAccessToken(handler, accessToken);
+    const [authRecord] = await AuthHandler.translateAccessToken(handler, accessToken);
 
     let storeCommand: StoreCommand;
     let storeHandler: StoreHandler;
@@ -257,7 +257,7 @@ class Output extends OmniOutput {
     const query = request.payload as { [key: string]: any };
     query.filters = query.filters ? JSON.parse(query.filters) : null;
     const queryHandler = Setup.getQueryHandler(query.repository, query.list, handler);
-    const authRecord = await AuthHandler.translateAccessToken(handler, query.accessToken);
+    const [authRecord] = await AuthHandler.translateAccessToken(handler, query.accessToken);
     switch (true) {
       case query.type === 'flist':
         flistQuery = new FlistQuery(
@@ -305,7 +305,7 @@ class Output extends OmniOutput {
     logger: () => Logger,
   ): Promise<ResponseObject> {
     const payload = request.payload as { [key: string]: any };
-    const authRecord = await AuthHandler.translateAccessToken(handler, payload.accessToken);
+    const [authRecord] = await AuthHandler.translateAccessToken(handler, payload.accessToken);
     const retrieve = new Retrieve(
       authRecord,
       payload.role || null,

@@ -203,7 +203,9 @@ class Action {
   }
 
   public static async deauth(): Promise<void> {
-    await store().setAuthRecord(null);
+    const apiUrl = store().getApiUrl();
+    await (await fetch(apiUrl + '/auth', { method: 'DELETE' })).json();
+    await store().setAuthRecord(null, null);
   }
 
   public static async task(

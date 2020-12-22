@@ -10,9 +10,10 @@ class StoreUserHandler extends StoreHandler {
   public getFormId = async (): Promise<string> => 'user-command-form';
 
   public async handle(command: StoreCommand): Promise<CommandResult> {
-    const { email, password, address, avatar } = command.payload;
+    const { email, password, avatar, address } = command.payload;
     const userUuid = Helper.uuid();
     const addressUuid = Helper.uuid();
+    const avatarUrl = `/repositories/user/${userUuid}/avatar.png`;
     await db('address').insert({
       uuid: addressUuid,
       street: address.street.serialize(true),
@@ -21,11 +22,13 @@ class StoreUserHandler extends StoreHandler {
     await db('user').insert({
       uuid: userUuid,
       email: email.serialize(true),
+      avatar: avatarUrl,
       password: password.serialize(true),
       address: new RecordRef('address', addressUuid).serialize(null),
     });
 
-    avatar && storage().save('/repositories/user/avatars', avatar);
+    // !! process image (convert to png or some other image format)
+    avatar && avatar.getValue().path && storage().save(avatarUrl, avatar);
 
     return new CommandResult(
       true,

@@ -14,7 +14,7 @@ class StorageService extends Storage {
     if (!input) {
       throw new Error('trying to save empty file input');
     }
-    const destination = path.resolve(this.relativeTo, pathname, input.getValue().filename);
+    const destination = path.resolve(this.relativeTo, pathname);
     !fs.existsSync(path.dirname(destination)) && fs.mkdirSync(path.dirname(destination), { recursive: true });
     return fs.copyFileSync(path.resolve(input.getValue().path), destination);
   }

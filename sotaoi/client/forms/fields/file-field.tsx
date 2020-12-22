@@ -62,9 +62,12 @@ class FileField extends BaseField<FileInput, ComponentProps, ComponentState> {
     this._ref?.setValue(this.value);
   }
 
-  public convert(value: FileInput | FileFieldType): FileInput {
+  public convert(value: null | string | FileInput | FileFieldType): FileInput {
     if (!value) {
       return new FileInput('', '', '', '', 0, null, '');
+    }
+    if (typeof value === 'string') {
+      return new FileInput('', '', value, '', 0, null, value);
     }
     if (value instanceof FileInput) {
       return value as FileInput;

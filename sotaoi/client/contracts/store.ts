@@ -34,7 +34,7 @@ abstract class Store {
   }
 
   abstract async init(): Promise<void>;
-  abstract async setAuthRecord(authRecord: null | AuthRecord): Promise<void>;
+  abstract async setAuthRecord(authRecord: null | AuthRecord, accessToken: null | string): Promise<void>;
   abstract async setCurrentPath(currentPath: string): Promise<void>;
   abstract getCurrentPath(): string;
   abstract getAuthRecord(): null | AuthRecord;

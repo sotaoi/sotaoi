@@ -5,16 +5,13 @@ import { ErrorResult } from '@sotaoi/omni/transactions';
 import { AuthHandler } from '@sotaoi/api/commands/auth-handler';
 
 const seedRoute: ServerRoute = {
-  method: 'POST',
+  method: 'GET',
   path: '/api/seed',
-  options: {
-    payload: payloadOptions,
-  },
   handler: async (request: Request, handler: ResponseToolkit): Promise<ResponseObject> => {
     try {
-      const authRecord = await AuthHandler.translateAccessToken(
+      const [authRecord, accessToken] = await AuthHandler.translateAccessToken(
         handler,
-        (request.payload as { [key: string]: any })?.accessToken || '',
+        AuthHandler.getAccessToken(handler),
       );
       const code = 200;
       const lang: Lang = {
@@ -23,6 +20,7 @@ const seedRoute: ServerRoute = {
       };
       const seed: Seed = {
         'app.meta.title': '',
+        'app.credentials.accessToken': accessToken,
         'app.credentials.authRecord': authRecord,
         'app.lang.selected': lang,
         'app.lang.default': lang,

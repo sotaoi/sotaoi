@@ -48,14 +48,14 @@ class FileInput extends BaseInput<FileValue, FileFieldType> {
   }
 
   public isEmpty(): boolean {
-    return !this.value.url && !this.value.memUrl;
+    return !this.value.url && !this.value.path && !this.value.memUrl;
   }
 
   public serialize(forStorage: boolean): string | Blob {
     if (forStorage) {
       throw new Error('file input save not implemented yet');
     }
-    return this.value.file || '';
+    return this.value.file || (this.value.url ? JSON.stringify({ fi: this.value.url }) : '');
   }
 
   public convert(value: FileInput | FileFieldType): FileInput {
@@ -72,9 +72,15 @@ class FileInput extends BaseInput<FileValue, FileFieldType> {
   }
 
   public deserializeCondition(fieldPayload: any, payloadJson: { [key: string]: any }): boolean {
-    return !!payloadJson.path && !!payloadJson.filename && !!payloadJson.bytes;
+    return (
+      typeof payloadJson.fi !== 'undefined' || (!!payloadJson.path && !!payloadJson.filename && !!payloadJson.bytes)
+    );
   }
-  public deserialize(value: { path: string; filename: string; bytes: number; file: null | File }): FileInput {
+  public deserialize(value: string | { path: string; filename: string; bytes: number; file: null | File }): FileInput {
+    // todo here: get file bytes at least
+    if (typeof value === 'string') {
+      return new FileInput('', '', value, '', 0, null, '');
+    }
     return new FileInput(value.path, value.filename, '', '', value.bytes, value.file, '');
   }
 }

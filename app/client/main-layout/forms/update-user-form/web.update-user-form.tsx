@@ -2,9 +2,11 @@ import React from 'react';
 import { BaseField, SingleCollectionField } from '@sotaoi/client/forms';
 import { UpdateForm } from '@sotaoi/client/forms/form-classes/update-form';
 import { RecordEntry } from '@sotaoi/omni/artifacts';
+import { FileField } from '@sotaoi/client/forms/fields/file-field';
 
 interface FieldState {
   [key: string]: BaseField<any>;
+  avatar: FileField;
   address: SingleCollectionField;
 }
 const WebUpdateUserForm = (props: { form: UpdateForm; countries: RecordEntry[] }): null | React.ReactElement => {
@@ -51,6 +53,23 @@ const WebUpdateUserForm = (props: { form: UpdateForm; countries: RecordEntry[] }
         <fields.password.component autoComplete={'off'} type={'password'} placeholder={'password'} />
         <br />
         <br />
+
+        {fields.avatar.wasTouched() &&
+          fields.avatar.getErrors().map((error: any, index: any) => (
+            <div key={index} style={{ color: '#ff3333', marginBottom: 10 }}>
+              {error}
+            </div>
+          ))}
+        <fields.avatar.component
+          className={'w-full p-2 mb-6 text-black border-b-2 border-green-500 outline-none focus:bg-gray-300'}
+        />
+        {fields.avatar.getPreview() && (
+          <div>
+            <img src={fields.avatar.getPreview()} style={{ maxWidth: 350 }} />
+          </div>
+        )}
+        <br />
+
         <section>
           {fields.address.getFields().street.wasTouched() &&
             fields.address

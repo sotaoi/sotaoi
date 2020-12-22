@@ -6,7 +6,6 @@ import { AuthRecord, RecordRef } from '@sotaoi/omni/artifacts';
 import { db } from '@sotaoi/api/db';
 import { AppInfo } from '@sotaoi/omni/state';
 import info from '@app/omni/info.json';
-import { Helper } from '@sotaoi/api/helper';
 import { AuthHandler } from '@sotaoi/api/commands/auth-handler';
 import { ResponseToolkit } from '@hapi/hapi';
 
@@ -35,22 +34,27 @@ class ApiInit {
   // translate access token
   public static async translateAccessToken(
     handler: ResponseToolkit,
-    hashedAccessToken: string,
-  ): Promise<null | AuthRecord> {
-    const accessToken = AuthHandler.getAccessToken(handler);
-    if (!accessToken || !hashedAccessToken || hashedAccessToken !== Helper.sha1(accessToken)) {
-      return null;
+    accessToken: string,
+  ): Promise<[null | AuthRecord, null | string]> {
+    const accessTokenInState = AuthHandler.getAccessToken(handler);
+    if (!accessToken || typeof accessToken !== 'string' || accessTokenInState !== accessToken) {
+      return [null, null];
     }
     const accessTokenRecord = await db('access-token').where('token', accessToken).first();
     if (!accessTokenRecord) {
-      return null;
+      return [null, null];
     }
     const ref = RecordRef.deserialize(accessTokenRecord.user);
     const record = await db(ref.repository).where('uuid', ref.uuid).first();
     if (!record) {
-      return null;
+      return [null, null];
     }
-    return new AuthRecord(ref.repository, record.uuid, record.createdAt, Helper.sha1(accessTokenRecord.token), true);
+    return [new AuthRecord(ref.repository, record.uuid, record.createdAt, true), accessToken];
+  }
+
+  // deauth
+  public static async deauth(handler: ResponseToolkit): Promise<void> {
+    AuthHandler.removeAccessToken(handler);
   }
 
   // <-- }

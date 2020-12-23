@@ -63,6 +63,17 @@ class Helper extends OmniHelper {
     });
     return decodedSegment;
   }
+
+  public static asset(item: null | string, role = 'assets'): null | string {
+    if (!item) {
+      return null;
+    }
+    if (!this.isJson(item)) {
+      return item;
+    }
+    const parsed = JSON.parse(item);
+    return `/api/storage/${parsed.drive}/${role}/${parsed.domain}/${parsed.group}/${parsed.division}/${parsed.pathname}`;
+  }
 }
 
 export { Helper };

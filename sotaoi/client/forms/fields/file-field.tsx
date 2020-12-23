@@ -88,7 +88,7 @@ class FileField extends BaseField<FileInput, ComponentProps, ComponentState> {
   }
 
   public getPreview(): string {
-    return this.getInputValue().memUrl || this.getInputValue().url || '';
+    return this.asset(this.getInputValue().memUrl) || this.asset(this.getInputValue().url) || '';
   }
 
   //

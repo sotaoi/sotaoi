@@ -2,7 +2,6 @@ import React from 'react';
 import { ViewComponent, ViewData, ViewPromises } from '@sotaoi/client/components';
 import { getUser } from '@app/client/queries/user-queries';
 import { Link } from '@sotaoi/client/router';
-import { store } from '@sotaoi/client/store';
 
 interface UserViewProps {
   uuid: string;

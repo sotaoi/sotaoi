@@ -1,12 +1,14 @@
 import { AppContainer } from '@sotaoi/api/app-container';
 import { db } from '@sotaoi/api/db';
 import { Helper } from '@sotaoi/api/helper';
-import { InputValidator, Logger, Permissions, Storage } from '@sotaoi/api/contracts';
+import { InputValidator, Logger, Permissions, Storage, StoredItem } from '@sotaoi/api/contracts';
 import { LoggerService } from '@sotaoi/api/services/logger-service';
 import { InputValidatorOmni } from '@sotaoi/omni/services/input-validator-omni';
 import { PermissionsService } from '@sotaoi/api/services/permissions-service';
 import { StorageService } from '@sotaoi/api/services/storage-service';
 import path from 'path';
+import { AuthHandler } from '@sotaoi/api/commands/auth-handler';
+import { ResponseToolkit } from '@hapi/hapi';
 
 let appContainer: AppContainer;
 let app: () => AppContainer = () => appContainer;
@@ -59,20 +61,31 @@ class AppKernel {
         },
       );
 
-    // permissions
+    // storage
     !app().has(Storage) &&
       app().singleton<Storage>(
         Storage,
         (): StorageService => {
-          return new StorageService(
-            path.resolve('./storage'),
-            async (role: string, pathname: string): Promise<boolean> => {
-              console.info('checking storage permissions');
-              console.info('role:', role);
-              console.info('pathame:', pathname);
-              return true;
+          return new StorageService({
+            drive: 'main',
+            relativeTo: path.resolve('./storage'),
+            rule: async (handler: ResponseToolkit, role: string, item: StoredItem): Promise<boolean> => {
+              // const accessToken = AuthHandler.getAccessToken(handler);
+              // console.info('checking storage permissions');
+              // console.info('role:', role);
+              // console.info('domain:', item.domain);
+              // console.info('group:', item.group);
+              // console.info('division:', item.division);
+              // console.info('pathame:', item.pathname);
+              // console.info('access token:', accessToken);
+              // console.info('auth record:', await AuthHandler.translateAccessToken(handler, accessToken));
+
+              if (item.domain === 'public') {
+                return true;
+              }
+              return false;
             },
-          );
+          });
         },
       );
   }

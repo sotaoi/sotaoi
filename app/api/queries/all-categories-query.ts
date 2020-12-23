@@ -1,6 +1,7 @@
 import { FlistQueryHandler } from '@sotaoi/api/queries/query-handlers';
 import { QueryResult, FlistQuery } from '@sotaoi/omni/transactions';
 import { db } from '@sotaoi/api/db';
+import { logger } from '@sotaoi/api/logger';
 
 class AllCategoriesQuery extends FlistQueryHandler {
   public async handle(query: FlistQuery): Promise<QueryResult> {
@@ -19,10 +20,11 @@ class AllCategoriesQuery extends FlistQueryHandler {
         null,
       );
     } catch (err) {
+      logger().error(err && err.stack ? err.stack : err);
       return new QueryResult(false, null, {
         code: 400,
-        title: err && err.name ? err.name : 'Error',
-        msg: err && err.stack ? err.stack : err && err.message ? err.message : 'Query failed',
+        title: 'Error',
+        msg: 'Query failed',
         validations: null,
       });
     }

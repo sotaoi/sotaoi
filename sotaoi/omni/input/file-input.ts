@@ -1,5 +1,6 @@
 import { BaseInput } from '@sotaoi/omni/input';
 import { BaseField } from '@sotaoi/client/forms';
+import { Helper } from '@sotaoi/client/helper';
 
 interface FileValue {
   path: string;

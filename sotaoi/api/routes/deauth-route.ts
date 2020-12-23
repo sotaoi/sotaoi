@@ -2,7 +2,7 @@ import { Request, ServerRoute, ResponseToolkit, ResponseObject } from '@hapi/hap
 import { payloadOptions } from '@sotaoi/api/routes/payload-options';
 import { ErrorResult } from '@sotaoi/omni/transactions';
 import { logger } from '@sotaoi/api/logger';
-import { AuthHandler } from '../commands/auth-handler';
+import { AuthHandler } from '@sotaoi/api/commands/auth-handler';
 
 const deauthRoute: ServerRoute = {
   method: 'DELETE',

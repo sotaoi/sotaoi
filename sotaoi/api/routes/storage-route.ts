@@ -1,23 +1,27 @@
 import { Request, ServerRoute, ResponseToolkit, ResponseObject } from '@hapi/hapi';
-import { ErrorResult } from '@sotaoi/omni/transactions';
-import { storage } from '@sotaoi/api/storage';
+import { storage, Drives } from '@sotaoi/api/storage';
+import { logger } from '@sotaoi/api/logger';
 
 const storageRoute: ServerRoute = {
   method: 'GET',
-  path: '/api/storage/{role}/{pathname*}',
+  path: '/api/storage/{drive}/{role}/{domain}/{group}/{division}/{pathname*}',
   handler: async (request: Request, handler: ResponseToolkit): Promise<ResponseObject> => {
     try {
-      return await storage().read(request.params.pathname, request.params.role, handler);
+      return await storage(request.params.drive as Drives).read(handler, request.params.role, {
+        domain: request.params.domain,
+        group: request.params.group,
+        division: request.params.division,
+        pathname: request.params.pathname,
+      });
     } catch (err) {
-      // todo here: replace with hapi 404 not found standard message (to not give more info than necessary)
-      const code = 400;
-      const error: ErrorResult = {
-        code,
-        title: err.name || 'Error',
-        msg: err.message || 'Something went wrong',
-        validations: null,
-      };
-      return handler.response(error).code(400);
+      logger().error(err && err.stack ? err.stack : err);
+      return handler
+        .response({
+          statusCode: 404,
+          error: 'Not Found',
+          message: 'Not Found',
+        })
+        .code(404);
     }
   },
 };

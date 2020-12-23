@@ -12,7 +12,11 @@ class UpdateUserHandler extends UpdateHandler {
     const { email, password, avatar, address } = command.payload;
     const addressUuid = JSON.parse((await db('user').select('address').where('uuid', command.uuid).first()).address)
       .uuid;
-    const avatarUrl = `/repositories/user/${command.uuid}/avatar.png`;
+    const [saveAvatar, avatarAsset, cancelAvatar] = storage('main').save(
+      { domain: 'public', group: 'user', division: command.uuid, pathname: 'avatar.png' },
+      avatar,
+    );
+
     if (!addressUuid) {
       throw new Error('something went wrong - failed to fetch address for user while updating');
     }
@@ -26,12 +30,12 @@ class UpdateUserHandler extends UpdateHandler {
       .update({
         email: email.serialize(true),
         password: password.serialize(true),
+        avatar: avatarAsset?.serialize(true) || null,
       })
       .where('uuid', command.uuid);
 
-    console.log(avatar);
     // !! process image (convert to png or some other image format)
-    avatar && avatar.getValue().path && storage().save(avatarUrl, avatar);
+    saveAvatar();
 
     return new CommandResult(
       true,

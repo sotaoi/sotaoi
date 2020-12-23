@@ -100,6 +100,10 @@ abstract class BaseField<ValueType, ComponentProps = any, ComponentState = any> 
     };
   }
 
+  public asset(item: null | string, role = 'assets'): null | string {
+    return Helper.asset(item, role);
+  }
+
   public getKey(index: number): string {
     const fields = (this as any).fields || {};
     return `${fields.length}:${index.toString()}:${this.renderUuid}`;

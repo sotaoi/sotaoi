@@ -1372,6 +1372,7 @@ declare namespace DatabaseConnection {
     comment(value: string): ColumnBuilder;
     alter(): ColumnBuilder;
     queryContext(context: any): ColumnBuilder;
+    after(column: string): ColumnBuilder;
   }
 
   interface ForeignConstraintBuilder {

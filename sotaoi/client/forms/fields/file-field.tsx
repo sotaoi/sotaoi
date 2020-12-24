@@ -74,7 +74,6 @@ class FileField extends BaseField<FileInput, ComponentProps, ComponentState> {
       return value as FileInput;
     }
     if (value instanceof File) {
-      // !!!! value.size
       return new FileInput('', value.name, null, URL.createObjectURL(value), value);
     }
     throw new Error('file convert error');

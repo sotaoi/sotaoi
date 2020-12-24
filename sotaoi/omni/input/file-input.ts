@@ -1,11 +1,16 @@
 import { BaseInput } from '@sotaoi/omni/input';
 import { BaseField } from '@sotaoi/client/forms';
-// import { storage } from '@sotaoi/api/storage';
 
 interface StoredItem {
   drive: null | string;
   domain: string;
   pathname: string;
+}
+
+interface MultiStoredItem {
+  drive: null | string;
+  domain: string;
+  getPathname: (input: FileInput) => string;
 }
 
 class Asset implements StoredItem {
@@ -24,6 +29,30 @@ class Asset implements StoredItem {
       drive: this.drive,
       domain: this.domain,
       pathname: this.pathname,
+    });
+  }
+
+  public static serializeMulti(assets: Asset[]): string {
+    return JSON.stringify(assets);
+  }
+}
+
+class MultiAsset implements MultiStoredItem {
+  public drive: null | string;
+  public domain: string;
+  public getPathname: (input: FileInput) => string;
+
+  constructor(item: MultiStoredItem) {
+    this.drive = item.drive;
+    this.domain = item.domain;
+    this.getPathname = item.getPathname;
+  }
+
+  public serialize(forStorage: boolean): string {
+    return JSON.stringify({
+      drive: this.drive,
+      domain: this.domain,
+      // getPathname: this.getPathname,
     });
   }
 }
@@ -76,7 +105,7 @@ class FileInput extends BaseInput<FileValue, FileFieldType> {
 
   public serialize(forStorage: boolean): string | Blob {
     if (forStorage) {
-      throw new Error('file input save not implemented yet');
+      throw new Error('file input save method is embedded in storage');
     }
     return this.value.file || (this.value.asset ? JSON.stringify({ fi: this.value.asset.serialize(forStorage) }) : '');
   }
@@ -105,13 +134,11 @@ class FileInput extends BaseInput<FileValue, FileFieldType> {
     // v3 -> file not uploaded, nothing changes, you have asset
     if (typeof value === 'string') {
       const parsed = JSON.parse(value);
-      const asset = new Asset(JSON.parse(parsed.fi));
-      return new FileInput('', '', asset, null, null);
+      return new FileInput('', '', new Asset(JSON.parse(parsed.fi)), null, null);
     }
-    // !!!! value.bytes
-    return new FileInput(value.path, value.filename, null, null, value.file);
+    return new FileInput(value.path, value.filename, null, null, value.file || null);
   }
 }
 
-export { FileInput, Asset };
-export type { FileFieldType, FileValue, StoredItem };
+export { FileInput, Asset, MultiAsset };
+export type { FileFieldType, FileValue, StoredItem, MultiStoredItem };

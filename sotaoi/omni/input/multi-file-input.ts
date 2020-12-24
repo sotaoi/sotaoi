@@ -1,5 +1,12 @@
-import { FileInput, BaseInput } from '@sotaoi/omni/input';
+import { FileInput, BaseInput, Asset, StoredItem } from '@sotaoi/omni/input';
 import { BaseField } from '@sotaoi/client/forms';
+
+interface FileUpload {
+  path: string;
+  filename: string;
+  bytes: number;
+  file: null | File;
+}
 
 type MultiFileFieldType = null | File[];
 class MultiFileInput extends BaseInput<FileInput[], MultiFileFieldType> {
@@ -22,7 +29,7 @@ class MultiFileInput extends BaseInput<FileInput[], MultiFileFieldType> {
   }
 
   public isEmpty(): boolean {
-    return !!this.value.length;
+    return !this.value.length;
   }
 
   public append(fileInput: FileInput): void {
@@ -33,14 +40,22 @@ class MultiFileInput extends BaseInput<FileInput[], MultiFileFieldType> {
     return this.value.filter((fileInput) => !!fileInput.value.file).map((fileInput) => fileInput.value.file as File);
   }
 
-  public serialize(forStorage: boolean): Blob[] {
+  public serialize(forStorage: boolean): (string | Blob)[] {
     if (forStorage) {
-      throw new Error('multi file input save not implemented yet');
+      throw new Error('multi file input save method is embedded in storage');
+    }
+    if (!this.getValue().length) {
+      return [];
     }
     return (
-      this.value
-        .filter((fileInput) => fileInput.value.file instanceof File && !!fileInput.value.file)
-        .map((fileInput) => fileInput.value.file as File) || []
+      this.getValue().map((input) => {
+        const file = input.getValue().file;
+        const asset = input.getValue().asset;
+        if (!file && !asset) {
+          throw new Error('something went wrong with multi file input serialization, both filename and asset are null');
+        }
+        return file || JSON.stringify({ mfi: asset });
+      }) || []
     );
   }
 
@@ -57,7 +72,6 @@ class MultiFileInput extends BaseInput<FileInput[], MultiFileFieldType> {
         if (!(fileInput.value.file instanceof File)) {
           throw new Error('something went wrong running "convert" in MultiFileInput');
         }
-        // !!!! fileInput.value.file.size
         multiFileInput.value.push(
           new FileInput(
             '',
@@ -74,16 +88,28 @@ class MultiFileInput extends BaseInput<FileInput[], MultiFileFieldType> {
   }
 
   public deserializeCondition(fieldPayload: any, payloadJson: { [key: string]: any }): boolean {
-    return fieldPayload instanceof Array;
+    if (fieldPayload instanceof Array) {
+      return true;
+    }
+    if (typeof payloadJson.mfi !== 'undefined') {
+      return true;
+    }
+    return false;
   }
-  public deserialize(value: { [key: string]: any }[]): MultiFileInput {
-    return new MultiFileInput(
-      // !!!! value.file.bytes
-      value.map(
-        // !! may asset be instantiated here (in pos 3)?
-        (value) => new FileInput(value.file.path, value.file.value.filename, null, null, null),
-      ),
-    );
+  public deserialize(value: (string | FileUpload)[]): MultiFileInput {
+    if (!(value instanceof Array)) {
+      throw new Error('something went wrong deserializing multi file input');
+    }
+    if (!value.length) {
+      return new MultiFileInput([]);
+    }
+    const inputs = (value as Array<string | FileUpload>).map((input) => {
+      if (typeof input !== 'string') {
+        return new FileInput(input.path, input.filename, null, null, input.file || null);
+      }
+      return new FileInput('', '', new Asset(JSON.parse(input).mfi), null, null);
+    });
+    return new MultiFileInput(inputs);
   }
 }
 

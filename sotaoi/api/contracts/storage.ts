@@ -1,4 +1,4 @@
-import { FileInput, Asset, StoredItem } from '@sotaoi/omni/input';
+import { FileInput, MultiFileInput, Asset, StoredItem } from '@sotaoi/omni/input';
 import { ResponseToolkit } from '@hapi/hapi';
 
 interface StorageInit {
@@ -9,6 +9,10 @@ interface StorageInit {
 
 abstract class Storage {
   abstract handle(item: Omit<StoredItem, 'drive'>, input: null | FileInput): [() => void, Asset, () => void];
+  abstract multiHandle(
+    item: Omit<StoredItem, 'drive'>,
+    input: null | MultiFileInput,
+  ): [() => void, Asset[], () => void];
   abstract async read(handler: ResponseToolkit, role: string, item: Omit<StoredItem, 'drive'>): Promise<any>;
   abstract async remove(file: FileInput): Promise<void>;
   abstract async readdir(dirname: string): Promise<string[]>;

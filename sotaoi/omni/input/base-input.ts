@@ -5,7 +5,7 @@ abstract class BaseInput<InputType, FieldValueType> {
   abstract input(field: typeof BaseField): { input: BaseInput<InputType, FieldValueType>; field: typeof BaseField };
   abstract getValue(): InputType;
   abstract isEmpty(): boolean;
-  abstract serialize(forStorage: boolean): null | string | Blob | Blob[];
+  abstract serialize(forStorage: boolean): null | string | Blob | (string | Blob)[];
   abstract convert(
     value: BaseInput<InputType, FieldValueType> | InputType | FieldValueType,
   ): BaseInput<InputType, FieldValueType>;

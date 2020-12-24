@@ -26,7 +26,7 @@ const HomeRoute = (): null | React.ReactElement => {
       {
         /* <Button
             onPress={(): void => {
-              console.log('yoyo');
+              // do something
             }}
             title={'asd'}
           /> */

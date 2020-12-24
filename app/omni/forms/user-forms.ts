@@ -7,6 +7,7 @@ const user: { [key: string]: () => Promise<FormValidations> } = {
     password: [...validations.user.password, { method: 'required' }],
     // todo here: add image type validation to validation fns
     avatar: [{ method: 'required' }, { method: 'file', args: { type: 'image', maxSize: 50000 } }],
+    gallery: [{ method: 'multiFile', args: { type: 'image', maxSize: 50000 } }],
     address: {
       fields: {
         street: [...validations.address.street, { method: 'required' }],

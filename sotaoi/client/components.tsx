@@ -37,6 +37,10 @@ abstract class RouteComponent<ComponentProps> extends React.Component<ComponentP
     }
   }
 
+  public asset(item: null | string, role = 'assets'): null | string {
+    return Helper.asset(item, role);
+  }
+
   // todo here: mapStateToProps
 
   public readonly render = (): null | React.ReactElement => {
@@ -110,6 +114,10 @@ abstract class ViewComponent<
         throw new Error('unknown environment');
     }
     this.dispatch = <T extends DispatchProps>(action: T): T => Navigation.reduxStore?.dispatch(action) || action;
+  }
+
+  public asset(item: null | string, role = 'assets'): null | string {
+    return Helper.asset(item, role);
   }
 
   public mapStateToProps(

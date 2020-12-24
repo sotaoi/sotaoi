@@ -72,9 +72,8 @@ class MultiFileField extends BaseField<MultiFileInput, ComponentProps, Component
     if (value instanceof FileList) {
       fileInputs = new MultiFileInput([]);
       for (let i = 0; i < value.length; i++) {
-        fileInputs.append(
-          new FileInput('', value[i].name, '', value[i].type, value[i].size, value[i], URL.createObjectURL(value[i])),
-        );
+        // !!!!value.size
+        fileInputs.append(new FileInput('', value[i].name, null, URL.createObjectURL(value[i]), value[i]));
       }
       return fileInputs;
     }
@@ -91,7 +90,7 @@ class MultiFileField extends BaseField<MultiFileInput, ComponentProps, Component
   }
 
   public getPreviews(): string[] {
-    return this.getInputValue().map((fileInput) => fileInput.getValue().memUrl || fileInput.getValue().url || '');
+    return this.getInputValue().map((fileInput) => fileInput.getPreview());
   }
 
   public initialState(props: ComponentProps): ComponentState {

@@ -205,6 +205,9 @@ abstract class BaseForm {
       validationResult = this.formValidation.getResult();
       this.setValidating(false);
       if (!validationResult.valid) {
+        console.info(validationResult.title);
+        console.info(validationResult.message);
+        console.info(validationResult.validations);
         return;
       }
 

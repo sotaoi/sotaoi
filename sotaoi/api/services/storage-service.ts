@@ -1,29 +1,40 @@
-import { Storage } from '@sotaoi/api/contracts';
+import { Storage, StorageInit, StoredItem, Asset } from '@sotaoi/api/contracts';
 import { FileInput } from '@sotaoi/omni/input';
 import fs from 'fs';
 import path from 'path';
 import { ResponseToolkit, ResponseObject } from '@hapi/hapi';
 
 class StorageService extends Storage {
-  constructor(relativeTo: string, rule: (role: string, pathname: string) => Promise<boolean>) {
-    super(relativeTo, rule);
+  constructor(init: StorageInit) {
+    super(init);
   }
 
-  public async save(pathname: string, input: FileInput): Promise<void> {
-    pathname = pathname.replace(/^\/+/, '');
-    if (!input) {
-      throw new Error('trying to save empty file input');
-    }
-    const destination = path.resolve(this.relativeTo, pathname);
-    !fs.existsSync(path.dirname(destination)) && fs.mkdirSync(path.dirname(destination), { recursive: true });
-    return fs.copyFileSync(path.resolve(input.getValue().path), destination);
+  public handle(item: Omit<StoredItem, 'drive'>, input: null | FileInput): [() => void, Asset, () => void] {
+    const save = (): void => {
+      if (!input || !input.getValue().path) {
+        return;
+      }
+      const destination = path.resolve(this.relativeTo, item.domain, item.pathname);
+      !fs.existsSync(path.dirname(destination)) && fs.mkdirSync(path.dirname(destination), { recursive: true });
+      return fs.copyFileSync(path.resolve(input.getValue().path), destination);
+    };
+    const storedItem = new Asset({
+      drive: this.drive,
+      domain: item.domain,
+      pathname: item.pathname,
+    });
+    const remove = (): void => {
+      const filepath = path.resolve(this.relativeTo, item.domain, item.pathname);
+      fs.existsSync(filepath) && fs.lstatSync(filepath).isFile() && fs.unlinkSync(filepath);
+    };
+
+    return [save, storedItem, remove];
   }
-  public async read(pathname: string, role: string, handler: ResponseToolkit): Promise<ResponseObject> {
-    pathname = pathname.replace(/^\/+/, '');
-    if (!(await this.rule(role, pathname))) {
-      throw new Error('something went wrong');
+  public async read(handler: ResponseToolkit, role: string, item: Omit<StoredItem, 'drive'>): Promise<ResponseObject> {
+    if (!(await this.rule(handler, role, { ...item, drive: this.drive }))) {
+      throw new Error('permission denied');
     }
-    return handler.file(path.resolve(this.relativeTo, pathname));
+    return handler.file(path.resolve(this.relativeTo, item.domain, item.pathname));
   }
   public async remove(file: FileInput): Promise<void> {
     return fs.unlinkSync(path.resolve(this.relativeTo, file.getValue().path));
@@ -31,14 +42,17 @@ class StorageService extends Storage {
   public async readdir(dirname: string): Promise<string[]> {
     return fs.readdirSync(path.resolve(this.relativeTo, dirname));
   }
-  public async exists(pathname: string): Promise<boolean> {
-    return fs.existsSync(path.resolve(this.relativeTo, pathname));
+  public async exists(item: string): Promise<boolean> {
+    return fs.existsSync(path.resolve(this.relativeTo, item));
   }
-  public async isFile(dirname: string): Promise<boolean> {
-    return fs.lstatSync(path.resolve(this.relativeTo, dirname)).isFile();
+  public async isFile(asset: Asset): Promise<boolean> {
+    return fs.lstatSync(path.resolve(this.relativeTo, asset.domain, asset.pathname)).isFile();
   }
-  public async isDirectory(dirname: string): Promise<boolean> {
-    return fs.lstatSync(path.resolve(this.relativeTo, dirname)).isDirectory();
+  public async isDirectory(item: string): Promise<boolean> {
+    return fs.lstatSync(path.resolve(this.relativeTo, item)).isDirectory();
+  }
+  public async getFileInfo(asset: Asset): Promise<any> {
+    return fs.lstatSync(path.resolve(this.relativeTo, asset.domain, asset.pathname));
   }
 }
 

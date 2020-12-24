@@ -1,36 +1,51 @@
 import { BaseInput } from '@sotaoi/omni/input';
 import { BaseField } from '@sotaoi/client/forms';
+// import { storage } from '@sotaoi/api/storage';
+
+interface StoredItem {
+  drive: null | string;
+  domain: string;
+  pathname: string;
+}
+
+class Asset implements StoredItem {
+  public drive: null | string;
+  public domain: string;
+  public pathname: string;
+
+  constructor(item: StoredItem) {
+    this.drive = item.drive;
+    this.domain = item.domain;
+    this.pathname = item.pathname;
+  }
+
+  public serialize(forStorage: boolean): string {
+    return JSON.stringify({
+      drive: this.drive,
+      domain: this.domain,
+      pathname: this.pathname,
+    });
+  }
+}
 
 interface FileValue {
   path: string;
   filename: string;
-  url: string;
-  type: string;
-  size: number;
+  asset: null | Asset;
+  url: null | string;
   file: null | File;
-  memUrl: string;
 }
 type FileFieldType = null | File;
 class FileInput extends BaseInput<FileValue, FileFieldType> {
   public value: FileValue;
 
-  constructor(
-    path: string,
-    filename: string,
-    url: string,
-    type: string,
-    size: number,
-    file: null | File,
-    memUrl: string,
-  ) {
+  constructor(path: string, filename: string, storedItem: null | StoredItem, url: null | string, file: null | File) {
     const value = {
       path,
       filename,
+      asset: storedItem ? new Asset(storedItem) : null,
       url,
-      type,
-      size,
       file,
-      memUrl,
     };
     super(value);
     this.value = value;
@@ -47,26 +62,34 @@ class FileInput extends BaseInput<FileValue, FileFieldType> {
     return this.value;
   }
 
+  public getPreview(): string {
+    const url = this.getValue().url;
+    if (!url && this.getValue().asset) {
+      return this.asset(this.getValue().asset?.serialize(false) || '') || '';
+    }
+    return url || '';
+  }
+
   public isEmpty(): boolean {
-    return !this.value.url && !this.value.path && !this.value.memUrl;
+    return !this.value.asset && !this.value.path && !this.value.file;
   }
 
   public serialize(forStorage: boolean): string | Blob {
     if (forStorage) {
       throw new Error('file input save not implemented yet');
     }
-    return this.value.file || (this.value.url ? JSON.stringify({ fi: this.value.url }) : '');
+    return this.value.file || (this.value.asset ? JSON.stringify({ fi: this.value.asset.serialize(forStorage) }) : '');
   }
 
   public convert(value: FileInput | FileFieldType): FileInput {
     if (!value) {
-      return new FileInput('', '', '', '', 0, null, '');
+      return new FileInput('', '', null, null, null);
     }
     if (value instanceof FileInput) {
       return value;
     }
     if (value instanceof File) {
-      return new FileInput('', value.name, '', value.type, value.size, value, URL.createObjectURL(value));
+      return new FileInput('', value.name, null, URL.createObjectURL(value), value);
     }
     throw new Error('something went wrong running "convert" in FileInput');
   }
@@ -77,13 +100,18 @@ class FileInput extends BaseInput<FileValue, FileFieldType> {
     );
   }
   public deserialize(value: string | { path: string; filename: string; bytes: number; file: null | File }): FileInput {
-    // todo here: get file bytes at least
+    // v1 -> file uploaded, you have path
+    // v2 -> file input is null, in order to remove. this does not get processed
+    // v3 -> file not uploaded, nothing changes, you have asset
     if (typeof value === 'string') {
-      return new FileInput('', '', value, '', 0, null, '');
+      const parsed = JSON.parse(value);
+      const asset = new Asset(JSON.parse(parsed.fi));
+      return new FileInput('', '', asset, null, null);
     }
-    return new FileInput(value.path, value.filename, '', '', value.bytes, value.file, '');
+    // !!!! value.bytes
+    return new FileInput(value.path, value.filename, null, null, value.file);
   }
 }
 
-export { FileInput };
-export type { FileFieldType, FileValue };
+export { FileInput, Asset };
+export type { FileFieldType, FileValue, StoredItem };

@@ -13,7 +13,10 @@ class StoreUserHandler extends StoreHandler {
     const { email, password, avatar, address } = command.payload;
     const userUuid = Helper.uuid();
     const addressUuid = Helper.uuid();
-    const avatarUrl = `/repositories/user/${userUuid}/avatar.png`;
+    const [saveAvatar, avatarAsset, cancelAvatar] = storage('main').handle(
+      { domain: 'public', pathname: ['user', userUuid, 'avatar.png'].join('/') },
+      avatar,
+    );
     await db('address').insert({
       uuid: addressUuid,
       street: address.street.serialize(true),
@@ -22,13 +25,13 @@ class StoreUserHandler extends StoreHandler {
     await db('user').insert({
       uuid: userUuid,
       email: email.serialize(true),
-      avatar: avatarUrl,
+      avatar: avatarAsset?.serialize(true) || null,
       password: password.serialize(true),
       address: new RecordRef('address', addressUuid).serialize(null),
     });
 
     // !! process image (convert to png or some other image format)
-    avatar && avatar.getValue().path && storage().save(avatarUrl, avatar);
+    saveAvatar();
 
     return new CommandResult(
       true,

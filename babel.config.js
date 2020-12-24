@@ -12,6 +12,8 @@ module.exports = {
           '@sotaoi/api': './famework/api',
           '@sotaoi/client': './sotaoi/client',
           '@sotaoi/omni': './sotaoi/omni',
+          fs: './sotaoi/client/mocks/react-native',
+          path: './sotaoi/client/mocks/react-native',
         },
       },
     ],

@@ -4,7 +4,7 @@ const repository = 'user';
 
 export async function up(dbConnection: DatabaseConnection): Promise<any> {
   return dbConnection.schema.alterTable(repository, function (table: DatabaseConnection.AlterTableBuilder) {
-    table.string('avatar').nullable();
+    table.string('avatar').nullable().after('password');
   });
 }
 

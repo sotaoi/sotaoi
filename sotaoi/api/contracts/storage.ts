@@ -1,21 +1,33 @@
-import { FileInput } from '@sotaoi/omni/input';
+import { FileInput, Asset, StoredItem } from '@sotaoi/omni/input';
+import { ResponseToolkit } from '@hapi/hapi';
+
+interface StorageInit {
+  drive: string;
+  relativeTo?: string;
+  rule?: (handler: ResponseToolkit, role: string, item: StoredItem) => Promise<boolean>;
+}
 
 abstract class Storage {
-  abstract async save(pathname: string, file: FileInput): Promise<void>;
-  abstract async read(pathname: string, role: string, handler?: any): Promise<any>;
+  abstract handle(item: Omit<StoredItem, 'drive'>, input: null | FileInput): [() => void, Asset, () => void];
+  abstract async read(handler: ResponseToolkit, role: string, item: Omit<StoredItem, 'drive'>): Promise<any>;
   abstract async remove(file: FileInput): Promise<void>;
   abstract async readdir(dirname: string): Promise<string[]>;
-  abstract async exists(pathname: string): Promise<boolean>;
-  abstract async isFile(dirname: string): Promise<boolean>;
-  abstract async isDirectory(dirname: string): Promise<boolean>;
+  abstract async exists(item: string): Promise<boolean>;
+  abstract async isFile(asset: Asset): Promise<boolean>;
+  abstract async isDirectory(item: string): Promise<boolean>;
+  abstract async getFileInfo(asset: Asset): Promise<any>;
 
+  protected drive: string;
   protected relativeTo: string;
-  protected rule: (role: string, pathname: string) => Promise<boolean>;
+  protected rule: (handler: ResponseToolkit, role: string, item: StoredItem) => Promise<boolean>;
 
-  constructor(relativeTo: string, rule: (role: string, pathname: string) => Promise<boolean>) {
-    this.relativeTo = relativeTo;
-    this.rule = rule;
+  constructor(init: StorageInit) {
+    this.drive = init.drive;
+    this.relativeTo = init.relativeTo || '/';
+    this.rule =
+      init.rule || (async (handler: ResponseToolkit, role: string, item: StoredItem): Promise<boolean> => true);
   }
 }
 
-export { Storage };
+export { Storage, Asset };
+export type { StorageInit, StoredItem };

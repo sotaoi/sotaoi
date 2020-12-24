@@ -1,4 +1,5 @@
 import { BaseField } from '@sotaoi/client/forms';
+import { Helper } from '@sotaoi/client/helper';
 
 abstract class BaseInput<InputType, FieldValueType> {
   abstract input(field: typeof BaseField): { input: BaseInput<InputType, FieldValueType>; field: typeof BaseField };
@@ -15,6 +16,10 @@ abstract class BaseInput<InputType, FieldValueType> {
 
   constructor(value: InputType) {
     this.value = value;
+  }
+
+  public asset(item: null | string, role = 'assets'): null | string {
+    return Helper.asset(item, role);
   }
 
   public getKey(index: number): string {

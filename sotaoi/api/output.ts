@@ -175,6 +175,8 @@ class Output extends OmniOutput {
           return this.parseCommand(await updateHandler.handle(updateCommand));
         };
         break;
+      case type === 'remove':
+        throw new Error('remove not yet implemented');
       case type === 'auth':
         authHandler = Setup.getAuthHandler(repository, handler);
         formId = await authHandler.getFormId();
@@ -210,7 +212,7 @@ class Output extends OmniOutput {
 
     const validationResult = inputValidator.getResult();
     if (!validationResult.valid) {
-      const code = 400;
+      const code = 422;
       const commandResult = new CommandResult(false, null, {
         code,
         title: validationResult.title,

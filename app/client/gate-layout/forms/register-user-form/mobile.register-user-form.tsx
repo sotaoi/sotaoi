@@ -12,7 +12,7 @@ interface FieldState {
   [key: string]: BaseField<any>;
   address: SingleCollectionField;
 }
-const MobileStoreUserForm = (props: { form: StoreForm; countries: RecordEntry[] }): null | React.ReactElement => {
+const MobileRegisterUserForm = (props: { form: StoreForm; countries: RecordEntry[] }): null | React.ReactElement => {
   const Form = props.form;
   const fields = Form.getFields<FieldState>();
   const address = fields.address.getFields();
@@ -80,4 +80,4 @@ const MobileStoreUserForm = (props: { form: StoreForm; countries: RecordEntry[] 
   );
 };
 
-export { MobileStoreUserForm };
+export { MobileRegisterUserForm };

@@ -5,7 +5,7 @@ import { ErrorComponent } from '@app/client/components/error-component';
 import { HomeRoute } from '@app/client/gate-layout/routes/home-route';
 // gate
 import { GateLayout } from '@app/client/gate-layout/gate-layout';
-import { StoreUserRoute } from '@app/client/gate-layout/routes/store-user-route';
+import { RegisterUserRoute } from '@app/client/gate-layout/routes/register-user-route';
 import { AuthUserRoute } from '@app/client/gate-layout/routes/auth-user-route';
 // // main
 import { MainLayout } from '@app/client/main-layout/main-layout';
@@ -37,7 +37,7 @@ const routerProps: RouterProps = {
       routes: {
         '!/': HomeRoute,
         // moonlightmoonshine
-        '/register/{repository}(/{filters})?': StoreUserRoute,
+        '/register/{repository}(/{filters})?': RegisterUserRoute,
         '/auth/{repository}': AuthUserRoute,
       },
       condition: (): boolean => {

@@ -29,7 +29,7 @@ class UpdateUserForm extends ViewComponent<UpdateUserFormProps> {
     const user = results.user.result.record;
     const countries = results.countries.result.records;
 
-    const storeUserFormConstructor = FormConstructor(
+    const registerUserFormConstructor = FormConstructor(
       {
         email: InputField.input(user.email),
         password: InputField.input(user.password),
@@ -45,7 +45,7 @@ class UpdateUserForm extends ViewComponent<UpdateUserFormProps> {
       results.validations,
     );
 
-    const Form = UpdateFormFactory(null, new Artifacts(), null, 'user', storeUserFormConstructor, props.uuid);
+    const Form = UpdateFormFactory(null, new Artifacts(), null, 'user', registerUserFormConstructor, props.uuid);
     Form.init();
 
     React.useEffect(() => (): void => Form.destroy(), []);

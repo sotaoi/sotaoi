@@ -5,29 +5,29 @@ import { StoreFormFactory, FormConstructor } from '@sotaoi/client/forms';
 import { RecordEntry, RecordRef, Artifacts } from '@sotaoi/omni/artifacts';
 import { getAllCountriesQuery } from '@app/client/queries/country-queries';
 import { StoreForm } from '@sotaoi/client/forms/form-classes/store-form';
-import { WebStoreUserForm } from '@app/client/gate-layout/forms/store-user-form/web.store-user-form';
-import { MobileStoreUserForm } from '@app/client/gate-layout/forms/store-user-form/mobile.store-user-form';
+import { WebRegisterUserForm } from '@app/client/gate-layout/forms/register-user-form/web.register-user-form';
+import { MobileRegisterUserForm } from '@app/client/gate-layout/forms/register-user-form/mobile.register-user-form';
 import { InputField } from '@sotaoi/client/forms/fields/input-field';
 import { RefSelectField } from '@sotaoi/client/forms/fields/ref-select-field';
 import { FileField } from '@sotaoi/client/forms/fields/file-field';
 import { MultiFileField } from '@sotaoi/client/forms/fields/multi-file-field';
 import { getUserCommandFormValidations } from '@app/client/queries/validation-queries';
 
-interface StoreUserFormProps {
+interface RegisterUserFormProps {
   filters: { [key: string]: any };
 }
-class StoreUserForm extends ViewComponent<StoreUserFormProps> {
-  public promises(): ViewPromises<StoreUserFormProps> {
+class RegisterUserForm extends ViewComponent<RegisterUserFormProps> {
+  public promises(): ViewPromises<RegisterUserFormProps> {
     return {
       countries: getAllCountriesQuery(),
       validations: getUserCommandFormValidations(),
     };
   }
 
-  public init({ results, props }: ViewData<StoreUserFormProps>): { form: StoreForm; countries: RecordEntry[] } {
+  public init({ results, props }: ViewData<RegisterUserFormProps>): { form: StoreForm; countries: RecordEntry[] } {
     const countries = results.countries.result.records;
 
-    const storeUserFormConstructor = FormConstructor(
+    const RegisterUserFormConstructor = FormConstructor(
       {
         email: InputField.input(''),
         password: InputField.input(''),
@@ -43,7 +43,7 @@ class StoreUserForm extends ViewComponent<StoreUserFormProps> {
       },
       results.validations,
     );
-    const Form = StoreFormFactory(null, new Artifacts(), null, 'user', storeUserFormConstructor);
+    const Form = StoreFormFactory(null, new Artifacts(), null, 'user', RegisterUserFormConstructor);
     Form.init();
 
     Form.onCommandSuccess(async (result) => {
@@ -58,19 +58,19 @@ class StoreUserForm extends ViewComponent<StoreUserFormProps> {
     return { form: Form, countries };
   }
 
-  public web(data: ViewData<StoreUserFormProps>): null | React.ReactElement {
+  public web(data: ViewData<RegisterUserFormProps>): null | React.ReactElement {
     const { form, countries } = this.init(data);
-    return <WebStoreUserForm form={form} countries={countries} />;
+    return <WebRegisterUserForm form={form} countries={countries} />;
   }
 
-  public mobile(data: ViewData<StoreUserFormProps>): null | React.ReactElement {
-    return <MobileStoreUserForm {...this.init(data)} />;
+  public mobile(data: ViewData<RegisterUserFormProps>): null | React.ReactElement {
+    return <MobileRegisterUserForm {...this.init(data)} />;
   }
 
-  public electron(data: ViewData<StoreUserFormProps>): null | React.ReactElement {
+  public electron(data: ViewData<RegisterUserFormProps>): null | React.ReactElement {
     // nothing here yet
     return null;
   }
 }
 
-export { StoreUserForm };
+export { RegisterUserForm };

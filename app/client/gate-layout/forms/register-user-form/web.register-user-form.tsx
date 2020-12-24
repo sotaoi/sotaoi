@@ -13,7 +13,7 @@ interface FieldState {
   gallery: MultiFileField;
   address: SingleCollectionField;
 }
-const WebStoreUserForm = (props: { form: StoreForm; countries: RecordEntry[] }): null | React.ReactElement => {
+const WebRegisterUserForm = (props: { form: StoreForm; countries: RecordEntry[] }): null | React.ReactElement => {
   const Form = props.form;
   const fields = Form.getFields<FieldState>();
   const address = fields.address.getFields();
@@ -152,4 +152,4 @@ const WebStoreUserForm = (props: { form: StoreForm; countries: RecordEntry[] }):
   );
 };
 
-export { WebStoreUserForm };
+export { WebRegisterUserForm };

@@ -7,7 +7,7 @@ import { RecordRef } from '@sotaoi/omni/artifacts';
 import { storage } from '@sotaoi/api/storage';
 import { Asset } from '@sotaoi/omni/input';
 
-class StoreUserHandler extends StoreHandler {
+class RegisterUserHandler extends StoreHandler {
   public getFormId = async (): Promise<string> => 'user-command-form';
 
   public async handle(command: StoreCommand): Promise<CommandResult> {
@@ -55,4 +55,4 @@ class StoreUserHandler extends StoreHandler {
   }
 }
 
-export { StoreUserHandler };
+export { RegisterUserHandler };

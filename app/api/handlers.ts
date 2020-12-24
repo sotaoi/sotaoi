@@ -1,5 +1,5 @@
 import { PostRetrieve } from '@app/api/queries/post-retrieve';
-import { StoreUserHandler } from '@app/api/commands/store-user-handler';
+import { RegisterUserHandler } from '@app/api/commands/register-user-handler';
 import { UpdateUserHandler } from '@app/api/commands/update-user-handler';
 import { AuthUserHandler } from '@app/api/commands/auth-user-handler';
 import { TaskUserHandler } from '@app/api/commands/task-user-handler';
@@ -22,7 +22,7 @@ const handlers = {
   },
   category: { retrieve: CategoryRetrieve, query: { 'get-all': AllCategoriesQuery } },
   user: {
-    store: StoreUserHandler,
+    store: RegisterUserHandler,
     update: UpdateUserHandler,
     query: { 'get-all': AllUsersQuery },
     retrieve: UserRetrieve,

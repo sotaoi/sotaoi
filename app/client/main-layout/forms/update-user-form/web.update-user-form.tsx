@@ -63,6 +63,7 @@ const WebUpdateUserForm = (props: { form: UpdateForm; countries: RecordEntry[] }
         <fields.avatar.component
           className={'w-full p-2 mb-6 text-black border-b-2 border-green-500 outline-none focus:bg-gray-300'}
         />
+        {!fields.avatar.isEmpty() && <button onClick={(): void => fields.avatar.clear()}>Remove</button>}
         {fields.avatar.getPreview() && (
           <div>
             <img src={fields.avatar.getPreview()} style={{ maxWidth: 350 }} />

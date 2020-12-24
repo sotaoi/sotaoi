@@ -7,7 +7,6 @@ import { InputValidatorOmni } from '@sotaoi/omni/services/input-validator-omni';
 import { PermissionsService } from '@sotaoi/api/services/permissions-service';
 import { StorageService } from '@sotaoi/api/services/storage-service';
 import path from 'path';
-import { AuthHandler } from '@sotaoi/api/commands/auth-handler';
 import { ResponseToolkit } from '@hapi/hapi';
 
 let appContainer: AppContainer;
@@ -74,8 +73,6 @@ class AppKernel {
               // console.info('checking storage permissions');
               // console.info('role:', role);
               // console.info('domain:', item.domain);
-              // console.info('group:', item.group);
-              // console.info('division:', item.division);
               // console.info('pathame:', item.pathname);
               // console.info('access token:', accessToken);
               // console.info('auth record:', await AuthHandler.translateAccessToken(handler, accessToken));

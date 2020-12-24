@@ -13,8 +13,8 @@ class StoreUserHandler extends StoreHandler {
     const { email, password, avatar, address } = command.payload;
     const userUuid = Helper.uuid();
     const addressUuid = Helper.uuid();
-    const [saveAvatar, avatarAsset, cancelAvatar] = storage('main').save(
-      { domain: 'public', group: 'user', division: userUuid, pathname: 'avatar.png' },
+    const [saveAvatar, avatarAsset, cancelAvatar] = storage('main').handle(
+      { domain: 'public', pathname: ['user', userUuid, 'avatar.png'].join('/') },
       avatar,
     );
     await db('address').insert({

@@ -12,8 +12,11 @@ class UpdateUserHandler extends UpdateHandler {
     const { email, password, avatar, address } = command.payload;
     const addressUuid = JSON.parse((await db('user').select('address').where('uuid', command.uuid).first()).address)
       .uuid;
-    const [saveAvatar, avatarAsset, cancelAvatar] = storage('main').save(
-      { domain: 'public', group: 'user', division: command.uuid, pathname: 'avatar.png' },
+    const [saveAvatar, avatarAsset, removeAvatar] = storage('main').handle(
+      {
+        domain: 'public',
+        pathname: ['user', command.uuid, 'avatar.png'].join('/'),
+      },
       avatar,
     );
 
@@ -30,12 +33,11 @@ class UpdateUserHandler extends UpdateHandler {
       .update({
         email: email.serialize(true),
         password: password.serialize(true),
-        avatar: avatarAsset?.serialize(true) || null,
+        avatar: avatar ? avatarAsset.serialize(true) : null,
       })
       .where('uuid', command.uuid);
 
-    // !! process image (convert to png or some other image format)
-    saveAvatar();
+    avatar ? saveAvatar() : removeAvatar();
 
     return new CommandResult(
       true,

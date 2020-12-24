@@ -54,7 +54,7 @@ class FileField extends BaseField<FileInput, ComponentProps, ComponentState> {
   }
 
   public isEmpty(): boolean {
-    return !this.value || (!this.getInputValue().filename && !this.getInputValue().url && !this.getInputValue().file);
+    return this.value.isEmpty();
   }
 
   public set(value: FileInput): void {
@@ -64,16 +64,18 @@ class FileField extends BaseField<FileInput, ComponentProps, ComponentState> {
 
   public convert(value: null | string | FileInput | FileFieldType): FileInput {
     if (!value) {
-      return new FileInput('', '', '', '', 0, null, '');
+      return new FileInput('', '', null, null, null);
     }
     if (typeof value === 'string') {
-      return new FileInput('', '', value, '', 0, null, value);
+      const parsed = JSON.parse(value);
+      return new FileInput('', '', parsed, null, null);
     }
     if (value instanceof FileInput) {
       return value as FileInput;
     }
     if (value instanceof File) {
-      return new FileInput('', value.name, '', value.type, value.size, value, URL.createObjectURL(value));
+      // !!!! value.size
+      return new FileInput('', value.name, null, URL.createObjectURL(value), value);
     }
     throw new Error('file convert error');
   }
@@ -88,7 +90,7 @@ class FileField extends BaseField<FileInput, ComponentProps, ComponentState> {
   }
 
   public getPreview(): string {
-    return this.asset(this.getInputValue().memUrl) || this.asset(this.getInputValue().url) || '';
+    return this.value.getPreview() || '';
   }
 
   //

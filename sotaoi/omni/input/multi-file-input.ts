@@ -57,15 +57,14 @@ class MultiFileInput extends BaseInput<FileInput[], MultiFileFieldType> {
         if (!(fileInput.value.file instanceof File)) {
           throw new Error('something went wrong running "convert" in MultiFileInput');
         }
+        // !!!! fileInput.value.file.size
         multiFileInput.value.push(
           new FileInput(
             '',
             fileInput.value.file.name,
-            '',
-            fileInput.value.file.type,
-            fileInput.value.file.size,
-            fileInput.value.file,
+            null,
             URL.createObjectURL(fileInput.value.file),
+            fileInput.value.file,
           ),
         );
       });
@@ -79,9 +78,10 @@ class MultiFileInput extends BaseInput<FileInput[], MultiFileFieldType> {
   }
   public deserialize(value: { [key: string]: any }[]): MultiFileInput {
     return new MultiFileInput(
+      // !!!! value.file.bytes
       value.map(
-        (value) =>
-          new FileInput(value.file.path, value.file.value.filename, '', value.file.type, value.file.bytes, null, ''),
+        // !! may asset be instantiated here (in pos 3)?
+        (value) => new FileInput(value.file.path, value.file.value.filename, null, null, null),
       ),
     );
   }

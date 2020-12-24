@@ -9,74 +9,32 @@ class StorageService extends Storage {
     super(init);
   }
 
-  public save(
-    item: Omit<StoredItem, 'drive'>,
-    input: null | Omit<StoredItem, 'drive'> | FileInput,
-  ): [() => void, null | Asset, () => void, () => void] {
+  public handle(item: Omit<StoredItem, 'drive'>, input: null | FileInput): [() => void, Asset, () => void] {
     const save = (): void => {
-      if (!(input instanceof FileInput)) {
+      if (!input || !input.getValue().path) {
         return;
       }
-      const destination = path.resolve(this.relativeTo, item.domain, item.group, item.division, item.pathname);
+      const destination = path.resolve(this.relativeTo, item.domain, item.pathname);
       !fs.existsSync(path.dirname(destination)) && fs.mkdirSync(path.dirname(destination), { recursive: true });
       return fs.copyFileSync(path.resolve(input.getValue().path), destination);
     };
     const storedItem = new Asset({
       drive: this.drive,
       domain: item.domain,
-      group: item.group,
-      division: item.division,
       pathname: item.pathname,
     });
-    const cancel = (): void => {
-      if (!input || !(input instanceof FileInput)) {
-        return;
-      }
-      fs.unlinkSync(path.resolve(input.getValue().path));
-    };
     const remove = (): void => {
-      if (!input || input instanceof FileInput) {
-        return;
-      }
-      if (
-        typeof input.domain !== 'string' ||
-        typeof input.group !== 'string' ||
-        typeof input.division !== 'string' ||
-        typeof input.pathname !== 'string' ||
-        !input.domain ||
-        !input.group ||
-        !input.division ||
-        !input.pathname
-      ) {
-        return;
-      }
-      input = input as Omit<StoredItem, 'drive'>;
-      fs.unlinkSync(path.resolve(this.relativeTo, input.domain, input.group, input.division, input.pathname));
+      const filepath = path.resolve(this.relativeTo, item.domain, item.pathname);
+      fs.existsSync(filepath) && fs.lstatSync(filepath).isFile() && fs.unlinkSync(filepath);
     };
 
-    if (!(input instanceof FileInput) || !input.getValue().path) {
-      return [
-        (): void => undefined,
-        input
-          ? new Asset({
-              drive: this.drive,
-              domain: item.domain,
-              group: item.group,
-              division: item.division,
-              pathname: item.pathname,
-            })
-          : null,
-        (): void => undefined,
-        remove,
-      ];
-    }
-    return [save, storedItem, cancel, remove];
+    return [save, storedItem, remove];
   }
   public async read(handler: ResponseToolkit, role: string, item: Omit<StoredItem, 'drive'>): Promise<ResponseObject> {
     if (!(await this.rule(handler, role, { ...item, drive: this.drive }))) {
       throw new Error('permission denied');
     }
-    return handler.file(path.resolve(this.relativeTo, item.domain, item.group, item.division, item.pathname));
+    return handler.file(path.resolve(this.relativeTo, item.domain, item.pathname));
   }
   public async remove(file: FileInput): Promise<void> {
     return fs.unlinkSync(path.resolve(this.relativeTo, file.getValue().path));
@@ -84,14 +42,17 @@ class StorageService extends Storage {
   public async readdir(dirname: string): Promise<string[]> {
     return fs.readdirSync(path.resolve(this.relativeTo, dirname));
   }
-  public async exists(pathname: string): Promise<boolean> {
-    return fs.existsSync(path.resolve(this.relativeTo, pathname));
+  public async exists(item: string): Promise<boolean> {
+    return fs.existsSync(path.resolve(this.relativeTo, item));
   }
-  public async isFile(dirname: string): Promise<boolean> {
-    return fs.lstatSync(path.resolve(this.relativeTo, dirname)).isFile();
+  public async isFile(asset: Asset): Promise<boolean> {
+    return fs.lstatSync(path.resolve(this.relativeTo, asset.domain, asset.pathname)).isFile();
   }
-  public async isDirectory(dirname: string): Promise<boolean> {
-    return fs.lstatSync(path.resolve(this.relativeTo, dirname)).isDirectory();
+  public async isDirectory(item: string): Promise<boolean> {
+    return fs.lstatSync(path.resolve(this.relativeTo, item)).isDirectory();
+  }
+  public async getFileInfo(asset: Asset): Promise<any> {
+    return fs.lstatSync(path.resolve(this.relativeTo, asset.domain, asset.pathname));
   }
 }
 

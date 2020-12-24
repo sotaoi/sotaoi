@@ -72,7 +72,7 @@ class Helper extends OmniHelper {
       return item;
     }
     const parsed = JSON.parse(item);
-    return `/api/storage/${parsed.drive}/${role}/${parsed.domain}/${parsed.group}/${parsed.division}/${parsed.pathname}`;
+    return `/api/storage/${parsed.drive}/${role}/${parsed.domain}/${parsed.pathname}`;
   }
 }
 

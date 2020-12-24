@@ -12,6 +12,7 @@ import {
 import { Helper } from '@sotaoi/omni/helper';
 import _ from 'lodash';
 import { BaseField } from '@sotaoi/client/forms/fields/base-field';
+import fs from 'fs';
 
 class InputValidatorOmni extends InputValidator {
   protected t: (key: string, ...args: any[]) => string;
@@ -170,11 +171,15 @@ class InputValidatorOmni extends InputValidator {
     this.errorMsg = errorResult.msg;
   }
 
-  protected getInput(key: string): void | null | BaseInput<any, any> {
+  protected getInput(key: string): BaseInput<any, any> {
     if (!this.config.getInput) {
       throw new Error('form validation is not initialized');
     }
-    return this.config.getInput(key);
+    const input = this.config.getInput(key);
+    if (!input) {
+      throw new Error('input validator failed to get input');
+    }
+    return input;
   }
 
   protected async required(key: string): Promise<void | string> {
@@ -217,24 +222,48 @@ class InputValidatorOmni extends InputValidator {
     }
   }
 
-  protected async street(key: string): Promise<void | string> {
+  protected async street(key: string, args: { [key: string]: any } = {}): Promise<void | string> {
     //
   }
 
-  protected async title(key: string): Promise<void | string> {
+  protected async title(key: string, args: { [key: string]: any } = {}): Promise<void | string> {
     //
   }
 
-  protected async content(key: string): Promise<void | string> {
+  protected async content(key: string, args: { [key: string]: any } = {}): Promise<void | string> {
     //
   }
 
-  protected async image(key: string): Promise<void | string> {
+  protected async file(key: string, args: { [key: string]: any } = {}): Promise<void | string> {
     const input = this.getInput(key);
-    if (input instanceof FileInput) {
+    if (input.isEmpty()) {
       return;
     }
-    return this.t(this.messages.generic.invalid);
+    if (!(input instanceof FileInput)) {
+      return this.t(this.messages.generic.invalid);
+    }
+
+    // client (if file input has file, then execution is on the client side)
+    if (input.getValue().file) {
+      const file = input.getValue().file as File;
+      if (typeof args.maxSize !== 'undefined' && file.size > args.maxSize) {
+        // too large
+        return this.t(this.messages.generic.invalid);
+      }
+      return;
+    }
+
+    // api (if file input has path, then it is an upload and execution is on the API side)
+    if (input.getValue().path) {
+      const file = fs.lstatSync(input.getValue().path);
+      if (typeof args.maxSize !== 'undefined' && file.size > args.maxSize) {
+        // too large
+        return this.t(this.messages.generic.invalid);
+      }
+    }
+
+    // if file input has neither file, nor path, then it's value is unchanged, or is a delete request
+    // in which case we do nothing
   }
 }
 

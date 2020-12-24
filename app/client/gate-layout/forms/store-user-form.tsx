@@ -10,6 +10,7 @@ import { MobileStoreUserForm } from '@app/client/gate-layout/forms/store-user-fo
 import { InputField } from '@sotaoi/client/forms/fields/input-field';
 import { RefSelectField } from '@sotaoi/client/forms/fields/ref-select-field';
 import { FileField } from '@sotaoi/client/forms/fields/file-field';
+import { MultiFileField } from '@sotaoi/client/forms/fields/multi-file-field';
 import { getUserCommandFormValidations } from '@app/client/queries/validation-queries';
 
 interface StoreUserFormProps {
@@ -31,6 +32,7 @@ class StoreUserForm extends ViewComponent<StoreUserFormProps> {
         email: InputField.input(''),
         password: InputField.input(''),
         avatar: FileField.input(null),
+        gallery: MultiFileField.input([]),
         address: {
           fields: {
             street: InputField.input(''),

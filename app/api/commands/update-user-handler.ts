@@ -4,12 +4,13 @@ import { db } from '@sotaoi/api/db';
 import { RecordRef } from '@sotaoi/omni/artifacts';
 import { UpdateHandler } from '@sotaoi/api/commands/update-handler';
 import { storage } from '@sotaoi/api/storage';
+import { Asset } from '@sotaoi/omni/input';
 
 class UpdateUserHandler extends UpdateHandler {
   public getFormId = async (): Promise<string> => 'user-command-form';
 
   public async handle(command: UpdateCommand): Promise<CommandResult> {
-    const { email, password, avatar, address } = command.payload;
+    const { email, password, avatar, gallery, address } = command.payload;
     const addressUuid = JSON.parse((await db('user').select('address').where('uuid', command.uuid).first()).address)
       .uuid;
     const [saveAvatar, avatarAsset, removeAvatar] = storage('main').handle(
@@ -18,6 +19,13 @@ class UpdateUserHandler extends UpdateHandler {
         pathname: ['user', command.uuid, 'avatar.png'].join('/'),
       },
       avatar,
+    );
+    const [saveGallery, galleryAssets, removeGallery] = storage('main').multiHandle(
+      {
+        domain: 'public',
+        pathname: ['user', command.uuid, 'gallery'].join('/'),
+      },
+      gallery,
     );
 
     if (!addressUuid) {
@@ -34,10 +42,12 @@ class UpdateUserHandler extends UpdateHandler {
         email: email.serialize(true),
         password: password.serialize(true),
         avatar: avatar ? avatarAsset.serialize(true) : null,
+        gallery: gallery ? Asset.serializeMulti(galleryAssets) : null,
       })
       .where('uuid', command.uuid);
 
     avatar ? saveAvatar() : removeAvatar();
+    gallery ? saveGallery() : removeGallery();
 
     return new CommandResult(
       true,

@@ -1,6 +1,13 @@
 import React from 'react';
 import { BaseField, FieldInit } from '@sotaoi/client/forms/fields/base-field';
-import { FieldValidation, FileInput, MultiFileInput, BaseInput, MultiFileFieldType } from '@sotaoi/omni/input';
+import {
+  FieldValidation,
+  FileInput,
+  MultiFileInput,
+  BaseInput,
+  MultiFileFieldType,
+  StoredItem,
+} from '@sotaoi/omni/input';
 import { InputValidator } from '@sotaoi/client/contracts';
 import { Helper } from '@sotaoi/client/helper';
 
@@ -53,7 +60,7 @@ class MultiFileField extends BaseField<MultiFileInput, ComponentProps, Component
   }
 
   public isEmpty(): boolean {
-    return !this.getInputValue().length;
+    return this.value.isEmpty();
   }
 
   public set(value: [] | MultiFileInput): void {
@@ -61,21 +68,23 @@ class MultiFileField extends BaseField<MultiFileInput, ComponentProps, Component
     this._ref?.setValue(this.value);
   }
 
-  public convert(value: MultiFileInput | MultiFileFieldType): MultiFileInput {
-    let fileInputs: MultiFileInput;
+  public convert(value: null | string | MultiFileInput | MultiFileFieldType): MultiFileInput {
     if (!value || (value instanceof Array && !value.length)) {
       return new MultiFileInput([]);
+    }
+    if (typeof value === 'string') {
+      const fileInputs = JSON.parse(value).map((asset: StoredItem) => new FileInput('', '', asset, null, null));
+      return new MultiFileInput(fileInputs);
     }
     if (value instanceof MultiFileInput) {
       return value;
     }
     if (value instanceof FileList) {
-      fileInputs = new MultiFileInput([]);
+      const input = new MultiFileInput([]);
       for (let i = 0; i < value.length; i++) {
-        // !!!!value.size
-        fileInputs.append(new FileInput('', value[i].name, null, URL.createObjectURL(value[i]), value[i]));
+        input.append(new FileInput('', value[i].name, null, URL.createObjectURL(value[i]), value[i]));
       }
-      return fileInputs;
+      return input;
     }
     throw new Error('multi file convert error');
   }

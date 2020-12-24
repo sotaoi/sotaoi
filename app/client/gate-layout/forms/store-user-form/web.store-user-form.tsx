@@ -5,10 +5,12 @@ import { StoreForm } from '@sotaoi/client/forms/form-classes/store-form';
 import { BaseField, SingleCollectionField } from '@sotaoi/client/forms';
 import { RecordEntry } from '@sotaoi/omni/artifacts';
 import { FileField } from '@sotaoi/client/forms/fields/file-field';
+import { MultiFileField } from '@sotaoi/client/forms/fields/multi-file-field';
 
 interface FieldState {
   [key: string]: BaseField<any>;
   avatar: FileField;
+  gallery: MultiFileField;
   address: SingleCollectionField;
 }
 const WebStoreUserForm = (props: { form: StoreForm; countries: RecordEntry[] }): null | React.ReactElement => {
@@ -75,6 +77,25 @@ const WebStoreUserForm = (props: { form: StoreForm; countries: RecordEntry[] }):
           {fields.avatar.getPreview() && (
             <div>
               <img src={fields.avatar.getPreview()} />
+            </div>
+          )}
+          <br />
+
+          {fields.gallery.wasTouched() &&
+            fields.gallery.getErrors().map((error: any, index: any) => (
+              <div key={index} style={{ color: '#ff3333', marginBottom: 10 }}>
+                {error}
+              </div>
+            ))}
+          <fields.gallery.component
+            className={'w-full p-2 mb-6 text-black border-b-2 border-green-500 outline-none focus:bg-gray-300'}
+          />
+          {!fields.gallery.isEmpty() && <button onClick={(): void => fields.gallery.clear()}>Remove</button>}
+          {!!fields.gallery.getPreviews().length && (
+            <div>
+              {fields.gallery.getPreviews().map((preview, index) => (
+                <img key={preview + index} src={preview} style={{ maxWidth: 350 }} />
+              ))}
             </div>
           )}
           <br />

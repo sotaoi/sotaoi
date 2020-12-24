@@ -5,17 +5,25 @@ import { db } from '@sotaoi/api/db';
 import { Helper } from '@sotaoi/api/helper';
 import { RecordRef } from '@sotaoi/omni/artifacts';
 import { storage } from '@sotaoi/api/storage';
+import { Asset } from '@sotaoi/omni/input';
 
 class StoreUserHandler extends StoreHandler {
   public getFormId = async (): Promise<string> => 'user-command-form';
 
   public async handle(command: StoreCommand): Promise<CommandResult> {
-    const { email, password, avatar, address } = command.payload;
+    const { email, password, avatar, gallery, address } = command.payload;
     const userUuid = Helper.uuid();
     const addressUuid = Helper.uuid();
     const [saveAvatar, avatarAsset, cancelAvatar] = storage('main').handle(
       { domain: 'public', pathname: ['user', userUuid, 'avatar.png'].join('/') },
       avatar,
+    );
+    const [saveGallery, galleryAssets, removeGallery] = storage('main').multiHandle(
+      {
+        domain: 'public',
+        pathname: ['user', userUuid, 'gallery'].join('/'),
+      },
+      gallery,
     );
     await db('address').insert({
       uuid: addressUuid,
@@ -26,12 +34,13 @@ class StoreUserHandler extends StoreHandler {
       uuid: userUuid,
       email: email.serialize(true),
       avatar: avatarAsset?.serialize(true) || null,
+      gallery: gallery ? Asset.serializeMulti(galleryAssets) : null,
       password: password.serialize(true),
       address: new RecordRef('address', addressUuid).serialize(null),
     });
 
-    // !! process image (convert to png or some other image format)
     saveAvatar();
+    saveGallery();
 
     return new CommandResult(
       true,

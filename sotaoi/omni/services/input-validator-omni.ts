@@ -3,6 +3,7 @@ import { InputValidator, RequesterFn, InputValidatorConfig, InputValidationResul
 import {
   StringInput,
   FileInput,
+  MultiFileInput,
   RefSelectInput,
   BaseInput,
   CollectionInput,
@@ -264,6 +265,40 @@ class InputValidatorOmni extends InputValidator {
 
     // if file input has neither file, nor path, then it's value is unchanged, or is a delete request
     // in which case we do nothing
+  }
+
+  protected async multiFile(key: string, args: { [key: string]: any } = {}): Promise<void | string> {
+    const input = this.getInput(key);
+    if (input.isEmpty()) {
+      return;
+    }
+    if (!(input instanceof MultiFileInput)) {
+      return this.t(this.messages.generic.invalid);
+    }
+
+    for (const _input of input.getValue()) {
+      // client (if file input has file, then execution is on the client side)
+      if (_input.getValue().file) {
+        const file = _input.getValue().file as File;
+        if (typeof args.maxSize !== 'undefined' && file.size > args.maxSize) {
+          // too large
+          return this.t(this.messages.generic.invalid);
+        }
+        continue;
+      }
+
+      // api (if file input has path, then it is an upload and execution is on the API side)
+      if (_input.getValue().path) {
+        const file = fs.lstatSync(_input.getValue().path);
+        if (typeof args.maxSize !== 'undefined' && file.size > args.maxSize) {
+          // too large
+          return this.t(this.messages.generic.invalid);
+        }
+      }
+
+      // if file input has neither file, nor path, then it's value is unchanged, or is a delete request
+      // in which case we do nothing
+    }
   }
 }
 

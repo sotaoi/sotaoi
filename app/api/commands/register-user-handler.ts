@@ -8,7 +8,7 @@ import { storage } from '@sotaoi/api/storage';
 import { Asset } from '@sotaoi/omni/input';
 
 class RegisterUserHandler extends StoreHandler {
-  public getFormId = async (): Promise<string> => 'user-command-form';
+  public getFormId = async (): Promise<string> => 'user-store-form';
 
   public async handle(command: StoreCommand): Promise<CommandResult> {
     const { email, password, avatar, gallery, address } = command.payload;

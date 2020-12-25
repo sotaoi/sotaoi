@@ -7,10 +7,10 @@ import { storage } from '@sotaoi/api/storage';
 import { Asset } from '@sotaoi/omni/input';
 
 class UpdateUserHandler extends UpdateHandler {
-  public getFormId = async (): Promise<string> => 'user-command-form';
+  public getFormId = async (): Promise<string> => 'user-update-form';
 
   public async handle(command: UpdateCommand): Promise<CommandResult> {
-    const { email, password, avatar, gallery, address } = command.payload;
+    const { email, avatar, gallery, address } = command.payload;
     const addressUuid = JSON.parse((await db('user').select('address').where('uuid', command.uuid).first()).address)
       .uuid;
     const [saveAvatar, avatarAsset, removeAvatar] = storage('main').handle(
@@ -40,7 +40,6 @@ class UpdateUserHandler extends UpdateHandler {
     await db('user')
       .update({
         email: email.serialize(true),
-        password: password.serialize(true),
         avatar: avatar ? avatarAsset.serialize(true) : null,
         gallery: gallery ? Asset.serializeMulti(galleryAssets) : null,
       })

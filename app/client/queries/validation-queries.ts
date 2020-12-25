@@ -2,9 +2,14 @@ import { RequestAbortHandler } from '@sotaoi/client/components';
 import { FormValidations } from '@sotaoi/omni/input';
 import { user, post } from '@app/omni/forms';
 
-const getUserCommandFormValidations = () => {
+const getUserStoreFormValidations = () => {
   return (props: { [key: string]: any }, requestAbortHandler: RequestAbortHandler): Promise<FormValidations> =>
-    user['user-command-form']();
+    user['user-store-form']();
+};
+
+const getUserUpdateFormValidations = () => {
+  return (props: { [key: string]: any }, requestAbortHandler: RequestAbortHandler): Promise<FormValidations> =>
+    user['user-update-form']();
 };
 
 const getAuthUserFormValidations = () => {
@@ -24,7 +29,8 @@ const getPostFormValidations = () => {
 
 export {
   getAuthUserFormValidations,
-  getUserCommandFormValidations,
+  getUserStoreFormValidations,
+  getUserUpdateFormValidations,
   getUserHelloTaskValidations,
   getPostFormValidations,
 };

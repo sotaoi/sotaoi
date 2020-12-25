@@ -30,6 +30,7 @@ const WebUpdateUserForm = (props: { form: UpdateForm; countries: RecordEntry[] }
         </button>
         <br />
         <br />
+
         {fields.email.wasTouched() &&
           fields.email.getErrors().map((error, index) => (
             <div key={index} style={{ color: '#ff3333', marginBottom: 10 }}>
@@ -43,15 +44,6 @@ const WebUpdateUserForm = (props: { form: UpdateForm; countries: RecordEntry[] }
           }
           placeholder={'email'}
         />
-        <br />
-        <br />
-        {fields.password.wasTouched() &&
-          fields.password.getErrors().map((error, index) => (
-            <div key={index} style={{ color: '#ff3333', marginBottom: 10 }}>
-              {error}
-            </div>
-          ))}
-        <fields.password.component autoComplete={'off'} type={'password'} placeholder={'password'} />
         <br />
         <br />
 

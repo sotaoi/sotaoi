@@ -11,7 +11,7 @@ import { InputField } from '@sotaoi/client/forms/fields/input-field';
 import { RefSelectField } from '@sotaoi/client/forms/fields/ref-select-field';
 import { FileField } from '@sotaoi/client/forms/fields/file-field';
 import { MultiFileField } from '@sotaoi/client/forms/fields/multi-file-field';
-import { getUserCommandFormValidations } from '@app/client/queries/validation-queries';
+import { getUserStoreFormValidations } from '@app/client/queries/validation-queries';
 import { store } from '@sotaoi/client/store';
 
 interface RegisterUserFormProps {
@@ -21,7 +21,7 @@ class RegisterUserForm extends ViewComponent<RegisterUserFormProps> {
   public promises(): ViewPromises<RegisterUserFormProps> {
     return {
       countries: getAllCountriesQuery(),
-      validations: getUserCommandFormValidations(),
+      validations: getUserStoreFormValidations(),
     };
   }
 

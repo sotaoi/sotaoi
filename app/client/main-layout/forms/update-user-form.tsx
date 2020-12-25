@@ -9,7 +9,7 @@ import { WebUpdateUserForm } from '@app/client/main-layout/forms/update-user-for
 import { InputField } from '@sotaoi/client/forms/fields/input-field';
 import { RefSelectField } from '@sotaoi/client/forms/fields/ref-select-field';
 import { FileField } from '@sotaoi/client/forms/fields/file-field';
-import { getUserCommandFormValidations } from '@app/client/queries/validation-queries';
+import { getUserUpdateFormValidations } from '@app/client/queries/validation-queries';
 import { MultiFileField } from '@sotaoi/client/forms/fields/multi-file-field';
 
 // todo here: (and in any component in general) handle component error
@@ -21,7 +21,7 @@ class UpdateUserForm extends ViewComponent<UpdateUserFormProps> {
     return {
       countries: getAllCountriesQuery(),
       user: getUser(),
-      validations: getUserCommandFormValidations(),
+      validations: getUserUpdateFormValidations(),
     };
   }
 
@@ -32,7 +32,7 @@ class UpdateUserForm extends ViewComponent<UpdateUserFormProps> {
     const registerUserFormConstructor = FormConstructor(
       {
         email: InputField.input(user.email),
-        password: InputField.input(user.password),
+        // add user password change
         avatar: FileField.input(user.avatar),
         gallery: MultiFileField.input(user.gallery),
         address: {

@@ -1,6 +1,6 @@
-import { Errors } from '@sotaoi/client/errors';
+import { Errors, ErrorException } from '@sotaoi/omni/errors';
 
 // gate errors
-Errors.InvalidRegisterRepository = class InvalidRegisterRepositoryError extends Error {};
+Errors.InvalidRegisterRepository = class InvalidRegisterRepositoryError extends ErrorException {};
 
 export { Errors };

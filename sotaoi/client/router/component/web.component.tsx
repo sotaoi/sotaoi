@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteChange } from '@sotaoi/client/router/route-change';
 import { RouterEvents } from '@sotaoi/client/router/router-events';
-import { Errors } from '@sotaoi/client/errors';
+import { Errors } from '@sotaoi/omni/errors';
 import { LayoutProps } from '@sotaoi/omni/state';
 import { Navigation } from '@sotaoi/client/router/navigation';
 import { Provider } from 'react-redux';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { RouterPropsConfig } from '@sotaoi/omni/state';
-import { Errors } from '@sotaoi/client/errors';
+import { Errors } from '@sotaoi/omni/errors';
 import { RouterEvents } from '@sotaoi/client/router/router-events';
 import { RouteChange } from '@sotaoi/client/router/route-change';
 import { Helper } from '@sotaoi/client/helper';

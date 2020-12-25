@@ -10,10 +10,6 @@ interface Props {
 class StorePostRoute extends RouteComponent<Props> {
   public display({ params }: RouteData<Props>): null | React.ReactElement {
     try {
-      // if (['user'].indexOf(params.repository) === -1) {
-      //   throw new Errors.InvalidRegisterRepository();
-      // }
-
       return <StorePostForm filters={params.filters || null} />;
     } catch (err) {
       console.warn(err);

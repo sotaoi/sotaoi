@@ -1,5 +1,3 @@
-import Joi from 'joi';
-
 class Artifact {
   public repository: string;
   public uuid: string;
@@ -28,13 +26,6 @@ class AuthRecord extends Artifact {
   }
 
   public static deserialize(value: { repository: string; uuid: string; createdAt: Date; active: boolean }): AuthRecord {
-    Joi.object({
-      repository: Joi.string(),
-      uuid: Joi.string(),
-      createdAt: Joi.date(),
-      accessToken: Joi.string(),
-      active: Joi.boolean(),
-    }).validate(value);
     return new AuthRecord(value.repository, value.uuid, value.createdAt, value.active);
   }
 }

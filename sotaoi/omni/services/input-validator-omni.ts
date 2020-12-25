@@ -172,15 +172,12 @@ class InputValidatorOmni extends InputValidator {
     this.errorMsg = errorResult.msg;
   }
 
-  protected getInput(key: string): BaseInput<any, any> {
+  protected getInput(key: string): null | BaseInput<any, any> {
     if (!this.config.getInput) {
       throw new Error('form validation is not initialized');
     }
     const input = this.config.getInput(key);
-    if (!input) {
-      throw new Error('input validator failed to get input');
-    }
-    return input;
+    return input || null;
   }
 
   protected async required(key: string): Promise<void | string> {
@@ -237,7 +234,7 @@ class InputValidatorOmni extends InputValidator {
 
   protected async file(key: string, args: { [key: string]: any } = {}): Promise<void | string> {
     const input = this.getInput(key);
-    if (input.isEmpty()) {
+    if (!input || input.isEmpty()) {
       return;
     }
     if (!(input instanceof FileInput)) {
@@ -269,7 +266,7 @@ class InputValidatorOmni extends InputValidator {
 
   protected async multiFile(key: string, args: { [key: string]: any } = {}): Promise<void | string> {
     const input = this.getInput(key);
-    if (input.isEmpty()) {
+    if (!input || input.isEmpty()) {
       return;
     }
     if (!(input instanceof MultiFileInput)) {

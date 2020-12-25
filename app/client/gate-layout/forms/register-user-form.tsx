@@ -2,7 +2,7 @@ import React from 'react';
 import { pushRoute } from '@sotaoi/client/router';
 import { ViewComponent, ViewData, ViewPromises } from '@sotaoi/client/components';
 import { StoreFormFactory, FormConstructor } from '@sotaoi/client/forms';
-import { RecordEntry, RecordRef, Artifacts } from '@sotaoi/omni/artifacts';
+import { RecordEntry, RecordRef, Artifacts, AuthRecord } from '@sotaoi/omni/artifacts';
 import { getAllCountriesQuery } from '@app/client/queries/country-queries';
 import { StoreForm } from '@sotaoi/client/forms/form-classes/store-form';
 import { WebRegisterUserForm } from '@app/client/gate-layout/forms/register-user-form/web.register-user-form';
@@ -12,6 +12,7 @@ import { RefSelectField } from '@sotaoi/client/forms/fields/ref-select-field';
 import { FileField } from '@sotaoi/client/forms/fields/file-field';
 import { MultiFileField } from '@sotaoi/client/forms/fields/multi-file-field';
 import { getUserCommandFormValidations } from '@app/client/queries/validation-queries';
+import { store } from '@sotaoi/client/store';
 
 interface RegisterUserFormProps {
   filters: { [key: string]: any };
@@ -50,7 +51,9 @@ class RegisterUserForm extends ViewComponent<RegisterUserFormProps> {
       if (!result.ref) {
         throw new Error('something went wrong');
       }
-      pushRoute(`/gate/auth/user`);
+      let { authRecord, accessToken } = JSON.parse(result.msg);
+      authRecord = new AuthRecord(authRecord.repository, authRecord.uuid, authRecord.createdAt, authRecord.active);
+      await store().setAuthRecord(authRecord, accessToken);
     });
 
     React.useEffect(() => (): void => Form.destroy(), []);

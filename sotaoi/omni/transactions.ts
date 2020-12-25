@@ -1,4 +1,4 @@
-import { Artifacts, AuthRecord, RecordRef, RecordEntry } from '@sotaoi/omni/artifacts';
+import { Artifacts, AuthRecord, RecordRef, RecordEntry, Artifact } from '@sotaoi/omni/artifacts';
 import Joi from 'joi';
 
 abstract class ResponseToolkit<ResponseObject> {
@@ -91,9 +91,10 @@ class CommandResultSuccess {
 
   constructor(result: { code: number; title: string; msg: string; ref: null | RecordRef }) {
     if (result.ref !== null && !(result.ref instanceof RecordRef)) {
-      throw new Error('something went wrong, result.ref should be null or RecordRef');
+      throw new Error(
+        'something went wrong, result.ref should be null or RecordRef and result.artifact should be null or Artifact',
+      );
     }
-    Joi.object({ code: Joi.number(), title: Joi.string(), msg: Joi.string(), ref: Joi.any() }).validate(result);
     this.code = result.code;
     this.title = result.title;
     this.msg = result.msg;

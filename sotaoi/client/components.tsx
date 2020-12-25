@@ -40,6 +40,9 @@ abstract class RouteComponent<ComponentProps> extends React.Component<ComponentP
   public asset(item: null | string, role = 'assets'): null | string {
     return Helper.asset(item, role);
   }
+  public assets(items: null | string, role = 'assets'): null | string[] {
+    return (items && JSON.parse(items).map((item: string) => Helper.asset(item, role))) || null;
+  }
 
   // todo here: mapStateToProps
 
@@ -118,6 +121,9 @@ abstract class ViewComponent<
 
   public asset(item: null | string, role = 'assets'): null | string {
     return Helper.asset(item, role);
+  }
+  public assets(items: null | string, role = 'assets'): null | string[] {
+    return (items && JSON.parse(items).map((item: string) => Helper.asset(item, role))) || null;
   }
 
   public mapStateToProps(

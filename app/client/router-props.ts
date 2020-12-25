@@ -7,7 +7,7 @@ import { HomeRoute } from '@app/client/gate-layout/routes/home-route';
 import { GateLayout } from '@app/client/gate-layout/gate-layout';
 import { RegisterUserRoute } from '@app/client/gate-layout/routes/register-user-route';
 import { AuthUserRoute } from '@app/client/gate-layout/routes/auth-user-route';
-// // main
+// main
 import { MainLayout } from '@app/client/main-layout/main-layout';
 import { PostsRoute } from '@app/client/main-layout/routes/posts-route';
 import { UsersRoute } from '@app/client/main-layout/routes/users-route';
@@ -18,16 +18,17 @@ import { TaskUserRoute } from '@app/client/main-layout/routes/task-user-route';
 import { StorePostRoute } from '@app/client/main-layout/routes/store-post-route';
 import { HomeUserRoute } from '@app/client/main-layout/views/home-user-route';
 //
-import { createStore } from 'redux';
+// import { createStore } from 'redux';
 
-const reduxStore = createStore((state: { [key: string]: any } = {}, action: any) => {
-  switch (action.type) {
-    case 'action':
-      return { ...state, ...action.value };
-    default:
-      return state;
-  }
-});
+// // custom redux store is working
+// const reduxStore = createStore((state: { [key: string]: any } = {}, action: any) => {
+//   switch (action.type) {
+//     case 'action':
+//       return { ...state, ...action.value };
+//     default:
+//       return state;
+//   }
+// });
 
 const routerProps: RouterProps = {
   config: {
@@ -36,7 +37,7 @@ const routerProps: RouterProps = {
       layout: GateLayout,
       routes: {
         '!/': HomeRoute,
-        // moonlightmoonshine
+        // moonlightmoonshine (app admin system, bundle admin system)
         '/register/{repository}(/{filters})?': RegisterUserRoute,
         '/auth/{repository}': AuthUserRoute,
       },
@@ -73,6 +74,7 @@ const routerProps: RouterProps = {
     },
   },
   errorComponent: ErrorComponent,
+  // reduxStore,
 };
 
 export { routerProps };

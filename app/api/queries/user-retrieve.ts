@@ -7,6 +7,7 @@ class UserRetrieve extends RetrieveHandler {
   public async handle(retrieve: Retrieve): Promise<RetrieveResult> {
     try {
       const user = await db('user').where('uuid', retrieve.uuid).first();
+      delete user.password;
       user.address = await db('address').where('uuid', JSON.parse(user.address).uuid).first();
       if (!user.address) {
         throw new Error('failed to fetch address for user');

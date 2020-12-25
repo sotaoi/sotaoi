@@ -15,13 +15,30 @@ class UserView extends ViewComponent<UserViewProps> {
 
   public web({ results, props }: ViewData<UserViewProps>): null | React.ReactElement {
     const user = results.user.result.record;
+    const avatar = this.asset(user.avatar);
+    const gallery = this.assets(user.gallery);
     return (
-      <section>
+      <section style={{ padding: 15 }}>
         <Link to={`/user/edit/${props.uuid}`}>
-          <button type={'button'} style={{ marginBottom: 20, marginTop: 20 }}>
-            update
-          </button>
+          <button type={'button'}>update</button>
         </Link>
+        <hr />
+        <section>email: {user.email}</section>
+        <hr />
+        <section>
+          avatar:
+          {!!avatar && <img src={avatar} style={{ maxWidth: 200, maxHeight: 200 }} />}
+        </section>
+        <hr />
+        {!!gallery && (
+          <section>
+            gallery:
+            {gallery.map((galleryItem: string, index: number) => (
+              <img key={galleryItem + index} src={galleryItem} style={{ maxWidth: 200, maxHeight: 200 }} />
+            ))}
+          </section>
+        )}
+        <hr />
         <section>{JSON.stringify(user)}</section>
       </section>
     );

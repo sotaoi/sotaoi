@@ -94,7 +94,7 @@ const WebRegisterUserForm = (props: { form: StoreForm; countries: RecordEntry[] 
           {!!fields.gallery.getPreviews().length && (
             <div>
               {fields.gallery.getPreviews().map((preview, index) => (
-                <img key={preview + index} src={preview} style={{ maxWidth: 350 }} />
+                <img key={preview + index} src={preview} style={{ maxWidth: 200, maxHeight: 200 }} />
               ))}
             </div>
           )}

@@ -21,6 +21,9 @@ abstract class BaseInput<InputType, FieldValueType> {
   public asset(item: null | string, role = 'assets'): null | string {
     return Helper.asset(item, role);
   }
+  public assets(items: null | string, role = 'assets'): null | string[] {
+    return (items && JSON.parse(items).map((item: string) => Helper.asset(item, role))) || null;
+  }
 
   public getKey(index: number): string {
     return `${index.toString()}`;

@@ -1,5 +1,6 @@
 import React from 'react';
 import '@app/client/css/app.css';
+import '@app/client/css/style.css';
 import { Router } from '@sotaoi/client/router';
 import { Bootstrap } from '@sotaoi/client/bootstrap';
 import { createStore } from 'redux';

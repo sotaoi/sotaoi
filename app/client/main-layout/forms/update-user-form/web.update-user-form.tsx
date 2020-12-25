@@ -30,7 +30,6 @@ const WebUpdateUserForm = (props: { form: UpdateForm; countries: RecordEntry[] }
         </button>
         <br />
         <br />
-        <br />
         {fields.email.wasTouched() &&
           fields.email.getErrors().map((error, index) => (
             <div key={index} style={{ color: '#ff3333', marginBottom: 10 }}>
@@ -68,7 +67,7 @@ const WebUpdateUserForm = (props: { form: UpdateForm; countries: RecordEntry[] }
         {!fields.avatar.isEmpty() && <button onClick={(): void => fields.avatar.clear()}>Remove</button>}
         {fields.avatar.getPreview() && (
           <div>
-            <img src={fields.avatar.getPreview()} style={{ maxWidth: 350 }} />
+            <img src={fields.avatar.getPreview()} style={{ maxWidth: 200, maxHeight: 200 }} />
           </div>
         )}
         <br />
@@ -86,7 +85,7 @@ const WebUpdateUserForm = (props: { form: UpdateForm; countries: RecordEntry[] }
         {!!fields.gallery.getPreviews().length && (
           <div>
             {fields.gallery.getPreviews().map((preview, index) => (
-              <img key={preview + index} src={preview} style={{ maxWidth: 350 }} />
+              <img key={preview + index} src={preview} style={{ maxWidth: 200, maxHeight: 200 }} />
             ))}
           </div>
         )}

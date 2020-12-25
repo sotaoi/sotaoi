@@ -64,7 +64,8 @@ class Helper extends OmniHelper {
     return decodedSegment;
   }
 
-  public static asset(item: null | string, role = 'assets'): null | string {
+  public static asset(item: null | string | { [key: string]: any }, role = 'assets'): null | string {
+    item = typeof item === 'object' ? JSON.stringify(item) : item;
     if (!item) {
       return null;
     }

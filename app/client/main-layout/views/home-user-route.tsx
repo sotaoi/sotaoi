@@ -54,7 +54,7 @@ const HomeUserRoute = (): null | React.ReactElement => {
                             className={
                               'shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16'
                             }
-                            style={{ maxWidth: '150px' }}
+                            style={{ maxWidth: 200, maxHeight: 200 }}
                           />
                         </div>
                       </div>

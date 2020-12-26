@@ -43,10 +43,10 @@ class StorePostForm extends ViewComponent<StorePostFormProps> {
     Form.init();
 
     Form.onCommandSuccess(async (result) => {
-      if (!result.ref) {
+      if (!result.artifact) {
         throw new Error('something went wrong');
       }
-      pushRoute(`/post/view/${result.ref.uuid}`);
+      pushRoute(`/post/view/${result.artifact.uuid}`);
     });
 
     React.useEffect(() => (): void => Form.destroy(), []);

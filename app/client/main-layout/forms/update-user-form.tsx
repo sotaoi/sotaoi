@@ -51,10 +51,10 @@ class UpdateUserForm extends ViewComponent<UpdateUserFormProps> {
     React.useEffect(() => (): void => Form.destroy(), []);
 
     Form.onCommandSuccess(async (result) => {
-      if (!result.ref) {
+      if (!result.artifact) {
         throw new Error('something went wrong');
       }
-      pushRoute(`/user/view/${result.ref.uuid}`);
+      pushRoute(`/user/view/${result.artifact.uuid}`);
     });
 
     return {

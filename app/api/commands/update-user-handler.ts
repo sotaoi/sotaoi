@@ -1,7 +1,7 @@
 import { CommandResult } from '@sotaoi/omni/transactions';
 import { UpdateCommand } from '@sotaoi/api/commands';
 import { db } from '@sotaoi/api/db';
-import { RecordRef } from '@sotaoi/omni/artifacts';
+import { RecordRef, Artifact } from '@sotaoi/omni/artifacts';
 import { UpdateHandler } from '@sotaoi/api/commands/update-handler';
 import { storage } from '@sotaoi/api/storage';
 import { Asset } from '@sotaoi/omni/input';
@@ -54,7 +54,7 @@ class UpdateUserHandler extends UpdateHandler {
         code: 200,
         title: 'Hello',
         msg: 'Command test',
-        ref: new RecordRef('user', command.uuid),
+        artifact: new Artifact('user', command.uuid),
       },
       null,
     );

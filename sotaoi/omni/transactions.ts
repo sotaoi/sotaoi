@@ -87,18 +87,16 @@ class CommandResultSuccess {
   code: number;
   title: string;
   msg: string;
-  ref: null | RecordRef;
+  artifact: null | Artifact;
 
-  constructor(result: { code: number; title: string; msg: string; ref: null | RecordRef }) {
-    if (result.ref !== null && !(result.ref instanceof RecordRef)) {
-      throw new Error(
-        'something went wrong, result.ref should be null or RecordRef and result.artifact should be null or Artifact',
-      );
+  constructor(result: { code: number; title: string; msg: string; artifact: null | Artifact }) {
+    if (result.artifact !== null && !(result.artifact instanceof Artifact)) {
+      throw new Error('something went wrong, result.artifact should be null or Artifact');
     }
     this.code = result.code;
     this.title = result.title;
     this.msg = result.msg;
-    this.ref = result.ref;
+    this.artifact = result.artifact;
   }
 }
 class CommandResult extends BaseCommandResult {

@@ -48,12 +48,12 @@ class RegisterUserForm extends ViewComponent<RegisterUserFormProps> {
     Form.init();
 
     Form.onCommandSuccess(async (result) => {
-      if (!result.ref) {
+      if (!result.artifact) {
         throw new Error('something went wrong');
       }
-      let { authRecord, accessToken } = JSON.parse(result.msg);
-      authRecord = new AuthRecord(authRecord.repository, authRecord.uuid, authRecord.createdAt, authRecord.active);
-      await store().setAuthRecord(authRecord, accessToken);
+      const artifact = result.artifact as AuthRecord;
+      const authRecord = new AuthRecord(artifact.repository, artifact.uuid, artifact.createdAt, artifact.active);
+      await store().setAuthRecord(authRecord, artifact.pocket.accessToken);
     });
 
     React.useEffect(() => (): void => Form.destroy(), []);

@@ -3,7 +3,7 @@ import { CommandResult } from '@sotaoi/omni/transactions';
 import { StoreCommand } from '@sotaoi/api/commands';
 import { db } from '@sotaoi/api/db';
 import { Helper } from '@sotaoi/api/helper';
-import { RecordRef } from '@sotaoi/omni/artifacts';
+import { RecordRef, Artifact } from '@sotaoi/omni/artifacts';
 
 class StorePostHandler extends StoreHandler {
   public getFormId = async (): Promise<string> => 'post-form';
@@ -25,7 +25,7 @@ class StorePostHandler extends StoreHandler {
         code: 200,
         title: 'result',
         msg: 'post added',
-        ref: new RecordRef('post', postUuid),
+        artifact: new Artifact('post', postUuid),
       },
       null,
     );

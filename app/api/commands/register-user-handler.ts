@@ -3,7 +3,7 @@ import { CommandResult } from '@sotaoi/omni/transactions';
 import { StoreCommand } from '@sotaoi/api/commands';
 import { db } from '@sotaoi/api/db';
 import { Helper } from '@sotaoi/api/helper';
-import { RecordRef, AuthRecord } from '@sotaoi/omni/artifacts';
+import { RecordRef, AuthRecord, Artifact } from '@sotaoi/omni/artifacts';
 import { storage } from '@sotaoi/api/storage';
 import { Asset } from '@sotaoi/omni/input';
 
@@ -44,11 +44,7 @@ class RegisterUserHandler extends StoreHandler {
 
     const accessToken = Helper.uuid();
     const user = await db('user').where('uuid', userUuid).first();
-    const authRecord = new AuthRecord('user', userUuid, user.createdAt, true);
-    const auth = JSON.stringify({
-      authRecord,
-      accessToken,
-    });
+    const authRecord = new AuthRecord('user', userUuid, user.createdAt, true, { accessToken });
     // better token encryption needed here
     await db('access-token').insert({
       uuid: Helper.uuid(),
@@ -62,8 +58,8 @@ class RegisterUserHandler extends StoreHandler {
       {
         code: 200,
         title: 'Hello',
-        msg: auth,
-        ref: new RecordRef('user', userUuid),
+        msg: 'You are authenticated',
+        artifact: authRecord,
       },
       null,
     );

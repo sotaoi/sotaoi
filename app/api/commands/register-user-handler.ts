@@ -44,7 +44,7 @@ class RegisterUserHandler extends StoreHandler {
 
     const accessToken = Helper.uuid();
     const user = await db('user').where('uuid', userUuid).first();
-    const authRecord = new AuthRecord('user', userUuid, user.createdAt, true, { accessToken });
+    const authRecord = new AuthRecord('user', userUuid, user.createdAt, true).setPocket({ accessToken });
     // better token encryption needed here
     await db('access-token').insert({
       uuid: Helper.uuid(),

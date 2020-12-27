@@ -31,14 +31,16 @@ class UserView extends ViewComponent<UserViewProps> {
         </section>
         <hr />
         {!!gallery && (
-          <section>
-            gallery:
-            {gallery.map((galleryItem: string, index: number) => (
-              <img key={galleryItem + index} src={galleryItem} style={{ maxWidth: 200, maxHeight: 200 }} />
-            ))}
-          </section>
+          <React.Fragment>
+            <section>
+              gallery:
+              {gallery.map((galleryItem: string, index: number) => (
+                <img key={galleryItem + index} src={galleryItem} style={{ maxWidth: 200, maxHeight: 200 }} />
+              ))}
+            </section>
+            <hr />
+          </React.Fragment>
         )}
-        <hr />
         <section>{JSON.stringify(user)}</section>
       </section>
     );

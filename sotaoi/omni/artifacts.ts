@@ -5,12 +5,17 @@ class Artifact {
   public ref: RecordRef;
   public serial: string;
 
-  constructor(repository: string, uuid: string, pocket = {}) {
+  constructor(repository: string, uuid: string) {
     this.repository = repository;
     this.uuid = uuid;
-    this.pocket = pocket;
+    this.pocket = {};
     this.ref = new RecordRef(repository, uuid);
     this.serial = this.ref.serialize(null);
+  }
+
+  public setPocket(pocket: { [key: string]: any }): this {
+    this.pocket = pocket;
+    return this;
   }
 }
 
@@ -19,14 +24,14 @@ class AuthRecord extends Artifact {
   public active: boolean;
   public pocket: { [key: string]: any };
 
-  constructor(repository: string, uuid: string, createdAt: Date, active: boolean, pocket = {}) {
-    super(repository, uuid, pocket);
+  constructor(repository: string, uuid: string, createdAt: Date, active: boolean) {
+    super(repository, uuid);
 
     this.repository = repository;
     this.uuid = uuid;
     this.createdAt = createdAt;
     this.active = active;
-    this.pocket = pocket;
+    this.pocket = {};
   }
 
   public static deserialize(value: { repository: string; uuid: string; createdAt: Date; active: boolean }): AuthRecord {

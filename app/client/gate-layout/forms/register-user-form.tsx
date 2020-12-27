@@ -1,5 +1,4 @@
 import React from 'react';
-import { pushRoute } from '@sotaoi/client/router';
 import { ViewComponent, ViewData, ViewPromises } from '@sotaoi/client/components';
 import { StoreFormFactory, FormConstructor } from '@sotaoi/client/forms';
 import { RecordEntry, RecordRef, Artifacts, AuthRecord } from '@sotaoi/omni/artifacts';
@@ -9,6 +8,7 @@ import { WebRegisterUserForm } from '@app/client/gate-layout/forms/register-user
 import { MobileRegisterUserForm } from '@app/client/gate-layout/forms/register-user-form/mobile.register-user-form';
 import { InputField } from '@sotaoi/client/forms/fields/input-field';
 import { RefSelectField } from '@sotaoi/client/forms/fields/ref-select-field';
+import { StringSelectField } from '@sotaoi/client/forms/fields/string-select-field';
 import { FileField } from '@sotaoi/client/forms/fields/file-field';
 import { MultiFileField } from '@sotaoi/client/forms/fields/multi-file-field';
 import { getUserStoreFormValidations } from '@app/client/queries/validation-queries';
@@ -34,6 +34,7 @@ class RegisterUserForm extends ViewComponent<RegisterUserFormProps> {
         password: InputField.input(''),
         avatar: FileField.input(null),
         gallery: MultiFileField.input([]),
+        flavor: StringSelectField.input(null),
         address: {
           fields: {
             street: InputField.input(''),

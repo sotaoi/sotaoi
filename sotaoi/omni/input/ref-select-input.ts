@@ -22,7 +22,7 @@ class RefSelectInput extends BaseInput<RefSelectValue, string> {
   }
 
   public isEmpty(): boolean {
-    return false;
+    return !this.value;
   }
 
   public serialize(forStorage: boolean): null | string {

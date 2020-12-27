@@ -100,6 +100,24 @@ const WebRegisterUserForm = (props: { form: StoreForm; countries: RecordEntry[] 
           )}
           <br />
 
+          <label className="block mb-2 text-indigo-500">Flavor</label>
+          {fields.flavor.wasTouched() &&
+            fields.flavor.getErrors().map((error: any, index: any) => (
+              <div key={index} style={{ color: '#ff3333', marginBottom: 10 }}>
+                {error}
+              </div>
+            ))}
+          <fields.flavor.component>
+            <option value="">Want a flavor?</option>
+            {['vanilla', 'chocolate', 'hazelnuts', 'melon'].map((flavor, index) => (
+              <option key={flavor + index} value={flavor}>
+                {flavor}
+              </option>
+            ))}
+          </fields.flavor.component>
+          <br />
+          <br />
+
           <section>
             {address.street.wasTouched() &&
               address.street.getErrors().map((error: any, index: any) => (

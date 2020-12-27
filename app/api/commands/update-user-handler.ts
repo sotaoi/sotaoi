@@ -40,8 +40,8 @@ class UpdateUserHandler extends UpdateHandler {
     await db('user')
       .update({
         email: email.serialize(true),
-        avatar: avatar ? avatarAsset.serialize(true) : null,
-        gallery: gallery ? Asset.serializeMulti(galleryAssets) : null,
+        avatar: avatarAsset.serialize(true),
+        gallery: Asset.serializeMulti(galleryAssets),
       })
       .where('uuid', command.uuid);
 

@@ -56,7 +56,11 @@ const WebUpdateUserForm = (props: { form: UpdateForm; countries: RecordEntry[] }
         <fields.avatar.component
           className={'w-full p-2 mb-6 text-black border-b-2 border-green-500 outline-none focus:bg-gray-300'}
         />
-        {!fields.avatar.isEmpty() && <button onClick={(): void => fields.avatar.clear()}>Remove</button>}
+        {!fields.avatar.isEmpty() && (
+          <button onClick={(): void => fields.avatar.clear()} type={'button'}>
+            Remove
+          </button>
+        )}
         {fields.avatar.getPreview() && (
           <div>
             <img src={fields.avatar.getPreview()} style={{ maxWidth: 200, maxHeight: 200 }} />
@@ -73,7 +77,11 @@ const WebUpdateUserForm = (props: { form: UpdateForm; countries: RecordEntry[] }
         <fields.gallery.component
           className={'w-full p-2 mb-6 text-black border-b-2 border-green-500 outline-none focus:bg-gray-300'}
         />
-        {!fields.gallery.isEmpty() && <button onClick={(): void => fields.gallery.clear()}>Remove</button>}
+        {!fields.gallery.isEmpty() && (
+          <button onClick={(): void => fields.gallery.clear()} type={'button'}>
+            Remove
+          </button>
+        )}
         {!!fields.gallery.getPreviews().length && (
           <div>
             {fields.gallery.getPreviews().map((preview, index) => (

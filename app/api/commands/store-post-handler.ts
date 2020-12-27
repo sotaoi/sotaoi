@@ -21,8 +21,9 @@ class StorePostHandler extends StoreHandler {
       title: title.serialize(true),
       content: content.serialize(true),
       image: imageAsset?.serialize(true) || null,
-      createdBy: new RecordRef('user', JSON.parse(user.value).uuid).serialize(null),
-      category: new RecordRef('category', category.value.uuid).serialize(null),
+
+      createdBy: user.serialize(true),
+      category: category.serialize(true),
     });
     saveImage();
     return new CommandResult(

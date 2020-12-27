@@ -31,7 +31,6 @@ export async function seed(dbConnection: any): Promise<void> {
   const addressUuids: string[] = [];
   const countryUuids: string[] = [];
   const userUuids: string[] = [];
-  const postUuids: string[] = [];
   const categoryUuids: string[] = [];
 
   const nrCountries = 4,
@@ -42,7 +41,6 @@ export async function seed(dbConnection: any): Promise<void> {
   fillUuid(countryUuids, nrCountries);
   fillUuid(addressUuids, nrAddresses);
   fillUuid(userUuids, nrUsers);
-  fillUuid(postUuids, nrPosts);
   fillUuid(categoryUuids, nrCategories);
 
   for (let i = 0; i < nrCountries; i++) {
@@ -59,20 +57,12 @@ export async function seed(dbConnection: any): Promise<void> {
     });
   }
 
-  for (let i = 0; i < nrPosts; i++) {
-    posts.push({
-      uuid: postUuids[i],
-      title: 'POST NR#' + i,
-      content: 'A test post is still a post #',
-      createdBy: JSON.stringify({ repository: 'user', uuid: _.sample(userUuids) }),
-      category: JSON.stringify({ repository: 'category', uuid: _.sample(categoryUuids) }),
-    });
-  }
   await dbConnection('user').insert({
     uuid: userUuids[0],
     email: emailValue,
     password: passwordValue,
     address: JSON.stringify({ repository: 'address', uuid: _.sample(addressUuids) }),
+    avatar: null,
   });
 
   await dbConnection('country').insert(countries);

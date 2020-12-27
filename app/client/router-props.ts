@@ -16,9 +16,10 @@ import { UserRoute } from '@app/client/main-layout/routes/user-route';
 import { UpdateUserRoute } from '@app/client/main-layout/routes/update-user-route';
 import { TaskUserRoute } from '@app/client/main-layout/routes/task-user-route';
 import { StorePostRoute } from '@app/client/main-layout/routes/store-post-route';
-import { HomeUserRoute } from '@app/client/main-layout/views/home-user-route';
+import { HomeUserRoute } from '@app/client/main-layout/routes/home-user-route';
 //
-// import { createStore } from 'redux';
+import { createStore } from 'redux';
+import { AboutRoute } from './main-layout/routes/about-route';
 
 // // custom redux store is working
 // const reduxStore = createStore((state: { [key: string]: any } = {}, action: any) => {
@@ -54,8 +55,8 @@ const routerProps: RouterProps = {
       layout: MainLayout,
       routes: {
         '!/': HomeRoute,
-        '/user/profile': HomeUserRoute,
-        '/post/list/all': PostsRoute,
+        '/user/profile/{uuid}': HomeUserRoute,
+        '/post/list/all(/filter})?': PostsRoute,
         '/post/view/{uuid}': PostRoute,
         '/post/store': StorePostRoute,
         // '/post/store({/filter})?': StorePostRoute,
@@ -63,6 +64,7 @@ const routerProps: RouterProps = {
         '/user/view/{uuid}': UserRoute,
         '/user/edit/{uuid}': UpdateUserRoute,
         '/user/hello-task': TaskUserRoute,
+        '/user/about': AboutRoute,
       },
       condition: (): boolean => {
         if (!store().getAuthRecord()) {

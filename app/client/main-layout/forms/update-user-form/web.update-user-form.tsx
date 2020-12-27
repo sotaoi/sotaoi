@@ -40,7 +40,7 @@ const WebUpdateUserForm = (props: { form: UpdateForm; countries: RecordEntry[] }
         {/* tailwind example */}
         <fields.email.component
           className={
-            'px-3 py-3 placeholder-gray-400 text-gray-700 relative bg-white bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline'
+            'px-3 py-3 placeholder-gray-400 text-gray-700 relativ bg-white rounded text-sm shadow outline-none focus:outline-none focus:shadow-outline'
           }
           placeholder={'email'}
         />

@@ -24,7 +24,7 @@ class UsersView extends ViewComponent<NoProps> {
         <h3>Users displayed here</h3>
         {userList.map((user: any) => {
           return (
-            <Link key={user.record.uuid} to={`/user/view/${user.record.uuid}`}>
+            <Link key={user.record.uuid} to={`/user/profile/${user.record.uuid}`}>
               <section style={{ margin: '30px' }}>
                 <p>uuid: {user.record.uuid}</p>
                 email: {user.record.email}

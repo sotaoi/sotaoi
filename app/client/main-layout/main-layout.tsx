@@ -25,7 +25,7 @@ const MainLayout = (props: LayoutProps): React.ReactElement => {
               <Link to={'/user/list/all'}>Users</Link>
             </span>
             <span className={'text-lg no-underline text-grey-darkest hover:text-blue-dark ml-3'}>
-              <Link to={'/user/profile'}>Profile/About</Link>
+              <Link to={'/user/about'}>Profile/About</Link>
             </span>
             <span className={'text-lg no-underline text-grey-darkest hover:text-blue-dark ml-3'}>
               <Link to={'/post/store'}>Add post</Link>

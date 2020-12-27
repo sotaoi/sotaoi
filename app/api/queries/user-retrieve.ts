@@ -2,6 +2,7 @@ import { RetrieveHandler } from '@sotaoi/api/queries/retrieve-handler';
 import { RetrieveResult } from '@sotaoi/omni/transactions';
 import { Retrieve } from '@sotaoi/omni/transactions';
 import { db } from '@sotaoi/api/db';
+import { storage } from '@sotaoi/api/storage';
 
 class UserRetrieve extends RetrieveHandler {
   public async handle(retrieve: Retrieve): Promise<RetrieveResult> {
@@ -9,6 +10,12 @@ class UserRetrieve extends RetrieveHandler {
       const user = await db('user').where('uuid', retrieve.uuid).first();
       delete user.password;
       user.address = await db('address').where('uuid', JSON.parse(user.address).uuid).first();
+      // const avatar = user.avatar;
+      // const [avatarImage, avatarAsset, cancelAvatar] = storage('main').handle(
+      //   { domain: 'public', pathname: ['user', user.uuid, 'avatar.png'].join('/') },
+      //   avatar,
+      // );
+
       if (!user.address) {
         throw new Error('failed to fetch address for user');
       }

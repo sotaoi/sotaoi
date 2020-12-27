@@ -2,19 +2,16 @@ import React from 'react';
 import { StoreForm } from '@sotaoi/client/forms/form-classes/store-form';
 import { BaseField } from '@sotaoi/client/forms';
 import { RecordEntry } from '@sotaoi/omni/artifacts';
+import { FileField } from '@sotaoi/client/forms/fields/file-field';
 
 interface FieldState {
   [key: string]: BaseField<any>;
+  image: FileField;
 }
-const WebStorePostForm = (props: {
-  form: StoreForm;
-  categories: RecordEntry[];
-  users: RecordEntry[];
-}): null | React.ReactElement => {
+const WebStorePostForm = (props: { form: StoreForm; categories: RecordEntry[] }): null | React.ReactElement => {
   const Form = props.form;
   const fields = Form.getFields<FieldState>();
   const categories = props.categories;
-  const users = props.users;
 
   return (
     <section>
@@ -66,18 +63,7 @@ const WebStorePostForm = (props: {
                   {error}
                 </div>
               ))}
-            <fields.user.component
-              className={
-                'rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-blue-500 text-base pl-3 pr-10'
-              }
-            >
-              {users.map((user: RecordEntry) => (
-                <option key={user.uuid} value={JSON.stringify({ repository: 'user', uuid: user.uuid })}>
-                  {user.email}
-                </option>
-              ))}
-            </fields.user.component>
-            <br />
+            <label className={'leading-7 text-sm text-gray-600'}>Category</label>
 
             {fields.category.wasTouched() &&
               fields.category.getErrors().map((error, index) => (
@@ -85,6 +71,7 @@ const WebStorePostForm = (props: {
                   {error}
                 </div>
               ))}
+
             <fields.category.component
               className={
                 'rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-blue-500 text-base pl-3 pr-10'
@@ -96,6 +83,25 @@ const WebStorePostForm = (props: {
                 </option>
               ))}
             </fields.category.component>
+            <br />
+            <label className={'leading-7 text-sm text-gray-600'}>Image</label>
+            {fields.image.wasTouched() &&
+              fields.image.getErrors().map((error: any, index: any) => (
+                <div key={index} style={{ color: '#ff3333', marginBottom: 10 }}>
+                  {error}
+                </div>
+              ))}
+            <fields.image.component
+              className={
+                'rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-blue-500 text-base pl-3 pr-10'
+              }
+            />
+            {fields.image.getPreview() && (
+              <div>
+                <img src={fields.image.getPreview()} />
+              </div>
+            )}
+            <br />
 
             <br />
             <button

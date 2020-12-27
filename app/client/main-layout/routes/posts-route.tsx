@@ -1,13 +1,13 @@
 import React from 'react';
 import { ViewComponent, ViewData, ViewPromises } from '@sotaoi/client/components';
 import { RecordEntry, RecordRef } from '@sotaoi/omni/artifacts';
-import { getAllPostsQuery } from '@app/client/queries/post-queries';
 import { getAllCategoriesQuery } from '@app/client/queries/category-queries';
 import _ from 'lodash';
 import { PostComponent } from '@app/client/components/post-component';
-import { ScrollView } from 'react-native-gesture-handler';
-import { View, Text } from 'react-native';
-import { tailwind } from '@sotaoi/client/components/styles';
+import { Link } from '@sotaoi/client/router';
+import { Helper } from '@sotaoi/client/helper';
+import { getAllPostsQuery } from '@app/client/queries/post-queries';
+import { PostCardView } from '@app/client/components/post-card-view';
 
 // michael::TODO figure out how to display the category on a post with a ref
 interface NoProps {}
@@ -37,7 +37,7 @@ class PostsRoute extends ViewComponent<NoProps> {
       categories,
     };
   }
-
+  //to-do fix grid view ratios
   public web(data: ViewData<NoProps>): null | React.ReactElement {
     const { posts, categories } = this.init(data);
     return (
@@ -46,14 +46,12 @@ class PostsRoute extends ViewComponent<NoProps> {
           <div className="flex flex-wrap -m-4">
             {posts.map((post: any) => {
               return (
-                <PostComponent
-                  key={post.record.uuid}
-                  title={post.record.title}
+                <PostCardView
                   uuid={post.record.uuid}
-                  category={
-                    _.find(categories, { record: { uuid: JSON.parse(post.record.category).uuid } })?.record.name
-                  }
+                  title={post.record.title}
                   createdAt={post.record.createdAt}
+                  category={post.record.category}
+                  image={post.record.image}
                 />
               );
             })}

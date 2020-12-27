@@ -5,11 +5,13 @@ import { StoreFormFactory, FormConstructor } from '@sotaoi/client/forms';
 import { RecordEntry, RecordRef, Artifacts } from '@sotaoi/omni/artifacts';
 import { StoreForm } from '@sotaoi/client/forms/form-classes/store-form';
 import { WebStorePostForm } from '@app/client/main-layout/forms/store-post-form/web.store-post-form';
-import { getAllUsersQuery } from '@app/client/queries/user-queries';
 import { getAllCategoriesQuery } from '@app/client/queries/category-queries';
 import { InputField } from '@sotaoi/client/forms/fields/input-field';
 import { RefSelectField } from '@sotaoi/client/forms/fields/ref-select-field';
 import { getPostFormValidations } from '@app/client/queries/validation-queries';
+import { FileField } from '@sotaoi/client/forms/fields/file-field';
+import { store } from '@sotaoi/client/store';
+import { TextField } from '@sotaoi/client/forms/fields/text-field';
 
 interface StorePostFormProps {
   filters?: { [key: string]: any };
@@ -18,23 +20,20 @@ class StorePostForm extends ViewComponent<StorePostFormProps> {
   public promises(): ViewPromises<StorePostFormProps> {
     return {
       categories: getAllCategoriesQuery(),
-      users: getAllUsersQuery(),
       validations: getPostFormValidations(),
     };
   }
 
-  public init({
-    results,
-    props,
-  }: ViewData<StorePostFormProps>): { form: StoreForm; categories: RecordEntry[]; users: RecordEntry[] } {
+  public init({ results, props }: ViewData<StorePostFormProps>): { form: StoreForm; categories: RecordEntry[] } {
     const categories = results.categories.result.records;
-    const users = results.users.result.records;
+    const userUuid = store().getAuthRecord()?.uuid;
     const storePostFormConstructor = FormConstructor(
       {
         title: InputField.input(''),
-        content: InputField.input(''),
+        content: TextField.input(''),
         category: RefSelectField.input(new RecordRef('category', categories[0].uuid)),
-        user: RefSelectField.input(new RecordRef('user', users[0].uuid)),
+        user: InputField.input(new RecordRef('user', userUuid ?? '').serialize(null)),
+        image: FileField.input(null),
       },
       results.validations,
     );
@@ -51,12 +50,12 @@ class StorePostForm extends ViewComponent<StorePostFormProps> {
 
     React.useEffect(() => (): void => Form.destroy(), []);
 
-    return { form: Form, categories, users };
+    return { form: Form, categories };
   }
 
   public web(data: ViewData<StorePostFormProps>): null | React.ReactElement {
-    const { form, categories, users } = this.init(data);
-    return <WebStorePostForm form={form} categories={categories} users={users} />;
+    const { form, categories } = this.init(data);
+    return <WebStorePostForm form={form} categories={categories} />;
   }
 
   public mobile(data: ViewData<StorePostFormProps>): null | React.ReactElement {

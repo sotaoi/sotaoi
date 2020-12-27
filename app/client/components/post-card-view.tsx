@@ -1,40 +1,38 @@
 import React from 'react';
 import { ViewComponent, ViewData, ViewPromises } from '@sotaoi/client/components';
 import _ from 'lodash';
-import { Link } from '@sotaoi/client/router';
-import { getPost } from '../queries/post-queries';
-import { storage } from '@sotaoi/api/storage';
 import { DateComponent } from './post-components/date-component';
 import { PostLink } from './post-components/post-link';
 
 interface ViewComponentProps {
   uuid: string;
+  category: string;
+  title: string;
+  createdAt: string;
+  image: string;
 }
 //
-class PostComponent extends ViewComponent<ViewComponentProps> {
+class PostCardView extends ViewComponent<ViewComponentProps> {
   promises(): ViewPromises<ViewComponentProps> {
-    return {
-      post: getPost(),
-    };
+    return {};
   }
-  public web({ results }: ViewData<ViewComponentProps>): null | React.ReactElement {
-    const post = results.post.result.record;
+  public web({ results, props }: ViewData<ViewComponentProps>): null | React.ReactElement {
     return (
       <>
-        <div key={post.uuid} className={'flex-1 lg:w-1/2 p-4 md:w-1/3'}>
+        <div key={props.uuid} className={'flex-1 lg:w-1/2 p-4 md:w-1/3'}>
           <div className="border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
             <img
               className="lg:h-48 md:h-36 w-full object-cover object-center"
-              src={`${this.asset(post.image)}`}
+              src={`${this.asset(props.image)}`}
               alt="blog"
             />
 
             <div className="p-6">
-              <h2 className="tracking-widest text-xs title-font font-medium text-gray-500 mb-1">#{post.category}</h2>
-              <h1 className="title-font text-lg font-medium text-gray-900 mb-3">{post.title}</h1>
-              <DateComponent date={post.createdAt} />
+              <h2 className="tracking-widest text-xs title-font font-medium text-gray-500 mb-1">#{props.category}</h2>
+              <h1 className="title-font text-lg font-medium text-gray-900 mb-3">{props.title}</h1>
+              <DateComponent date={props.createdAt} />
               <div className="flex items-center flex-wrap ">
-                <PostLink postUuid={post.uuid} linkText={'Read More'} />{' '}
+                <PostLink postUuid={props.uuid} linkText={'Read More'} />{' '}
               </div>
             </div>
           </div>
@@ -52,4 +50,4 @@ class PostComponent extends ViewComponent<ViewComponentProps> {
   }
 }
 
-export { PostComponent };
+export { PostCardView };

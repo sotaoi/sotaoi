@@ -4,21 +4,27 @@ import { StoreCommand } from '@sotaoi/api/commands';
 import { db } from '@sotaoi/api/db';
 import { Helper } from '@sotaoi/api/helper';
 import { RecordRef, Artifact } from '@sotaoi/omni/artifacts';
+import { storage } from '@sotaoi/api/storage';
 
 class StorePostHandler extends StoreHandler {
   public getFormId = async (): Promise<string> => 'post-form';
 
   public async handle(command: StoreCommand): Promise<CommandResult> {
-    const { title, content, user, category } = command.payload;
+    const { title, content, user, category, image } = command.payload;
     const postUuid = Helper.uuid();
+    const [saveImage, imageAsset, cancelImage] = storage('main').handle(
+      { domain: 'public', pathname: ['post', postUuid, 'image.png'].join('/') },
+      image,
+    );
     await db('post').insert({
       uuid: postUuid,
       title: title.serialize(true),
       content: content.serialize(true),
-      createdBy: new RecordRef('user', user.value.uuid).serialize(null),
+      image: imageAsset?.serialize(true) || null,
+      createdBy: new RecordRef('user', JSON.parse(user.value).uuid).serialize(null),
       category: new RecordRef('category', category.value.uuid).serialize(null),
     });
-
+    saveImage();
     return new CommandResult(
       true,
       {

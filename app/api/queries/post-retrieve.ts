@@ -8,13 +8,6 @@ class PostRetrieve extends RetrieveHandler {
   public async handle(retrieve: Retrieve): Promise<RetrieveResult> {
     try {
       const post = await db('post').where('uuid', retrieve.uuid).first();
-      const image = JSON.parse(post.image);
-      console.log(image);
-      // const [saveImage, imageAsset, cancelImage] = storage('main').handle(
-      //   { domain: 'public', pathname: ['post', post.uuid, 'image.png'].join('/') },
-      //   image,
-      // );
-      // post.image = `/api/storage/${imageAsset.drive}/assets/${imageAsset.domain}/${imageAsset.pathname}`;
       const category = await db('category').where('uuid', JSON.parse(post.category).uuid).first();
       post.category = category.name;
       const user = await db('user').where('uuid', JSON.parse(post.createdBy).uuid).first();

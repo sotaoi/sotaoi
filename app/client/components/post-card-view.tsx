@@ -3,6 +3,7 @@ import { ViewComponent, ViewData, ViewPromises } from '@sotaoi/client/components
 import _ from 'lodash';
 import { DateComponent } from './post-components/date-component';
 import { PostLink } from './post-components/post-link';
+import { Category } from './post-components/category';
 
 interface ViewComponentProps {
   uuid: string;
@@ -28,7 +29,7 @@ class PostCardView extends ViewComponent<ViewComponentProps> {
             />
 
             <div className="p-6">
-              <h2 className="tracking-widest text-xs title-font font-medium text-gray-500 mb-1">#{props.category}</h2>
+              <Category categoryName={props.category} />
               <h1 className="title-font text-lg font-medium text-gray-900 mb-3">{props.title}</h1>
               <DateComponent date={props.createdAt} />
               <div className="flex items-center flex-wrap ">

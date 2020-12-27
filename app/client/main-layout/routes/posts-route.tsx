@@ -45,15 +45,7 @@ class PostsRoute extends ViewComponent<NoProps> {
         <div className="container px-5 py-24 mx-auto">
           <div className="flex flex-wrap -m-4">
             {posts.map((post: any) => {
-              return (
-                <PostCardView
-                  uuid={post.record.uuid}
-                  title={post.record.title}
-                  createdAt={post.record.createdAt}
-                  category={post.record.category}
-                  image={post.record.image}
-                />
-              );
+              return <PostComponent uuid={post.record.uuid} />;
             })}
           </div>
         </div>

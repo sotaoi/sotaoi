@@ -1,11 +1,9 @@
 import React from 'react';
 import { ViewComponent, ViewData, ViewPromises } from '@sotaoi/client/components';
 import _ from 'lodash';
-import { Link } from '@sotaoi/client/router';
 import { getPost } from '../queries/post-queries';
-import { storage } from '@sotaoi/api/storage';
-import { DateComponent } from './post-components/date-component';
-import { PostLink } from './post-components/post-link';
+
+import { PostCardView } from './post-card-view';
 
 interface ViewComponentProps {
   uuid: string;
@@ -21,24 +19,13 @@ class PostComponent extends ViewComponent<ViewComponentProps> {
     const post = results.post.result.record;
     return (
       <>
-        <div key={post.uuid} className={'flex-1 lg:w-1/2 p-4 md:w-1/3'}>
-          <div className="border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
-            <img
-              className="lg:h-48 md:h-36 w-full object-cover object-center"
-              src={`${this.asset(post.image)}`}
-              alt="blog"
-            />
-
-            <div className="p-6">
-              <h2 className="tracking-widest text-xs title-font font-medium text-gray-500 mb-1">#{post.category}</h2>
-              <h1 className="title-font text-lg font-medium text-gray-900 mb-3">{post.title}</h1>
-              <DateComponent date={post.createdAt} />
-              <div className="flex items-center flex-wrap ">
-                <PostLink postUuid={post.uuid} linkText={'Read More'} />{' '}
-              </div>
-            </div>
-          </div>
-        </div>
+        <PostCardView
+          uuid={post.uuid}
+          title={post.title}
+          createdAt={post.createdAt}
+          category={post.category}
+          image={post.image}
+        />
       </>
     );
   }

@@ -1,4 +1,4 @@
-import { FlistFilters, QueryResult } from '@sotaoi/omni/transactions';
+import { FlistFilters, QueryResult, RetrieveResult } from '@sotaoi/omni/transactions';
 import { Action } from '@sotaoi/client/action';
 import { Helper } from '@sotaoi/client/helper';
 import { RequestAbortHandler } from '@sotaoi/client/components';
@@ -13,8 +13,8 @@ const getAllCategoriesQuery = () => {
     return Action.flistQuery(store().getAccessToken(), null, 'category', 'get-all', filters, requestAbortHandler);
   };
 };
-const getCategory = (props: { [key: string]: any }, requestAbortHandler: RequestAbortHandler) => {
-  return (props: { [key: string]: any }): Promise<any> =>
+const getCategory = () => {
+  return (props: { [key: string]: any }, requestAbortHandler: RequestAbortHandler): Promise<RetrieveResult> =>
     Action.retrieve(store().getAccessToken(), 'public', 'category', props.uuid, null, requestAbortHandler);
 };
 

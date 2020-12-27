@@ -15,8 +15,8 @@ class StorePostHandler extends StoreHandler {
       uuid: postUuid,
       title: title.serialize(true),
       content: content.serialize(true),
-      createdBy: new RecordRef('user', user.value.uuid).serialize(null),
-      category: new RecordRef('category', category.value.uuid).serialize(null),
+      createdBy: user.serialize(true),
+      category: category.serialize(true),
     });
 
     return new CommandResult(

@@ -1,21 +1,21 @@
 import React from 'react';
 import { ViewComponent, ViewData, ViewPromises } from '@sotaoi/client/components';
 import _ from 'lodash';
+import { getCategory } from '@app/client/queries/category-queries';
 
 interface ViewComponentProps {
-  content: string;
+  labelText: string;
+  className: string;
 }
 //
-class Content extends ViewComponent<ViewComponentProps> {
+class Label extends ViewComponent<ViewComponentProps> {
   promises(): ViewPromises<ViewComponentProps> {
     return {};
   }
   public web({ results, props }: ViewData<ViewComponentProps>): null | React.ReactElement {
-    props.content.replace(/(?:\r\n|\r|\n)/g, '{""}');
-
     return (
       <>
-        <p className="max-w-lg m-auto leading-loose mb-6 text-left">{props.content}</p>
+        <label className={props.className}>{props.labelText}</label>
       </>
     );
   }
@@ -29,4 +29,4 @@ class Content extends ViewComponent<ViewComponentProps> {
   }
 }
 
-export { Content };
+export { Label };

@@ -19,7 +19,6 @@ class PostView extends ViewComponent<ViewComponentProps> {
   public web({ results, props }: ViewData<ViewComponentProps>): null | React.ReactElement {
     const post = results.post.result.record;
 
-    post.content.replace(/(?:\r\n|\r|\n)/g, '{""}');
     console.log(post.category);
     return (
       <section

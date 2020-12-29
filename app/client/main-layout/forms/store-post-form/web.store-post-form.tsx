@@ -3,6 +3,7 @@ import { StoreForm } from '@sotaoi/client/forms/form-classes/store-form';
 import { BaseField } from '@sotaoi/client/forms';
 import { RecordEntry } from '@sotaoi/omni/artifacts';
 import { FileField } from '@sotaoi/client/forms/fields/file-field';
+import { Label } from '@app/client/components/form-components/label';
 
 interface FieldState {
   [key: string]: BaseField<any>;
@@ -25,7 +26,7 @@ const WebStorePostForm = (props: { form: StoreForm; categories: RecordEntry[] })
               'lg:w-1/6 md:w-1/2 bg-white rounded-lg p-8 flex flex-col md:ml-auto w-full mt-10 md:mt-0 relative z-10'
             }
           >
-            <label className={'leading-7 text-sm text-gray-600'}>Title</label>
+            <Label className={'leading-7 text-sm text-gray-600'} labelText={'Title'} />
 
             {fields.title.wasTouched() &&
               fields.title.getErrors().map((error, index) => (
@@ -40,7 +41,7 @@ const WebStorePostForm = (props: { form: StoreForm; categories: RecordEntry[] })
               type={'title'}
               placeholder={'title'}
             />
-            <label className={'leading-7 text-sm text-gray-600'}>Content</label>
+            <Label className={'leading-7 text-sm text-gray-600'} labelText={'Content'} />
 
             {fields.content.wasTouched() &&
               fields.content.getErrors().map((error, index) => (
@@ -63,7 +64,7 @@ const WebStorePostForm = (props: { form: StoreForm; categories: RecordEntry[] })
                   {error}
                 </div>
               ))}
-            <label className={'leading-7 text-sm text-gray-600'}>Category</label>
+            <Label className={'leading-7 text-sm text-gray-600'} labelText={'Category'} />
 
             {fields.category.wasTouched() &&
               fields.category.getErrors().map((error, index) => (
@@ -84,7 +85,7 @@ const WebStorePostForm = (props: { form: StoreForm; categories: RecordEntry[] })
               ))}
             </fields.category.component>
             <br />
-            <label className={'leading-7 text-sm text-gray-600'}>Image</label>
+            <Label className={'leading-7 text-sm text-gray-600'} labelText={'Image'} />
             {fields.image.wasTouched() &&
               fields.image.getErrors().map((error: any, index: any) => (
                 <div key={index} style={{ color: '#ff3333', marginBottom: 10 }}>

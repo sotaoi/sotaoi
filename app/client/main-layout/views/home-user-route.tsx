@@ -15,10 +15,10 @@ const HomeUserRoute = (): null | React.ReactElement => {
               <div
                 className={'absolute top-0 w-full h-full max-h-50 bg-center bg-cover'}
                 style={{
-                  backgroundImage: `url('background.jpg')`,
+                  backgroundImage: "url('background.jpg')",
                 }}
               >
-                <span id={'blackOverlay'} className={'w-full h-full absolute opacity-20 bg-black'}></span>
+                <span id={'blackOverlay'} className={'w-full h-full absolute opacity-30 bg-black'}></span>
               </div>
               <div
                 className={'top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden'}
@@ -81,9 +81,7 @@ const HomeUserRoute = (): null | React.ReactElement => {
                       <div className={'flex flex-wrap justify-center'}>
                         <div className={'w-full lg:w-9/12 px-4'}>
                           <p className={'mb-4 text-lg leading-relaxed text-gray-800'}>Bio Section</p>
-                          <a className={'font-normal text-pink-500'} onClick={(e): any => e.preventDefault()}>
-                            Show more
-                          </a>
+                          <a className={'font-normal text-pink-500'}>Show more</a>
                         </div>
                       </div>
                     </div>

@@ -49,7 +49,9 @@ abstract class BaseField<ValueType, ComponentProps = any, ComponentState = any> 
   public touched: boolean;
   public _ref: null | BaseComponent<ValueType, ComponentProps, ComponentState>;
 
-  public component: typeof React.Component;
+  public component:
+    | React.ComponentClass<ComponentProps | { [key: string]: any }>
+    | React.FunctionComponent<ComponentProps | { [key: string]: any }>;
 
   constructor(
     name: string,
@@ -88,7 +90,7 @@ abstract class BaseField<ValueType, ComponentProps = any, ComponentState = any> 
     };
 
     this.component = class extends React.Component<ComponentProps> {
-      public render(): any {
+      public render(): null | React.ReactElement {
         return (
           <Component
             ref={(ref): null | BaseComponent<ValueType, ComponentProps, ComponentState> => ref && (self._ref = ref)}
@@ -97,7 +99,7 @@ abstract class BaseField<ValueType, ComponentProps = any, ComponentState = any> 
           />
         );
       }
-    };
+    } as any;
   }
 
   public asset(item: null | string, role = 'assets'): null | string {

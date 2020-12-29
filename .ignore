@@ -4,6 +4,7 @@
 !.env.development
 !.env.testing
 !.env.local
+!todo.txt
 var/build/release
 package-lock.json
 yarn.lock

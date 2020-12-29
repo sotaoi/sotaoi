@@ -9,11 +9,11 @@ interface FieldState {
   [key: string]: BaseField<any>;
   image: FileField;
 }
-const WebStorePostForm = (props: { form: StoreForm; categories: RecordEntry[] }): null | React.ReactElement => {
+const WebUpdatePostForm = (props: { form: StoreForm; categories: RecordEntry[] }): null | React.ReactElement => {
   const Form = props.form;
   const fields = Form.getFields<FieldState>();
   const categories = props.categories;
-
+  console.log(fields);
   return (
     <section>
       {/* <Link to={'/post/store' + Helper.encodeSegment({ category: 'poetry' })}>filter test</Link> */}
@@ -57,13 +57,6 @@ const WebStorePostForm = (props: { form: StoreForm; categories: RecordEntry[] })
               placeholder={'content'}
             />
             <br />
-
-            {fields.user.wasTouched() &&
-              fields.user.getErrors().map((error, index) => (
-                <div key={index} style={{ color: '#ff3333', marginBottom: 10 }}>
-                  {error}
-                </div>
-              ))}
             <Label className={'leading-7 text-sm text-gray-600'} labelText={'Category'} />
 
             {fields.category.wasTouched() &&
@@ -85,7 +78,7 @@ const WebStorePostForm = (props: { form: StoreForm; categories: RecordEntry[] })
               ))}
             </fields.category.component>
             <br />
-            <Label className={'leading-7 text-sm text-gray-600'} labelText={'Title'} />
+            <Label className={'leading-7 text-sm text-gray-600'} labelText={'Image'} />
             {fields.image.wasTouched() &&
               fields.image.getErrors().map((error: any, index: any) => (
                 <div key={index} style={{ color: '#ff3333', marginBottom: 10 }}>
@@ -131,4 +124,4 @@ const WebStorePostForm = (props: { form: StoreForm; categories: RecordEntry[] })
   );
 };
 
-export { WebStorePostForm };
+export { WebUpdatePostForm };

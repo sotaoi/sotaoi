@@ -23,7 +23,7 @@ class PostComponent extends ViewComponent<ViewComponentProps> {
           uuid={post.uuid}
           title={post.title}
           createdAt={post.createdAt}
-          category={post.category}
+          category={post.categoryName}
           image={post.image}
         />
       </>

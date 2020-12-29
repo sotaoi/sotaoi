@@ -20,6 +20,7 @@ import { HomeUserRoute } from '@app/client/main-layout/routes/home-user-route';
 //
 import { createStore } from 'redux';
 import { AboutRoute } from './main-layout/routes/about-route';
+import { UpdatePostRoute } from './main-layout/routes/update-post-route';
 
 // // custom redux store is working
 // const reduxStore = createStore((state: { [key: string]: any } = {}, action: any) => {
@@ -59,6 +60,8 @@ const routerProps: RouterProps = {
         '/post/list/all(/filter})?': PostsRoute,
         '/post/view/{uuid}': PostRoute,
         '/post/store': StorePostRoute,
+        '/post/edit/{uuid}': UpdatePostRoute,
+
         // '/post/store({/filter})?': StorePostRoute,
         '/user/list/all': UsersRoute,
         '/user/view/{uuid}': UserRoute,

@@ -3,7 +3,7 @@ import { CommandResult } from '@sotaoi/omni/transactions';
 import { StoreCommand } from '@sotaoi/api/commands';
 import { db } from '@sotaoi/api/db';
 import { Helper } from '@sotaoi/api/helper';
-import { RecordRef, Artifact } from '@sotaoi/omni/artifacts';
+import { Artifact } from '@sotaoi/omni/artifacts';
 import { storage } from '@sotaoi/api/storage';
 
 class StorePostHandler extends StoreHandler {

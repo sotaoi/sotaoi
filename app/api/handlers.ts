@@ -10,6 +10,7 @@ import { AllPostsQuery } from '@app/api/queries/all-posts-query';
 import { AllCategoriesQuery } from '@app/api/queries/all-categories-query';
 import { StorePostHandler } from '@app/api/commands/store-post-handler';
 import { CategoryRetrieve } from '@app/api/queries/category-retrieve';
+import { UpdatePostHandler } from './commands/update-post-handler';
 
 const handlers = {
   country: {
@@ -17,6 +18,7 @@ const handlers = {
   },
   post: {
     store: StorePostHandler,
+    update: UpdatePostHandler,
     query: { 'get-all': AllPostsQuery },
     retrieve: PostRetrieve,
   },

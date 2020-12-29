@@ -27,10 +27,16 @@ const getPostFormValidations = () => {
     post['post-form']();
 };
 
+const getPostUpdateFormValidations = () => {
+  return (props: { [key: string]: any }, requestAbortHandler: RequestAbortHandler): Promise<FormValidations> =>
+    post['post-update-form']();
+};
+
 export {
   getAuthUserFormValidations,
   getUserStoreFormValidations,
   getUserUpdateFormValidations,
   getUserHelloTaskValidations,
   getPostFormValidations,
+  getPostUpdateFormValidations,
 };

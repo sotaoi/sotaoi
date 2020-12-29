@@ -8,6 +8,8 @@ import {
   FileInput,
   MultiFileInput,
   StringSelectInput,
+  OptionsSelectInput,
+  BooleanInput,
 } from '@sotaoi/omni/input';
 import { AuthRecord, RecordRef } from '@sotaoi/omni/artifacts';
 import { db } from '@sotaoi/api/db';
@@ -37,6 +39,8 @@ class ApiInit {
     Output.registerInput(MultiFileInput);
     Output.registerInput(RefSelectInput);
     Output.registerInput(StringSelectInput);
+    Output.registerInput(OptionsSelectInput);
+    Output.registerInput(BooleanInput);
   }
 
   // translate access token

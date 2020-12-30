@@ -16,7 +16,6 @@ class UserAboutView extends ViewComponent<UserViewProps> {
 
   public web({ results, props }: ViewData<UserViewProps>): null | React.ReactElement {
     const user = results.user.result.record;
-    // console.log(store());
     const avatar = this.asset(user.avatar);
     return (
       <>

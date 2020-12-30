@@ -20,7 +20,6 @@ class PostView extends ViewComponent<ViewComponentProps> {
   public web({ results, props }: ViewData<ViewComponentProps>): null | React.ReactElement {
     const post = results.post.result.record;
 
-    console.log(post.category);
     return (
       <section
         style={{ whiteSpace: 'pre-wrap' }}

@@ -11,11 +11,16 @@ class Content extends ViewComponent<ViewComponentProps> {
     return {};
   }
   public web({ results, props }: ViewData<ViewComponentProps>): null | React.ReactElement {
-    props.content.replace(/(?:\r\n|\r|\n)/g, '{""}');
+    // props.content.replace(/(?:\r\n|\r|\n)/g, '{""}');
 
     return (
       <>
-        <p className="max-w-lg m-auto leading-loose mb-6 text-left">{props.content}</p>
+        <p
+          style={{ lineHeight: '0.5 rem', whiteSpace: 'pre-wrap' }}
+          className="max-w-lg m-auto leading-loose mb-6 text-left"
+        >
+          {props.content}
+        </p>
       </>
     );
   }

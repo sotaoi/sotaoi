@@ -18,13 +18,14 @@ class PostCardView extends ViewComponent<ViewComponentProps> {
     return {};
   }
   public web({ results, props }: ViewData<ViewComponentProps>): null | React.ReactElement {
+    const image = this.asset(props.image);
     return (
       <>
         <div key={props.uuid} className={'flex-1 lg:w-1/2 p-4 md:w-1/3'}>
           <div className="border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
             <img
-              className="lg:h-48 md:h-36 w-full object-cover object-center"
-              src={`${this.asset(props.image)}`}
+              className="lg:h-48 md:h-36 w-full object-cover object-center ease-in border-b-2"
+              src={`${image}`}
               alt="blog"
             />
 

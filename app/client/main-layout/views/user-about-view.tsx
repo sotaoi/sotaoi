@@ -17,6 +17,7 @@ class UserAboutView extends ViewComponent<UserViewProps> {
   public web({ results, props }: ViewData<UserViewProps>): null | React.ReactElement {
     const user = results.user.result.record;
     const avatar = this.asset(user.avatar);
+    const background = this.assets(user.gallery);
     return (
       <>
         <main className={'profile-page'}>
@@ -24,7 +25,7 @@ class UserAboutView extends ViewComponent<UserViewProps> {
             <div
               className={'absolute top-0 w-full h-full max-h-50 bg-center bg-cover'}
               style={{
-                backgroundImage: "url('background.jpg')",
+                backgroundImage: `url(${background})`,
               }}
             >
               <span id={'blackOverlay'} className={'w-full h-full absolute opacity-20 bg-black'}></span>

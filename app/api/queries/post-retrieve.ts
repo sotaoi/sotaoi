@@ -10,7 +10,7 @@ class PostRetrieve extends RetrieveHandler {
       const post = await db('post').where('uuid', retrieve.uuid).first();
       const category = await db('category').where('uuid', JSON.parse(post.category).uuid).first();
       post.categoryName = category.name;
-      console.log(post.createdBy);
+      // post.category = category;
       const user = await db('user').where('uuid', JSON.parse(post.createdBy).uuid).first();
       post.userName = user.email;
 

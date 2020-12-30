@@ -21,7 +21,6 @@ class StorePostHandler extends StoreHandler {
       title: title.serialize(true),
       content: content.serialize(true),
       image: imageAsset?.serialize(true) || null,
-
       createdBy: user.serialize(true),
       category: category.serialize(true),
     });

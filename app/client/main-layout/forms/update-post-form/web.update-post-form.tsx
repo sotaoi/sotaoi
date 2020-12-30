@@ -13,7 +13,7 @@ const WebUpdatePostForm = (props: { form: StoreForm; categories: RecordEntry[] }
   const Form = props.form;
   const fields = Form.getFields<FieldState>();
   const categories = props.categories;
-  console.log(fields);
+  console.log(Form.getFields());
   return (
     <section>
       {/* <Link to={'/post/store' + Helper.encodeSegment({ category: 'poetry' })}>filter test</Link> */}
@@ -71,7 +71,7 @@ const WebUpdatePostForm = (props: { form: StoreForm; categories: RecordEntry[] }
                 'rounded border appearance-none border-gray-400 py-2 focus:outline-none focus:border-blue-500 text-base pl-3 pr-10'
               }
             >
-              {categories.map((category: RecordEntry) => (
+              {categories.map((category) => (
                 <option key={category.uuid} value={JSON.stringify({ repository: 'category', uuid: category.uuid })}>
                   {category.name}
                 </option>
@@ -106,7 +106,7 @@ const WebUpdatePostForm = (props: { form: StoreForm; categories: RecordEntry[] }
               type={'submit'}
               onClick={(): void => Form.submit()}
             >
-              Create Post
+              Update Post
             </button>
             <br />
 

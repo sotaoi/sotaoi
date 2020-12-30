@@ -10,12 +10,10 @@ class UpdatePostHandler extends UpdateHandler {
 
   public async handle(command: UpdateCommand): Promise<CommandResult> {
     const { title, content, user, category, image } = command.payload;
-    // console.log(command.payload);
     const [saveImage, imageAsset, cancelImage] = storage('main').handle(
       { domain: 'public', pathname: ['post', command.uuid, 'image.png'].join('/') },
       image,
     );
-
     await db('post')
       .update({
         title: title.serialize(true),

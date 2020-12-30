@@ -13,7 +13,6 @@ const WebUpdatePostForm = (props: { form: StoreForm; categories: RecordEntry[] }
   const Form = props.form;
   const fields = Form.getFields<FieldState>();
   const categories = props.categories;
-  console.log(Form.getFields());
   return (
     <section>
       {/* <Link to={'/post/store' + Helper.encodeSegment({ category: 'poetry' })}>filter test</Link> */}

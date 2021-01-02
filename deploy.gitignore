@@ -1,8 +1,5 @@
 !.gitkeep
 
-# logs
-/logs
-
 # certs
 /sotaoi/api/certs/privkey.pem
 /sotaoi/api/certs/fullchain.pem
@@ -13,6 +10,7 @@
 /node_modules
 /var/build/release
 /var/build/sdk
+/var/logs
 
 # ide
 /.idea

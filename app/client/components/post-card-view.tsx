@@ -1,9 +1,9 @@
 import React from 'react';
 import { ViewComponent, ViewData, ViewPromises } from '@sotaoi/client/components';
 import _ from 'lodash';
-import { DateComponent } from './post-components/date-component';
-import { PostLink } from './post-components/post-link';
-import { Category } from './post-components/category';
+import { DateComponent } from '@app/client/components/post-components/date-component';
+import { PostLink } from '@app/client/components/post-components/post-link';
+import { Category } from '@app/client/components/post-components/category';
 
 interface ViewComponentProps {
   uuid: string;

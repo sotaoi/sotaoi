@@ -19,6 +19,7 @@ class PostView extends ViewComponent<ViewComponentProps> {
 
   public web({ results, props }: ViewData<ViewComponentProps>): null | React.ReactElement {
     const post = results.post.result.record;
+    const image = this.asset(post.image);
 
     return (
       <section className="font-sans container m-auto flex flex-col py-8 max-w-xl text-center px-6">
@@ -31,7 +32,7 @@ class PostView extends ViewComponent<ViewComponentProps> {
         </Link>{' '}
         <p className="max-w-lg m-auto leading-loose mb-1 text-left">by {post.userName}</p>
         <Category categoryName={post.categoryName} />
-        <img className="py-4 w-full object-cover object-center ease-in" src={`${this.asset(post.image)}`} />
+        {image && <img className="py-4 w-full object-cover object-center ease-in" src={image} />}
         <Content content={post.content} />
       </section>
     );

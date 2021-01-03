@@ -16,15 +16,18 @@ class StorePostHandler extends StoreHandler {
       { domain: 'public', pathname: ['post', postUuid, 'image.png'].join('/') },
       image,
     );
+
     await db('post').insert({
       uuid: postUuid,
       title: title.serialize(true),
       content: content.serialize(true),
-      image: imageAsset?.serialize(true) || null,
+      image: imageAsset.serialize(true),
       createdBy: user.serialize(true),
       category: category.serialize(true),
     });
+
     saveImage();
+
     return new CommandResult(
       true,
       {

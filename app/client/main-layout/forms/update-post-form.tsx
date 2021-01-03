@@ -11,7 +11,7 @@ import { getPostUpdateFormValidations } from '@app/client/queries/validation-que
 import { FileField } from '@sotaoi/client/forms/fields/file-field';
 import { TextField } from '@sotaoi/client/forms/fields/text-field';
 import { getPost } from '@app/client/queries/post-queries';
-import { WebUpdatePostForm } from './update-post-form/web.update-post-form';
+import { WebUpdatePostForm } from '@app/client/main-layout/forms/update-post-form/web.update-post-form';
 
 interface UpdatePostFormProps {
   filters?: { [key: string]: any };

@@ -10,7 +10,7 @@ import { AllPostsQuery } from '@app/api/queries/all-posts-query';
 import { AllCategoriesQuery } from '@app/api/queries/all-categories-query';
 import { StorePostHandler } from '@app/api/commands/store-post-handler';
 import { CategoryRetrieve } from '@app/api/queries/category-retrieve';
-import { UpdatePostHandler } from './commands/update-post-handler';
+import { UpdatePostHandler } from '@app/api/commands/update-post-handler';
 
 const handlers = {
   country: {

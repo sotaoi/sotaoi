@@ -1,7 +1,7 @@
 import React from 'react';
 import { RouteComponent, RouteData } from '@sotaoi/client/components';
 import { ErrorComponent } from '@app/client/components/error-component';
-import { UpdatePostForm } from '../forms/update-post-form';
+import { UpdatePostForm } from '@app/client/main-layout/forms/update-post-form';
 
 interface Props {
   uuid: string;

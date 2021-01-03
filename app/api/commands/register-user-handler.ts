@@ -25,6 +25,7 @@ class RegisterUserHandler extends StoreHandler {
       },
       gallery,
     );
+
     await db('address').insert({
       uuid: addressUuid,
       street: address.street.serialize(true),

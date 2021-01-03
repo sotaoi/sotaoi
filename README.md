@@ -4,13 +4,13 @@
 
 # Starting up
 
-## Setting up the application
+## Setting up the application (Mac / Linux required)
 
 Run the following commands in the command line to setup the application
 
 ```
 npm install
-npm run dev:setup-env
+npm run dev:setup-env (edits /etc/hosts, creates self-signed certificates and adds them to store)
 ```
 
 This sets up the packages neccessary for **development**

@@ -1,7 +1,16 @@
 import { AppKernel } from '@sotaoi/api/app-kernel';
 import { config } from '@sotaoi/api/config';
 import { Output } from '@sotaoi/api/output';
-import { StringInput, NumberInput, RefSelectInput, FileInput, MultiFileInput } from '@sotaoi/omni/input';
+import {
+  StringInput,
+  NumberInput,
+  RefSelectInput,
+  FileInput,
+  MultiFileInput,
+  StringSelectInput,
+  OptionsSelectInput,
+  BooleanInput,
+} from '@sotaoi/omni/input';
 import { AuthRecord, RecordRef } from '@sotaoi/omni/artifacts';
 import { db } from '@sotaoi/api/db';
 import { AppInfo } from '@sotaoi/omni/state';
@@ -26,9 +35,12 @@ class ApiInit {
   public static registerInputs(): void {
     Output.registerInput(StringInput);
     Output.registerInput(NumberInput);
-    Output.registerInput(RefSelectInput);
     Output.registerInput(FileInput);
     Output.registerInput(MultiFileInput);
+    Output.registerInput(RefSelectInput);
+    Output.registerInput(StringSelectInput);
+    Output.registerInput(OptionsSelectInput);
+    Output.registerInput(BooleanInput);
   }
 
   // translate access token

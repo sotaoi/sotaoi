@@ -8,7 +8,7 @@ interface StorageInit {
 }
 
 abstract class Storage {
-  abstract handle(item: Omit<StoredItem, 'drive'>, input: null | FileInput): [() => void, Asset, () => void];
+  abstract handle(item: Omit<StoredItem, 'drive'>, input: FileInput): [() => void, Asset, () => void];
   abstract multiHandle(
     item: Omit<StoredItem, 'drive'>,
     input: null | MultiFileInput,

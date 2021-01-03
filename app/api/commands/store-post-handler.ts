@@ -3,7 +3,7 @@ import { CommandResult } from '@sotaoi/omni/transactions';
 import { StoreCommand } from '@sotaoi/api/commands';
 import { db } from '@sotaoi/api/db';
 import { Helper } from '@sotaoi/api/helper';
-import { RecordRef, Artifact } from '@sotaoi/omni/artifacts';
+import { Artifact } from '@sotaoi/omni/artifacts';
 import { storage } from '@sotaoi/api/storage';
 
 class StorePostHandler extends StoreHandler {
@@ -16,15 +16,18 @@ class StorePostHandler extends StoreHandler {
       { domain: 'public', pathname: ['post', postUuid, 'image.png'].join('/') },
       image,
     );
+
     await db('post').insert({
       uuid: postUuid,
       title: title.serialize(true),
       content: content.serialize(true),
-      image: imageAsset?.serialize(true) || null,
-      createdBy: new RecordRef('user', JSON.parse(user.value).uuid).serialize(null),
-      category: new RecordRef('category', category.value.uuid).serialize(null),
+      image: imageAsset.serialize(true),
+      createdBy: user.serialize(true),
+      category: category.serialize(true),
     });
+
     saveImage();
+
     return new CommandResult(
       true,
       {

@@ -4,7 +4,7 @@ import { user, post } from '@app/omni/forms';
 
 const getUserStoreFormValidations = () => {
   return (props: { [key: string]: any }, requestAbortHandler: RequestAbortHandler): Promise<FormValidations> =>
-    user['user-store-form']();
+    user['user-register-form']();
 };
 
 const getUserUpdateFormValidations = () => {

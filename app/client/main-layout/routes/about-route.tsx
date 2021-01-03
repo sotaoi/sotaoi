@@ -11,8 +11,6 @@ import { store } from '@sotaoi/client/store';
 interface Props {}
 class AboutRoute extends RouteComponent<Props> {
   public display({ params }: RouteData<Props>): null | React.ReactElement {
-    const uuidCurrentUser = store().getAuthRecord()?.uuid;
-    console.log(uuidCurrentUser);
     return <UserAboutView uuid={store().getAuthRecord()?.uuid} />;
   }
   public web(props: RouteData<Props>): null | React.ReactElement {

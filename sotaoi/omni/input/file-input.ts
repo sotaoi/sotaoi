@@ -18,13 +18,26 @@ class Asset implements StoredItem {
   public domain: string;
   public pathname: string;
 
-  constructor(item: StoredItem) {
+  constructor(item: null | StoredItem) {
+    if (!item) {
+      this.drive = null;
+      this.domain = '';
+      this.pathname = '';
+      return;
+    }
     this.drive = item.drive;
     this.domain = item.domain;
     this.pathname = item.pathname;
   }
 
-  public serialize(forStorage: boolean): string {
+  public isEmpty(): boolean {
+    return !this.drive && !this.domain && !this.pathname;
+  }
+
+  public serialize(forStorage: boolean): null | string {
+    if (this.isEmpty()) {
+      return null;
+    }
     return JSON.stringify({
       drive: this.drive,
       domain: this.domain,
@@ -32,7 +45,10 @@ class Asset implements StoredItem {
     });
   }
 
-  public static serializeMulti(assets: Asset[]): string {
+  public static serializeMulti(assets: Asset[]): null | string {
+    if (!assets.length) {
+      return null;
+    }
     return JSON.stringify(assets);
   }
 }
@@ -60,7 +76,7 @@ class MultiAsset implements MultiStoredItem {
 interface FileValue {
   path: string;
   filename: string;
-  asset: null | Asset;
+  asset: Asset;
   url: null | string;
   file: null | File;
 }
@@ -72,7 +88,7 @@ class FileInput extends BaseInput<FileValue, FileFieldType> {
     const value = {
       path,
       filename,
-      asset: storedItem ? new Asset(storedItem) : null,
+      asset: new Asset(storedItem || null),
       url,
       file,
     };
@@ -107,7 +123,7 @@ class FileInput extends BaseInput<FileValue, FileFieldType> {
     if (forStorage) {
       throw new Error('file input save method is embedded in storage');
     }
-    return this.value.file || (this.value.asset ? JSON.stringify({ fi: this.value.asset.serialize(forStorage) }) : '');
+    return this.value.file || JSON.stringify({ fi: this.value.asset?.serialize(forStorage) || null });
   }
 
   public convert(value: FileInput | FileFieldType): FileInput {
@@ -129,12 +145,13 @@ class FileInput extends BaseInput<FileValue, FileFieldType> {
     );
   }
   public deserialize(value: string | { path: string; filename: string; bytes: number; file: null | File }): FileInput {
-    // v1 -> file uploaded, you have path
-    // v2 -> file input is null, in order to remove. this does not get processed
-    // v3 -> file not uploaded, nothing changes, you have asset
+    // v1 -> { fi: null }
+    // v2 -> file uploaded, you have path
+    // v3 -> file input is null, in order to remove. this does not get processed
+    // v4 -> file not uploaded, nothing changes, you have asset
     if (typeof value === 'string') {
       const parsed = JSON.parse(value);
-      return new FileInput('', '', new Asset(JSON.parse(parsed.fi)), null, null);
+      return new FileInput('', '', parsed.fi ? new Asset(JSON.parse(parsed.fi)) : null, null, null);
     }
     return new FileInput(value.path, value.filename, null, null, value.file || null);
   }

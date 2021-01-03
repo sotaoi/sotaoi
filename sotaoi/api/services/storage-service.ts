@@ -9,15 +9,18 @@ class StorageService extends Storage {
     super(init);
   }
 
-  public handle(item: Omit<StoredItem, 'drive'>, input: null | FileInput): [() => void, Asset, () => void] {
-    const asset = new Asset({
-      drive: this.drive,
-      domain: item.domain,
-      pathname: item.pathname,
-    });
+  public handle(item: Omit<StoredItem, 'drive'>, input: FileInput): [() => void, Asset, () => void] {
+    const isEmpty = !input.getValue().path && input.getValue().asset.isEmpty();
+    const asset = !isEmpty
+      ? new Asset({
+          drive: this.drive,
+          domain: item.domain,
+          pathname: item.pathname,
+        })
+      : new Asset(null);
 
     const save = (): void => {
-      if (!input || !input.getValue().path) {
+      if (!input || !input.getValue().path || isEmpty) {
         return;
       }
       const destination = path.resolve(this.relativeTo, item.domain, item.pathname);

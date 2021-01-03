@@ -8,10 +8,10 @@ import { storage } from '@sotaoi/api/storage';
 import { Asset } from '@sotaoi/omni/input';
 
 class RegisterUserHandler extends StoreHandler {
-  public getFormId = async (): Promise<string> => 'user-store-form';
+  public getFormId = async (): Promise<string> => 'user-register-form';
 
   public async handle(command: StoreCommand): Promise<CommandResult> {
-    const { email, password, avatar, gallery, address } = command.payload;
+    const { email, password, avatar, gallery, flavor, address } = command.payload;
     const userUuid = Helper.uuid();
     const addressUuid = Helper.uuid();
     const [saveAvatar, avatarAsset, cancelAvatar] = storage('main').handle(
@@ -25,6 +25,7 @@ class RegisterUserHandler extends StoreHandler {
       },
       gallery,
     );
+
     await db('address').insert({
       uuid: addressUuid,
       street: address.street.serialize(true),
@@ -33,9 +34,10 @@ class RegisterUserHandler extends StoreHandler {
     await db('user').insert({
       uuid: userUuid,
       email: email.serialize(true),
-      avatar: avatarAsset?.serialize(true) || null,
-      gallery: gallery ? Asset.serializeMulti(galleryAssets) : null,
       password: password.serialize(true),
+      avatar: avatarAsset.serialize(true),
+      gallery: Asset.serializeMulti(galleryAssets),
+      flavor: flavor.serialize(true),
       address: new RecordRef('address', addressUuid).serialize(null),
     });
 
@@ -44,7 +46,7 @@ class RegisterUserHandler extends StoreHandler {
 
     const accessToken = Helper.uuid();
     const user = await db('user').where('uuid', userUuid).first();
-    const authRecord = new AuthRecord('user', userUuid, user.createdAt, true, { accessToken });
+    const authRecord = new AuthRecord('user', userUuid, user.createdAt, true).setPocket({ accessToken });
     // better token encryption needed here
     await db('access-token').insert({
       uuid: Helper.uuid(),

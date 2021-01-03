@@ -16,7 +16,6 @@ class UserAboutView extends ViewComponent<UserViewProps> {
 
   public web({ results, props }: ViewData<UserViewProps>): null | React.ReactElement {
     const user = results.user.result.record;
-    // console.log(store());
     const avatar = this.asset(user.avatar);
     return (
       <>
@@ -42,14 +41,16 @@ class UserAboutView extends ViewComponent<UserViewProps> {
                   <div className={'flex flex-wrap justify-center'}>
                     <div className={'w-full lg:w-12/12 px-4 lg:order-7 flex justify-center'}>
                       <div className={'relative'}>
-                        <img
-                          alt="..."
-                          src={`${avatar}`}
-                          className={
-                            'shadow-xl rounded-full h-auto w-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16'
-                          }
-                          style={{ maxWidth: '150px' }}
-                        />
+                        {avatar && (
+                          <img
+                            alt="..."
+                            src={`${avatar}`}
+                            className={
+                              'shadow-xl rounded-full h-auto w-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16'
+                            }
+                            style={{ maxWidth: '150px' }}
+                          />
+                        )}
                       </div>
                     </div>
                     <div className={'w-full lg:w-10/12 px-4 lg:order-3 lg:text-right lg:self-center'}></div>

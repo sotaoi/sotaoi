@@ -17,6 +17,7 @@ class PostView extends ViewComponent<ViewComponentProps> {
 
   public web({ results, props }: ViewData<ViewComponentProps>): null | React.ReactElement {
     const post = results.post.result.record;
+    const image = this.asset(post.image);
 
     post.content.replace(/(?:\r\n|\r|\n)/g, '{""}');
 
@@ -28,7 +29,7 @@ class PostView extends ViewComponent<ViewComponentProps> {
         <DateComponent date={post.createdAt} />
         <h1 className="my-8 max-w-full m-auto text-3xl md:text-4xl lg:text-sm font-small">{post.title}</h1>
         <h1 className="tracking-widest text-xs title-font font-medium text-gray-500 mb-1"> #{post.category}</h1>
-        <img src={post.image} />
+        {image && <img src={image} />}
         <Content content={post.content} />
         <p className="max-w-lg m-auto leading-loose mb-6 text-left">by {post.userName}</p>
       </section>

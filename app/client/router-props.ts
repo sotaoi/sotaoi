@@ -18,8 +18,7 @@ import { TaskUserRoute } from '@app/client/main-layout/routes/task-user-route';
 import { StorePostRoute } from '@app/client/main-layout/routes/store-post-route';
 import { HomeUserRoute } from '@app/client/main-layout/routes/home-user-route';
 //
-import { createStore } from 'redux';
-import { AboutRoute } from './main-layout/routes/about-route';
+import { AboutRoute } from '@app/client/main-layout/routes/about-route';
 
 // // custom redux store is working
 // const reduxStore = createStore((state: { [key: string]: any } = {}, action: any) => {

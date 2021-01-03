@@ -1,11 +1,9 @@
 import React from 'react';
 import { ViewComponent, ViewData, ViewPromises } from '@sotaoi/client/components';
 import _ from 'lodash';
-import { Link } from '@sotaoi/client/router';
-import { getPost } from '../queries/post-queries';
-import { storage } from '@sotaoi/api/storage';
-import { DateComponent } from './post-components/date-component';
-import { PostLink } from './post-components/post-link';
+import { getPost } from '@app/client/queries/post-queries';
+import { DateComponent } from '@app/client/components/post-components/date-component';
+import { PostLink } from '@app/client/components/post-components/post-link';
 
 interface ViewComponentProps {
   uuid: string;

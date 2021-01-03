@@ -1,9 +1,6 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { Helper } from '@sotaoi/client/helper';
-import { tailwind } from '@sotaoi/client/components/styles';
 import { RouteComponent, RouteData } from '@sotaoi/client/components';
-import { UserAboutView } from '../views/user-about-view';
+import { UserAboutView } from '@app/client/main-layout/views/user-about-view';
 import { store } from '@sotaoi/client/store';
 // !!
 // import { Button } from '@sotaoi/client/components/button';

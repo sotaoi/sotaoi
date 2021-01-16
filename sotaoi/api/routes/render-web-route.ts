@@ -1,6 +1,7 @@
 import fs from 'fs';
 import { Request, ServerRoute, ResponseToolkit, ResponseObject } from '@hapi/hapi';
 import { Helper } from '@sotaoi/api/helper';
+import { disconnect } from '@sotaoi/api/db';
 
 const renderWebRoute: ServerRoute = {
   method: 'GET',
@@ -10,8 +11,10 @@ const renderWebRoute: ServerRoute = {
       (!request.params.path || !fs.existsSync(Helper.getPublicPath(request.params.path))) &&
       fs.existsSync(Helper.getPublicPath('index.html'))
     ) {
+      await disconnect();
       return handler.file(Helper.getPublicPath('index.html'));
     }
+    await disconnect();
     return handler.file(Helper.getPublicPath(request.params.path));
   },
 };

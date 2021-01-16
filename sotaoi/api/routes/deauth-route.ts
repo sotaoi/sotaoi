@@ -3,6 +3,7 @@ import { payloadOptions } from '@sotaoi/api/routes/payload-options';
 import { ErrorResult } from '@sotaoi/omni/transactions';
 import { logger } from '@sotaoi/api/logger';
 import { AuthHandler } from '@sotaoi/api/commands/auth-handler';
+import { disconnect } from '@sotaoi/api/db';
 
 const deauthRoute: ServerRoute = {
   method: 'DELETE',
@@ -13,6 +14,7 @@ const deauthRoute: ServerRoute = {
   handler: async (request: Request, handler: ResponseToolkit): Promise<ResponseObject> => {
     try {
       await AuthHandler.deauth(handler);
+      await disconnect();
       return handler.response({ ok: true });
     } catch (err) {
       const code = 400;
@@ -23,6 +25,7 @@ const deauthRoute: ServerRoute = {
         validations: null,
       };
       logger().error(error);
+      await disconnect();
       return handler.response(error).code(400);
     }
   },

@@ -1,8 +1,8 @@
 import { Request, ServerRoute, ResponseToolkit, ResponseObject } from '@hapi/hapi';
-import { payloadOptions } from '@sotaoi/api/routes/payload-options';
 import { Seed, Lang } from '@sotaoi/omni/state';
 import { ErrorResult } from '@sotaoi/omni/transactions';
 import { AuthHandler } from '@sotaoi/api/commands/auth-handler';
+import { disconnect } from '@sotaoi/api/db';
 
 const seedRoute: ServerRoute = {
   method: 'GET',
@@ -26,6 +26,7 @@ const seedRoute: ServerRoute = {
         'app.lang.default': lang,
         'app.lang.available': [lang],
       };
+      await disconnect();
       return handler.response(seed).code(code);
     } catch (err) {
       const code = 400;
@@ -35,6 +36,7 @@ const seedRoute: ServerRoute = {
         msg: err.message,
         validations: null,
       };
+      await disconnect();
       return handler.response(error).code(400);
     }
   },

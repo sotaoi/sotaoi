@@ -1,6 +1,7 @@
 import { Request, ServerRoute, ResponseToolkit, ResponseObject } from '@hapi/hapi';
 import { storage } from '@sotaoi/api/storage';
 import { logger } from '@sotaoi/api/logger';
+import { disconnect } from '@sotaoi/api/db';
 
 const storageRoute: ServerRoute = {
   method: 'GET',
@@ -13,12 +14,15 @@ const storageRoute: ServerRoute = {
       if (!domain || !pathname) {
         throw new Error('something went wrong');
       }
-      return await storage(request.params.drive).read(handler, request.params.role, {
+      const result = await storage(request.params.drive).read(handler, request.params.role, {
         domain,
         pathname,
       });
+      await disconnect();
+      return result;
     } catch (err) {
       logger().error(err && err.stack ? err.stack : err);
+      await disconnect();
       return handler
         .response({
           statusCode: 404,

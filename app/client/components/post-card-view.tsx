@@ -23,11 +23,13 @@ class PostCardView extends ViewComponent<ViewComponentProps> {
       <>
         <div key={props.uuid} className={'flex-1 lg:w-1/2 p-4 md:w-1/3'}>
           <div className="border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
-            <img
-              className="lg:h-48 md:h-36 w-full object-cover object-center ease-in border-b-2"
-              src={`${image}`}
-              alt="blog"
-            />
+            {image && (
+              <img
+                className="lg:h-48 md:h-36 w-full object-cover object-center ease-in border-b-2"
+                src={`${image}`}
+                alt="blog"
+              />
+            )}
 
             <div className="p-6">
               <Category categoryName={props.category} />

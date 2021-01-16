@@ -1,7 +1,7 @@
 import { CommandResult } from '@sotaoi/omni/transactions';
 import { UpdateCommand } from '@sotaoi/api/commands';
 import { db } from '@sotaoi/api/db';
-import { RecordRef, Artifact } from '@sotaoi/omni/artifacts';
+import { Artifact } from '@sotaoi/omni/artifacts';
 import { UpdateHandler } from '@sotaoi/api/commands/update-handler';
 import { storage } from '@sotaoi/api/storage';
 import { Asset } from '@sotaoi/omni/input';

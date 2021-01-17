@@ -41,10 +41,6 @@ const main = async (): Promise<void> => {
   fs.renameSync(path.resolve(paths.appBuild, 'deploy.gitignore'), path.resolve(paths.appBuild, '.gitignore'));
   Helper.copyFileSync(path.resolve('./tsconfig.build.json'), path.resolve(paths.appBuild, 'tsconfig.json'));
   Helper.copyFileSync(path.resolve('./var/pmhook.js'), path.resolve(paths.appBuild, 'var', 'pmhook.js'));
-  Helper.copyFileSync(
-    path.resolve('./var/client-start.js'),
-    path.resolve(paths.appBuild, 'app/client/build', 'start.js'),
-  );
   Helper.copyFileSync(path.resolve('./start.js'), path.resolve(paths.appBuild, 'start.js'));
   const _package = JSON.parse(fs.readFileSync(path.resolve(paths.appBuild, 'package.json')).toString());
   if (argv.target) {

@@ -22,8 +22,6 @@ const main = async (): Promise<void> => {
       return;
     }
 
-    Helper.copyFileSync(path.resolve('./var/client-start.js'), path.resolve(paths.clientBuild, 'start.js'));
-
     Helper.readdirSyncRecur(paths.clientPublic).map((item) => {
       const nextPath = path.resolve(paths.clientBuild, item.fullpath.substr(paths.clientPublic.length + 1));
       if (fs.existsSync(nextPath)) {

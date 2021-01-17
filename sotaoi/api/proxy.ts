@@ -6,7 +6,7 @@ import fs from 'fs';
 import { AppInfo } from '@sotaoi/omni/state';
 
 const proxy = (info: AppInfo): void => {
-  const noSecure = process.env.NODE_ENV === 'production';
+  const production = process.env.NODE_ENV === 'production';
   const app = express();
 
   app.use(
@@ -16,7 +16,9 @@ const proxy = (info: AppInfo): void => {
       // pathRewrite: {
       //   '^/api/': '/api/',
       // },
-      target: noSecure ? `http://localhost:${info.devApiPort}` : `https://${info.devApiDomain}:${info.devApiPort}`,
+      target: production
+        ? `http://${info.prodDomain}:${info.prodApiPort}`
+        : `https://${info.devApiDomain}:${info.devApiPort}`,
       ws: false,
       changeOrigin: true,
     }),
@@ -26,8 +28,8 @@ const proxy = (info: AppInfo): void => {
     '/',
     createProxyMiddleware({
       secure: false,
-      target: noSecure
-        ? `http://localhost:${info.devClientPort}`
+      target: production
+        ? `http://${info.prodDomain}:${info.prodClientPort}`
         : `https://${info.devClientDomain}:${info.devClientPort}`,
       ws: true,
       changeOrigin: true,
@@ -46,14 +48,14 @@ const proxy = (info: AppInfo): void => {
   //         ca: fs.readFileSync('./sotaoi/api/certs/ca_bundle.crt'),
   //       };
 
-  const certs = noSecure
+  const certs = production
     ? {}
     : {
         key: fs.readFileSync('./sotaoi/api/certs/privkey.pem'),
         cert: fs.readFileSync('./sotaoi/api/certs/fullchain.pem'),
       };
 
-  noSecure
+  production
     ? http.createServer(app).listen(process.env.PORT || '80')
     : https
         .createServer(
@@ -66,7 +68,7 @@ const proxy = (info: AppInfo): void => {
         .listen(process.env.PORT || '443');
 
   // # REDIRECT HTTP to HTTPS
-  if (!noSecure && process.env.PORT === '443') {
+  if (!production && process.env.PORT === '443') {
     const redirect = express();
     redirect.get('*', (req, res) =>
       res.redirect(`https://${process.env.NODE_ENV !== 'development' ? info.prodDomain : info.devDomain}${req.url}`),

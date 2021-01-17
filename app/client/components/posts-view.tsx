@@ -2,7 +2,7 @@ import React from 'react';
 import { ViewComponent, ViewData, ViewPromises } from '@sotaoi/client/components';
 // import { getAllCategoriesQuery } from '@app/client/queries/category-queries';
 import { getAllPostsQuery } from '@app/client/queries/post-queries';
-import { PostCardView } from './post-card-view';
+import { PostCardView } from '@app/client/components/post-card-view';
 
 interface ViewComponentProps {
   //

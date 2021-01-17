@@ -35,9 +35,11 @@ interface AppInfo {
   prodDomainAlias: string;
   devDomainAlias: string;
   prodApiUrl: string;
+  prodApiPort: number;
   devApiUrl: string;
   devMobileApiUrl: string;
   prodClientUrl: string;
+  prodClientPort: number;
   devClientUrl: string;
   mobileBundleLocation: string;
   translationsUrl: string;

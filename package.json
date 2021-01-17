@@ -18,7 +18,7 @@
     "build:prod": "ts-node ./sotaoi/omni/build/build.ts",
     "deploy:heroku": "ts-node ./var/deploy.heroku.ts",
     "start:api:prod": "cross-env NODE_ENV=production NODE_TLS_REJECT_UNAUTHORIZED=0 PORT=3000 node ./app/api/api.entry.js",
-    "start:cweb:prod": "cross-env NODE_ENV=production node ./app/client/build/start.js",
+    "start:cweb:prod": "cross-env NODE_ENV=production node ./app/client/start.prod.js",
     "start:proxy:prod": "cross-env NODE_ENV=production node ./app/api/proxy.entry.js",
     "dev:create-database": "ts-node ./sotaoi/omni/scripts/dev/create-database.ts",
     "dev:setup-env": "npm install && ts-node ./sotaoi/omni/scripts/dev/setup-env.ts --info ./app/omni/info.json",

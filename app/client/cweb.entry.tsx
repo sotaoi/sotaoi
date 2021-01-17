@@ -10,14 +10,18 @@ import { ErrorComponent } from '@app/client/components/error-component';
 import info from '@app/omni/info.json';
 import { AppKernel } from '@sotaoi/client/app-kernel';
 
-const appKernel = new AppKernel();
-const routerComponent = <Router {...routerProps} />;
-Bootstrap.init(
-  'MONOlogz',
-  process.env.NODE_ENV !== 'development' ? info.prodApiUrl : info.devApiUrl,
-  appKernel,
-  routerComponent,
-  createStore,
-  Loading,
-  ErrorComponent,
-);
+const main = async (): Promise<void> => {
+  const appKernel = new AppKernel();
+  const routerComponent = <Router {...routerProps} />;
+  Bootstrap.init(
+    'MONOlogz',
+    process.env.NODE_ENV !== 'development' ? info.prodApiUrl : info.devApiUrl,
+    appKernel,
+    routerComponent,
+    createStore,
+    Loading,
+    ErrorComponent,
+  );
+};
+
+main();

@@ -19,12 +19,11 @@ const paths = {
   sotaoiApiPath: resolveRoot('./sotaoi/api'),
   sotaoiClientPath: resolveRoot('./sotaoi/client'),
   sotaoiOmniPath: resolveRoot('./sotaoi/omni'),
-  // api
-  apiBuild: resolveRoot('./var/build/release'),
+  appBuild: resolveRoot('./var/build/release'),
   appPath: resolveRoot('./app'),
   sotaoiPath: resolveRoot('./sotaoi'),
-  // general
   nodeModulesPath: resolveRoot('./node_modules'),
+  storagePath: resolveRoot('./storage'),
 };
 
 export { paths };

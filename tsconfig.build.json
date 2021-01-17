@@ -33,8 +33,10 @@
     "./postcss.config.js",
     "./tailwind.config.js",
     "./var/pmhook.js",
+    "./var/client-start.js",
     "./var/todel",
     "./sotaoi/client/mocks",
-    "./app/client/build"
+    "./app/client/build",
+    "./start.js"
   ]
 }

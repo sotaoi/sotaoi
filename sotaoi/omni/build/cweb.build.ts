@@ -30,8 +30,6 @@ const main = async (): Promise<void> => {
       Helper.copyFileSync(item.fullpath, nextPath);
     });
 
-    fs.copyFileSync(path.resolve(`${paths.clientBuild}/index.html`), path.resolve(`${paths.clientBuild}/404.html`));
-
     const { hash, startTime, endTime } = stats;
     if (!endTime || !startTime) {
       console.info(`hash: ${hash}\n`);

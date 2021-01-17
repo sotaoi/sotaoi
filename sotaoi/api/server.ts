@@ -5,7 +5,6 @@ import { Setup, RepositoryHandlers } from '@sotaoi/api/setup';
 import { greetingRoute } from '@sotaoi/api/routes/greeting-route';
 import { seedRoute } from '@sotaoi/api/routes/seed-route';
 import { notFoundRoute } from '@sotaoi/api/routes/not-found-route';
-import { renderWebRoute } from '@sotaoi/api/routes/render-web-route';
 import { AppKernel, app } from '@sotaoi/api/app-kernel';
 import { storeRoute } from '@sotaoi/api/routes/store-route';
 import { updateRoute } from '@sotaoi/api/routes/update-route';
@@ -37,29 +36,37 @@ class Server {
     deauth: (handler: ResponseToolkit) => Promise<void>,
   ): Promise<void> {
     try {
+      const noSecure = process.env.NODE_ENV === 'production';
+
       AuthHandler.setTranslateAccessToken(translateAccessToken);
       AuthHandler.setDeauth(deauth);
 
       appKernel.bootstrap();
-      const isHeroku = process.env.NODE_ENV !== 'development' && appInfo.deploymentTarget === 'heroku';
       await Setup.init(handlers, forms);
 
-      const certs =
-        process.env.NODE_ENV === 'development'
-          ? {
-              key: fs.readFileSync('./sotaoi/api/certs/privkey.pem'),
-              cert: fs.readFileSync('./sotaoi/api/certs/fullchain.pem'),
-            }
-          : {
-              key: fs.readFileSync('./sotaoi/api/certs/private.key'),
-              cert: fs.readFileSync('./sotaoi/api/certs/certificate.crt'),
-              ca: fs.readFileSync('./sotaoi/api/certs/ca_bundle.crt'),
-            };
+      // const certs =
+      //   process.env.NODE_ENV === 'development'
+      //     ? {
+      //         key: fs.readFileSync('./sotaoi/api/certs/privkey.pem'),
+      //         cert: fs.readFileSync('./sotaoi/api/certs/fullchain.pem'),
+      //       }
+      //     : {
+      //         key: fs.readFileSync('./sotaoi/api/certs/private.key'),
+      //         cert: fs.readFileSync('./sotaoi/api/certs/certificate.crt'),
+      //         ca: fs.readFileSync('./sotaoi/api/certs/ca_bundle.crt'),
+      //       };
+
+      const certs = noSecure
+        ? {}
+        : {
+            key: fs.readFileSync('./sotaoi/api/certs/privkey.pem'),
+            cert: fs.readFileSync('./sotaoi/api/certs/fullchain.pem'),
+          };
 
       const server = Hapi.server({
-        port: process.env.PORT || 3000,
+        port: process.env.PORT || '3000',
         host: '0.0.0.0',
-        ...(isHeroku
+        ...(noSecure
           ? {}
           : {
               tls: {
@@ -83,7 +90,6 @@ class Server {
 
       server.route(storageRoute);
 
-      process.env.NODE_ENV === 'production' && server.route(renderWebRoute);
       server.route(notFoundRoute);
 
       await server.register([Inert, Vision, HapiCors]);

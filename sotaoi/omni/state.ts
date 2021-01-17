@@ -44,7 +44,6 @@ interface AppInfo {
   privacyPolicyUrl: string;
   termsOfUseUrl: string;
   deploymentInstance: string;
-  deploymentTarget: null | string;
   devApiDomain: string;
   devApiPort: number;
   devClientDomain: string;

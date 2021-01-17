@@ -36,8 +36,6 @@ class Server {
     deauth: (handler: ResponseToolkit) => Promise<void>,
   ): Promise<void> {
     try {
-      const noSecure = process.env.NODE_ENV === 'production';
-
       AuthHandler.setTranslateAccessToken(translateAccessToken);
       AuthHandler.setDeauth(deauth);
 
@@ -49,6 +47,7 @@ class Server {
       //     ? {
       //         key: fs.readFileSync('./sotaoi/api/certs/privkey.pem'),
       //         cert: fs.readFileSync('./sotaoi/api/certs/fullchain.pem'),
+      //         // ca: null,
       //       }
       //     : {
       //         key: fs.readFileSync('./sotaoi/api/certs/private.key'),
@@ -56,24 +55,19 @@ class Server {
       //         ca: fs.readFileSync('./sotaoi/api/certs/ca_bundle.crt'),
       //       };
 
-      const certs = noSecure
-        ? {}
-        : {
-            key: fs.readFileSync('./sotaoi/api/certs/privkey.pem'),
-            cert: fs.readFileSync('./sotaoi/api/certs/fullchain.pem'),
-          };
+      const certs = {
+        key: fs.readFileSync('./sotaoi/api/certs/privkey.pem'),
+        cert: fs.readFileSync('./sotaoi/api/certs/fullchain.pem'),
+        // ca: null,
+      };
 
       const server = Hapi.server({
         port: process.env.PORT || '3000',
         host: '0.0.0.0',
-        ...(noSecure
-          ? {}
-          : {
-              tls: {
-                ...certs,
-                rejectUnauthorized: false,
-              },
-            }),
+        tls: {
+          ...certs,
+          rejectUnauthorized: false,
+        },
       });
 
       server.route(greetingRoute);

@@ -1,12 +1,7 @@
 !.gitkeep
 
-# certs
-/sotaoi/api/certs/privkey.pem
-/sotaoi/api/certs/fullchain.pem
-
 # app
 /todo.txt
-/app/client/build
 /node_modules
 /var/build/release
 /var/build/sdk
@@ -26,7 +21,3 @@
 /template/ios/Pods/
 /template/ios/Podfile.lock
 /packages/rn-tester/Gemfile.lock
-
-# storage
-!/.gitkeep
-/storage/*

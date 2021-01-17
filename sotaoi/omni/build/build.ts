@@ -54,12 +54,6 @@ const main = async (): Promise<void> => {
     fs.writeFileSync(path.resolve(paths.appBuild, 'app', 'omni', 'info.json'), JSON.stringify(info, null, 2));
   }
 
-  // remove dev certificates
-  const devPrivkey = path.resolve(paths.appBuild, 'sotaoi', 'api', 'certs', 'privkey.pem');
-  const devFullchain = path.resolve(paths.appBuild, 'sotaoi', 'api', 'certs', 'fullchain.pem');
-  fs.existsSync(devPrivkey) && fs.unlinkSync(devPrivkey);
-  fs.existsSync(devFullchain) && fs.unlinkSync(devFullchain);
-
   // install and ts compile
   execSync('npx tsc', { cwd: path.resolve(paths.appBuild), stdio: 'inherit' });
 

@@ -9,6 +9,8 @@ const proxy = (info: AppInfo): void => {
   const production = process.env.NODE_ENV === 'production';
   const app = express();
 
+  // temporarily use localhost domain, so that heroku deployment will work
+
   app.use(
     '/api',
     createProxyMiddleware({
@@ -16,9 +18,7 @@ const proxy = (info: AppInfo): void => {
       // pathRewrite: {
       //   '^/api/': '/api/',
       // },
-      target: production
-        ? `http://${info.prodDomain}:${info.prodApiPort}`
-        : `https://${info.devApiDomain}:${info.devApiPort}`,
+      target: production ? `https://localhost:${info.prodApiPort}` : `https://localhost:${info.devApiPort}`,
       ws: false,
       changeOrigin: true,
     }),
@@ -28,13 +28,40 @@ const proxy = (info: AppInfo): void => {
     '/',
     createProxyMiddleware({
       secure: false,
-      target: production
-        ? `http://${info.prodDomain}:${info.prodClientPort}`
-        : `https://${info.devClientDomain}:${info.devClientPort}`,
+      target: production ? `https://localhost:${info.prodClientPort}` : `https://localhost:${info.devClientPort}`,
       ws: true,
       changeOrigin: true,
     }),
   );
+
+  // SNI example
+  // https
+  //   .createServer(
+  //     {
+  //       SNICallback: (domain, cb) => {
+  //         const secureContext = tls.createSecureContext(
+  //           domain === 'qwertyapi.ddns.net'
+  //             ? {
+  //                 key: fs.readFileSync('./var/certs/api/private.key'),
+  //                 cert: fs.readFileSync('./var/certs/api/certificate.crt'),
+  //                 ca: fs.readFileSync('./var/certs/api/ca_bundle.crt'),
+  //               }
+  //             : {
+  //                 key: fs.readFileSync('./var/certs/web/private.key'),
+  //                 cert: fs.readFileSync('./var/certs/web/certificate.crt'),
+  //                 ca: fs.readFileSync('./var/certs/web/ca_bundle.crt'),
+  //               },
+  //         );
+  //         if (cb) {
+  //           cb(null, secureContext);
+  //           return;
+  //         }
+  //         return secureContext;
+  //       },
+  //     },
+  //     app,
+  //   )
+  //   .listen(process.env.PORT);
 
   // const certs =
   //   process.env.NODE_ENV === 'development'
@@ -56,7 +83,7 @@ const proxy = (info: AppInfo): void => {
       };
 
   production
-    ? http.createServer(app).listen(process.env.PORT || '80')
+    ? http.createServer(app).listen(process.env.PORT)
     : https
         .createServer(
           {
@@ -68,7 +95,7 @@ const proxy = (info: AppInfo): void => {
         .listen(process.env.PORT || '443');
 
   // # REDIRECT HTTP to HTTPS
-  if (!production && process.env.PORT === '443') {
+  if (process.env.PORT === '443') {
     const redirect = express();
     redirect.get('*', (req, res) =>
       res.redirect(`https://${process.env.NODE_ENV !== 'development' ? info.prodDomain : info.devDomain}${req.url}`),

@@ -9,8 +9,8 @@
 /.env.local
 
 # certs
-/sotaoi/api/certs/privkey.pem
-/sotaoi/api/certs/fullchain.pem
+/sotaoi/api/certs/*
+!/sotaoi/api/certs/.gitkeep
 
 # app
 /todo.txt

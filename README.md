@@ -9,8 +9,7 @@
 Run the following commands in the command line to setup the application
 
 ```
-npm install
-npm run dev:setup-env (edits /etc/hosts, creates self-signed certificates and adds them to store)
+npm run dev:setup-env (edits /etc/hosts, adds self-signed certificates to trust store)
 ```
 
 This sets up the packages neccessary for **development**
@@ -23,8 +22,6 @@ In order to start the application, run each of these commands in a separate shel
 npm run start:api
 npm run start:proxy
 npm run start:cweb
-npm run start:crns (optional / mobile)
-npm run start:candroid (optional / mobile)
 ```
 
 In case there is a problem with running the proxy, try running it with superuser privileges (on linux)
@@ -34,4 +31,4 @@ sudo npm run start:proxy
 
 ```
 
-Afterwards in the browser go to the *https://monologz.dev*
+Afterwards in the browser go to the *https://monologz.loc*

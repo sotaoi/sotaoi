@@ -24,7 +24,7 @@ const WebRegisterUserForm = (props: { form: StoreForm; countries: RecordEntry[] 
       <Link to={'/gate/register/user/' + Helper.encodeSegment({ code: 'ro' })}>filter test</Link>
       <br />
       <br />
-      <div className="w-full max-w-md m-auto bg-white-100 shadow-md rounded p-5">
+      <div className={'w-full max-w-md m-auto bg-white-100 shadow-md rounded p-5'}>
         <h1 className={'text-center sm:text-3xl text-2xl font-medium title-font mb-4 text-indigo-900'}>Sign Up</h1>
 
         <Form.FormComponent>
@@ -100,7 +100,7 @@ const WebRegisterUserForm = (props: { form: StoreForm; countries: RecordEntry[] 
           )}
           <br />
 
-          <label className="block mb-2 text-indigo-500">Flavor</label>
+          <label className={'block mb-2 text-indigo-500'}>Flavor</label>
           {fields.flavor.wasTouched() &&
             fields.flavor.getErrors().map((error: any, index: any) => (
               <div key={index} style={{ color: '#ff3333', marginBottom: 10 }}>
@@ -108,7 +108,7 @@ const WebRegisterUserForm = (props: { form: StoreForm; countries: RecordEntry[] 
               </div>
             ))}
           <fields.flavor.component>
-            <option value="">Want a flavor?</option>
+            <option value={''}>Want a flavor?</option>
             {['vanilla', 'chocolate', 'hazelnuts', 'melon'].map((flavor, index) => (
               <option key={flavor + index} value={flavor}>
                 {flavor}
@@ -130,7 +130,7 @@ const WebRegisterUserForm = (props: { form: StoreForm; countries: RecordEntry[] 
               className={'w-full p-2 mb-6 text-black border-b-2 border-green-500 outline-none focus:bg-gray-300'}
             />
             <br />
-            <label className="block mb-2 text-indigo-500">Country</label>
+            <label className={'block mb-2 text-indigo-500'}>Country</label>
             {address.country.wasTouched() &&
               address.country.getErrors().map((error: any, index: any) => (
                 <div key={index} style={{ color: '#ff3333', marginBottom: 10 }}>

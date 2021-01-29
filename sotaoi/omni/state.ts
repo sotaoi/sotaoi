@@ -34,6 +34,7 @@ interface AppInfo {
   devDomain: string;
   prodDomainAlias: string;
   devDomainAlias: string;
+  apiDomainHelper: string;
   prodApiUrl: string;
   prodApiPort: number;
   devApiUrl: string;

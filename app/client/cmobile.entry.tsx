@@ -18,6 +18,7 @@ import { Loading } from '@app/client/components/loading';
 import { ErrorComponent } from '@app/client/components/error-component';
 import info from '@app/omni/info.json';
 import { AppKernel } from '@sotaoi/client/app-kernel';
+import { Provider as PaperProvider } from 'react-native-paper';
 
 const appKernel = new AppKernel();
 
@@ -54,7 +55,7 @@ const App = (): React.ReactElement => {
     case state.flag === 'loading':
       return <Loading />;
     case state.flag === 'started':
-      return routerComponent;
+      return <PaperProvider>{routerComponent}</PaperProvider>;
     case state.flag === 'failed':
       return <ErrorComponent error={state.error ? state.error : new Error('something went wrong')} />;
     default:

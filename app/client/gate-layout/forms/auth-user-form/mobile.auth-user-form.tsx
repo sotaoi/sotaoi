@@ -2,6 +2,7 @@ import React from 'react';
 import { AuthForm } from '@sotaoi/client/forms/form-classes/auth-form';
 import { View, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Button } from 'react-native-paper';
 
 const MobileAuthUserForm = (props: { form: AuthForm }): null | React.ReactElement => {
   const Form = props.form;
@@ -35,9 +36,9 @@ const MobileAuthUserForm = (props: { form: AuthForm }): null | React.ReactElemen
         </View>
 
         {/* submit btn */}
-        <TouchableOpacity style={{ marginTop: 20 }} onPressOut={(): void => Form.submit()}>
-          <Text>Login</Text>
-        </TouchableOpacity>
+        <Button style={{ marginTop: 20 }} onPress={(): void => Form.submit()}>
+          Login
+        </Button>
 
         {/*  */}
       </Form.FormComponent>

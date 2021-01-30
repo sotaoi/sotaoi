@@ -5,6 +5,7 @@
   "devDomain": "monologz.loc",
   "prodDomainAlias": "www.monologz.herokuapp.com",
   "devDomainAlias": "www.monologz.loc",
+  "apiDomainHelper": "qwertyapi.ddns.net",
   "prodApiUrl": "https://monologz.herokuapp.com/api",
   "prodApiPort": 3000,
   "devApiUrl": "https://monologz.loc/api",

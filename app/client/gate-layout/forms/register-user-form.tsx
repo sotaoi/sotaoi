@@ -26,7 +26,7 @@ class RegisterUserForm extends ViewComponent<RegisterUserFormProps> {
   }
 
   public init({ results, props }: ViewData<RegisterUserFormProps>): { form: StoreForm; countries: RecordEntry[] } {
-    const countries = results.countries.result.records;
+    const countries = results?.countries?.result?.records || [];
 
     const RegisterUserFormConstructor = FormConstructor(
       {
@@ -68,7 +68,8 @@ class RegisterUserForm extends ViewComponent<RegisterUserFormProps> {
   }
 
   public mobile(data: ViewData<RegisterUserFormProps>): null | React.ReactElement {
-    return <MobileRegisterUserForm {...this.init(data)} />;
+    const { form, countries } = this.init(data);
+    return <MobileRegisterUserForm form={form} countries={countries} />;
   }
 
   public electron(data: ViewData<RegisterUserFormProps>): null | React.ReactElement {

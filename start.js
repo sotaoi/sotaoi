@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+process.env.NODE_ENV === process.env.NODE_ENV || 'development';
+
 const { exec } = require('child_process');
 const Tail = require('tail').Tail;
 const fs = require('fs');

@@ -2,6 +2,7 @@ import React from 'react';
 import { AuthForm } from '@sotaoi/client/forms/form-classes/auth-form';
 import { SingleCollectionField, BaseField } from '@sotaoi/client/forms';
 import { FileField } from '@sotaoi/client/forms/fields/file-field';
+import { Button } from '@material-ui/core';
 
 interface FieldState {
   [key: string]: BaseField<any>;
@@ -31,7 +32,6 @@ const WebAuthUserForm = (props: { form: AuthForm }): null | React.ReactElement =
             placeholder={'email'}
           />
           <br />
-          <br />
 
           {/* password */}
           {fields.password.wasTouched() &&
@@ -47,12 +47,20 @@ const WebAuthUserForm = (props: { form: AuthForm }): null | React.ReactElement =
             className={'w-full p-2 mb-6 text-black border-b-2 border-green-500 outline-none focus:bg-gray-300'}
           />
           <br />
-          <br />
 
           {/* submit btn */}
-          <button disabled={!Form.getFormState().canSubmit} type={'submit'} onClick={(): void => Form.submit()}>
+          {/* <button disabled={!Form.getFormState().canSubmit} type={'submit'} onClick={(): void => Form.submit()}>
             Login
-          </button>
+          </button> */}
+          <Button
+            disabled={!Form.getFormState().canSubmit}
+            type={'submit'}
+            onClick={(): void => {
+              Form.submit();
+            }}
+          >
+            Login
+          </Button>
 
           {/*  */}
         </div>

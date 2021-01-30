@@ -43,6 +43,8 @@ const WebpackConfigFactory = (webpackEnv: any): webpack.Configuration => {
           'react-native-safe-area-view',
           'react-navigation-stack',
           'react-native-router-flux',
+          'react-native-vector-icons',
+          'react-native-paper',
           'fs',
           'path',
         ]),

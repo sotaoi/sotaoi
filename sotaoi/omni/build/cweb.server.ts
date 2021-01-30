@@ -43,6 +43,9 @@ const main = async (): Promise<void> => {
     https: {
       key: fs.readFileSync('./sotaoi/api/certs/privkey.pem'),
       cert: fs.readFileSync('./sotaoi/api/certs/fullchain.pem'),
+      // key: fs.readFileSync('./sotaoi/api/certs/private.key'),
+      // cert: fs.readFileSync('./sotaoi/api/certs/certificate.crt'),
+      // ca: fs.readFileSync('./sotaoi/api/certs/ca_bundle.crt'),
     },
     host: HOST,
     overlay: false,

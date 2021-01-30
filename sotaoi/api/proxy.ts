@@ -29,7 +29,6 @@ const proxy = async (info: AppInfo): Promise<void> => {
         info.apiDomainHelper,
       ]) {
         const domain = req.get('host') || '';
-        console.log(domain);
         if (domain.indexOf(validDomain) === -1) {
           continue;
         }
@@ -63,7 +62,6 @@ const proxy = async (info: AppInfo): Promise<void> => {
         info.apiDomainHelper,
       ]) {
         const domain = req.get('host') || '';
-        console.log(domain);
         if (domain.indexOf(validDomain) === -1) {
           continue;
         }
@@ -82,19 +80,11 @@ const proxy = async (info: AppInfo): Promise<void> => {
     },
   );
 
-  const certs = production
-    ? {}
-    : {
-        key: fs.readFileSync('./sotaoi/api/certs/privkey.pem'),
-        cert: fs.readFileSync('./sotaoi/api/certs/fullchain.pem'),
-      };
-
   production
     ? http.createServer(app).listen(process.env.PORT)
     : https
         .createServer(
           {
-            ...certs,
             SNICallback: async (domain, cb) => {
               const secureContext = tls.createSecureContext(
                 await (async (): Promise<{ [key: string]: any }> => {
@@ -102,6 +92,9 @@ const proxy = async (info: AppInfo): Promise<void> => {
                   return {
                     key: fs.readFileSync('./sotaoi/api/certs/privkey.pem'),
                     cert: fs.readFileSync('./sotaoi/api/certs/fullchain.pem'),
+                    // key: fs.readFileSync('./sotaoi/api/certs/private.key'),
+                    // cert: fs.readFileSync('./sotaoi/api/certs/certificate.crt'),
+                    // ca_bundle: fs.readFileSync('./sotaoi/api/certs/ca_bundle.crt'),
                   };
                 })(),
               );

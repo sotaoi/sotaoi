@@ -50,7 +50,7 @@ const main = async () => {
     const sevenBin = require('7zip-bin');
     const { extractFull } = require('node-7z');
 
-    extractFull(path.resolve('./var/build/sdk.7z.001'), path.resolve('./client'), {
+    extractFull(path.resolve('./var/build/sdk.7z.001'), path.resolve('./var/build'), {
       $bin: sevenBin.path7za,
     });
   }

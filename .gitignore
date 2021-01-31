@@ -24,17 +24,20 @@
 /.idea
 /.vscode
 
+# storage
+!/.gitkeep
+/storage/*
+
 # android
 /output.log
 /rn.log
 /android/.gradle
 /android/app/build
 
+# electron
+/electron/node_modules
+
 # ios
 /template/ios/Pods/
 /template/ios/Podfile.lock
 /packages/rn-tester/Gemfile.lock
-
-# storage
-!/.gitkeep
-/storage/*

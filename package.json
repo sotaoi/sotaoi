@@ -16,7 +16,7 @@
     "start:proxy": "cross-env NODE_ENV=development PORT=443 nodemon --config ./sotaoi/api/cfg-nodemon-proxy.json",
     "build:cweb": "ts-node ./sotaoi/omni/build/cweb.build.ts",
     "build:prod": "ts-node ./sotaoi/omni/build/build.ts",
-    "deploy:heroku": "ts-node ./var/deploy.heroku.ts",
+    "deploy:heroku": "ts-node ./sotaoi/omni/scripts/deploy/deploy.heroku.ts",
     "start:api:prod": "cross-env NODE_ENV=production PORT=3000 NODE_TLS_REJECT_UNAUTHORIZED=0 node ./app/api/api.entry.js",
     "start:cweb:prod": "cross-env NODE_ENV=production PORT=8080 node ./app/client/cweb.entry.prod.js",
     "start:proxy:prod": "cross-env NODE_ENV=production node ./app/api/proxy.entry.js",

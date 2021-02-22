@@ -21,6 +21,9 @@ import { AppInfo } from '@sotaoi/omni/state';
 import { Logger } from '@sotaoi/api/contracts';
 import { AuthRecord } from '@sotaoi/omni/artifacts';
 import { AuthHandler } from '@sotaoi/api/commands/auth-handler';
+import socketio from 'socket.io';
+import express from 'express';
+import https from 'https';
 const HapiCors = require('hapi-cors');
 
 class Server {
@@ -76,6 +79,25 @@ class Server {
       server.route(notFoundRoute);
 
       await server.register([Inert, Vision, HapiCors]);
+
+      const expressApp = express();
+      const httpsServer = https.createServer(
+        {
+          key: fs.readFileSync('./sotaoi/api/certs/privkey.pem'),
+          cert: fs.readFileSync('./sotaoi/api/certs/fullchain.pem'),
+          // key: fs.readFileSync('./sotaoi/api/certs/private.key'),
+          // cert: fs.readFileSync('./sotaoi/api/certs/certificate.crt'),
+          // ca_bundle: fs.readFileSync('./sotaoi/api/certs/ca_bundle.crt'),
+        },
+        expressApp,
+      );
+      const io = (socketio as any)(httpsServer);
+      io.on('connection', (socket: any) => {
+        // do nothing
+      });
+      httpsServer.listen(3001, () => {
+        console.log('listening on *:3001 (socket.io)');
+      });
 
       await server.start();
       app().get<Logger>(Logger).info(`Hapi server running on ${server.info.uri}`);

@@ -6,12 +6,14 @@ import { StoreService } from '@sotaoi/client/services/store-service';
 import { Helper } from '@sotaoi/client/helper';
 import { AppKernel } from '@sotaoi/client/app-kernel';
 import { store } from '@sotaoi/client/store';
+import { AppInfo } from '@sotaoi/omni/state';
 
 class Bootstrap {
   static routerComponent: null | React.ReactElement = null;
 
   public static async init(
     appTitle: string,
+    appInfo: AppInfo,
     apiUrl: string,
     appKernel: AppKernel,
     routerComponent: React.ReactElement,
@@ -28,7 +30,7 @@ class Bootstrap {
         app().singleton<Store>(
           Store,
           (): StoreService => {
-            return new StoreService(apiUrl, createStore, inputValidator, storage);
+            return new StoreService(appInfo, apiUrl, createStore, inputValidator, storage);
           },
         );
     });

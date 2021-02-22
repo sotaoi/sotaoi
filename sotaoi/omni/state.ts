@@ -51,8 +51,8 @@ interface AppInfo {
   devApiPort: number;
   devClientDomain: string;
   devClientPort: number;
-  devStreamingDomain: string;
-  devStreamingPort: number;
+  streamingBaseUrl: string;
+  streamingPort: number;
 }
 
 interface RouterPropsConfig {

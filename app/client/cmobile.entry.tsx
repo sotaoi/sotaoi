@@ -16,7 +16,7 @@ import { createStore } from 'redux';
 import { routerProps } from '@app/client/router-props';
 import { Loading } from '@app/client/components/loading';
 import { ErrorComponent } from '@app/client/components/error-component';
-import info from '@app/omni/info.json';
+import appInfo from '@app/omni/app-info.json';
 import { AppKernel } from '@sotaoi/client/app-kernel';
 import { Provider as PaperProvider } from 'react-native-paper';
 
@@ -33,7 +33,8 @@ const App = (): React.ReactElement => {
   React.useEffect(() => {
     Bootstrap.init(
       'MONOlogz',
-      process.env.NODE_ENV !== 'development' ? info.prodApiUrl : info.devMobileApiUrl,
+      appInfo,
+      process.env.NODE_ENV !== 'development' ? appInfo.prodApiUrl : appInfo.devMobileApiUrl,
       appKernel,
       routerComponent,
       createStore,

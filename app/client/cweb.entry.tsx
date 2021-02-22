@@ -7,7 +7,7 @@ import { createStore } from 'redux';
 import { routerProps } from '@app/client/router-props';
 import { Loading } from '@app/client/components/loading';
 import { ErrorComponent } from '@app/client/components/error-component';
-import info from '@app/omni/info.json';
+import appInfo from '@app/omni/app-info.json';
 import { AppKernel } from '@sotaoi/client/app-kernel';
 
 const main = async (): Promise<void> => {
@@ -15,7 +15,8 @@ const main = async (): Promise<void> => {
   const routerComponent = <Router {...routerProps} />;
   Bootstrap.init(
     'MONOlogz',
-    process.env.NODE_ENV !== 'development' ? info.prodApiUrl : info.devApiUrl,
+    appInfo,
+    process.env.NODE_ENV !== 'development' ? appInfo.prodApiUrl : appInfo.devApiUrl,
     appKernel,
     routerComponent,
     createStore,

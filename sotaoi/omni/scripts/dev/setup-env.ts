@@ -8,13 +8,13 @@ import { AppInfo } from '@sotaoi/omni/state';
 const argv = yargs
   .option('info', {
     alias: 'i',
-    description: 'File path for app info.json',
+    description: 'File path for app app-info.json',
     type: 'string',
   })
   .help()
   .alias('help', 'h').argv;
 if (!argv.info) {
-  throw new Error('File path for app info.json is missing. --info is required');
+  throw new Error('File path for app app-info.json is missing. --info is required');
 }
 const info: AppInfo = JSON.parse(fs.readFileSync(path.resolve(argv.info)).toString());
 

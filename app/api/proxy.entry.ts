@@ -1,4 +1,4 @@
 import { proxy } from '@sotaoi/api/proxy';
-import info from '@app/omni/info.json';
+import appInfo from '@app/omni/app-info.json';
 
-proxy(info);
+proxy(appInfo);

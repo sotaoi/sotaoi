@@ -50,6 +50,18 @@ const proxy = async (info: AppInfo): Promise<void> => {
     },
   );
 
+  // app.use(
+  //   '/socket.io',
+  //   (req, res, next): express.Response => {
+  //     return createProxyMiddleware({
+  //       secure: false,
+  //       target: `https://localhost:${info.streamingPort}`,
+  //       ws: true,
+  //       changeOrigin: true,
+  //     })(req, res, next);
+  //   },
+  // );
+
   app.use(
     '/',
     (req, res, next): express.Response => {

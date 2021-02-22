@@ -23,6 +23,6 @@
   "devApiPort": 3000,
   "devClientDomain": "localhost",
   "devClientPort": 8080,
-  "devStreamingDomain": "",
-  "devStreamingPort": 0
+  "streamingBaseUrl": "https://monologz.loc",
+  "streamingPort": 3001
 }

@@ -1,4 +1,5 @@
+require('dotenv').config();
 import { proxy } from '@sotaoi/api/proxy';
-import appInfo from '@app/omni/app-info.json';
+import { getAppInfo } from '@app/omni/get-app-info';
 
-proxy(appInfo);
+proxy(getAppInfo());

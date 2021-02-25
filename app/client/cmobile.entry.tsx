@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 import TextEncoding from 'text-encoding';
 declare const global: {
   HermesInternal: null | { [key: string]: any };
@@ -16,10 +18,11 @@ import { createStore } from 'redux';
 import { routerProps } from '@app/client/router-props';
 import { Loading } from '@app/client/components/loading';
 import { ErrorComponent } from '@app/client/components/error-component';
-import appInfo from '@app/omni/app-info.json';
+import { getAppInfo } from '@app/omni/get-app-info';
 import { AppKernel } from '@sotaoi/client/app-kernel';
 import { Provider as PaperProvider } from 'react-native-paper';
 
+const appInfo = getAppInfo();
 const appKernel = new AppKernel();
 
 const App = (): React.ReactElement => {

@@ -50,6 +50,7 @@ const main = async (): Promise<void> => {
   fs.writeFileSync(path.resolve(paths.appBuild, 'package.json'), JSON.stringify(_package, null, 2));
 
   if (argv.target) {
+    // todo here: maybe this is a simple copy now
     const info = JSON.parse(fs.readFileSync(path.resolve(paths.appBuild, 'app', 'omni', 'app-info.json')).toString());
     fs.writeFileSync(path.resolve(paths.appBuild, 'app', 'omni', 'app-info.json'), JSON.stringify(info, null, 2));
   }

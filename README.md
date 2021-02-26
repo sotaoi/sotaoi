@@ -28,7 +28,4 @@ In case there is a problem with running the proxy, try running it with superuser
 
 ```
 sudo npm run start:proxy
-
 ```
-
-Afterwards in the browser go to the *https://monologz.loc*

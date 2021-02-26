@@ -59,7 +59,7 @@ class RecordRef {
     return RecordRef.deserialize(value);
   }
 
-  public serialize(forStorage: any): string {
+  public serialize(forStorage: null | boolean): string {
     return JSON.stringify({ repository: this.repository, uuid: this.uuid });
   }
 

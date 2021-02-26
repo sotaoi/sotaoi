@@ -29,18 +29,19 @@ class Seed {
 
 interface AppInfo {
   name: string;
+  bundleId: string;
   packageName: string;
-  prodDomain: string;
   devDomain: string;
-  prodDomainAlias: string;
   devDomainAlias: string;
+  prodDomain: string;
+  prodDomainAlias: string;
   apiDomainHelper: string;
   prodApiUrl: string;
-  prodApiPort: number;
+  prodApiPort: string;
   devApiUrl: string;
   devMobileApiUrl: string;
   prodClientUrl: string;
-  prodClientPort: number;
+  prodClientPort: string;
   devClientUrl: string;
   mobileBundleLocation: string;
   translationsUrl: string;
@@ -48,11 +49,11 @@ interface AppInfo {
   termsOfUseUrl: string;
   deploymentInstance: string;
   devApiDomain: string;
-  devApiPort: number;
+  devApiPort: string;
   devClientDomain: string;
-  devClientPort: number;
-  devStreamingDomain: string;
-  devStreamingPort: number;
+  devClientPort: string;
+  streamingBaseUrl: string;
+  streamingPort: string;
 }
 
 interface RouterPropsConfig {

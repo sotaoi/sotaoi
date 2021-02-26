@@ -1,10 +1,16 @@
+require('dotenv').config();
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { paths } from '@sotaoi/omni/build/paths';
 import TerserPlugin from 'terser-webpack-plugin';
 import path from 'path';
+import { envVarWhitelist } from '@app/omni/get-app-info';
 
-const WebpackConfigFactory = (webpackEnv: any): webpack.Configuration => {
+const WebpackConfigFactory = (webpackEnv: string): webpack.Configuration => {
+  process.env.NODE_ENV = webpackEnv;
+  const envVars: { [key: string]: any } = {};
+  envVarWhitelist.map((varName) => ((envVars as any)[varName] = process.env[varName]));
+
   const isEnvProduction = process.env.NODE_ENV !== 'development';
   return {
     mode: isEnvProduction ? 'production' : 'development',
@@ -89,6 +95,7 @@ const WebpackConfigFactory = (webpackEnv: any): webpack.Configuration => {
       }),
       new webpack.DefinePlugin({
         __REACT_DEVTOOLS_GLOBAL_HOOK__: '({ isDisabled: true })',
+        'process.env': JSON.stringify(JSON.stringify(envVars)),
       }),
     ],
   };

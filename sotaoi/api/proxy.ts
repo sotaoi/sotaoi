@@ -9,7 +9,7 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import fs from 'fs';
 import { AppInfo } from '@sotaoi/omni/state';
 
-const proxy = async (info: AppInfo): Promise<void> => {
+const proxy = async (appInfo: AppInfo): Promise<void> => {
   const getTimestamp = () => new Date().toISOString().substr(0, 19).replace('T', ' ');
 
   const production = process.env.NODE_ENV === 'production';
@@ -22,11 +22,11 @@ const proxy = async (info: AppInfo): Promise<void> => {
     (req, res, next): express.Response => {
       let ok = false;
       for (let validDomain of [
-        info.prodDomain,
-        info.devDomain,
-        info.prodDomainAlias,
-        info.devDomainAlias,
-        info.apiDomainHelper,
+        appInfo.prodDomain,
+        appInfo.devDomain,
+        appInfo.prodDomainAlias,
+        appInfo.devDomainAlias,
+        appInfo.apiDomainHelper,
       ]) {
         const domain = req.get('host') || '';
         if (domain.indexOf(validDomain) === -1) {
@@ -43,23 +43,35 @@ const proxy = async (info: AppInfo): Promise<void> => {
         // pathRewrite: {
         //   '^/api/': '/api/',
         // },
-        target: production ? `https://localhost:${info.prodApiPort}` : `https://localhost:${info.devApiPort}`,
+        target: production ? `https://localhost:${appInfo.prodApiPort}` : `https://localhost:${appInfo.devApiPort}`,
         ws: false,
         changeOrigin: true,
       })(req, res, next);
     },
   );
 
+  // app.use(
+  //   '/socket.io',
+  //   (req, res, next): express.Response => {
+  //     return createProxyMiddleware({
+  //       secure: false,
+  //       target: `https://localhost:${appInfo.streamingPort}`,
+  //       ws: true,
+  //       changeOrigin: true,
+  //     })(req, res, next);
+  //   },
+  // );
+
   app.use(
     '/',
     (req, res, next): express.Response => {
       let ok = false;
       for (let validDomain of [
-        info.prodDomain,
-        info.devDomain,
-        info.prodDomainAlias,
-        info.devDomainAlias,
-        info.apiDomainHelper,
+        appInfo.prodDomain,
+        appInfo.devDomain,
+        appInfo.prodDomainAlias,
+        appInfo.devDomainAlias,
+        appInfo.apiDomainHelper,
       ]) {
         const domain = req.get('host') || '';
         if (domain.indexOf(validDomain) === -1) {
@@ -73,7 +85,9 @@ const proxy = async (info: AppInfo): Promise<void> => {
       }
       return createProxyMiddleware({
         secure: false,
-        target: production ? `https://localhost:${info.prodClientPort}` : `https://localhost:${info.devClientPort}`,
+        target: production
+          ? `https://localhost:${appInfo.prodClientPort}`
+          : `https://localhost:${appInfo.devClientPort}`,
         ws: true,
         changeOrigin: true,
       })(req, res, next);
@@ -115,7 +129,9 @@ const proxy = async (info: AppInfo): Promise<void> => {
   if (process.env.PORT === '443' && process.env.REDIRECT_FROM_PORT) {
     const redirect = express();
     redirect.get('*', (req, res) =>
-      res.redirect(`https://${process.env.NODE_ENV !== 'development' ? info.prodDomain : info.devDomain}${req.url}`),
+      res.redirect(
+        `https://${process.env.NODE_ENV !== 'development' ? appInfo.prodDomain : appInfo.devDomain}${req.url}`,
+      ),
     );
     redirect.listen(process.env.REDIRECT_FROM_PORT);
     console.log(`[${getTimestamp()}] Proxy server redirecting from port ${process.env.REDIRECT_FROM_PORT}`);

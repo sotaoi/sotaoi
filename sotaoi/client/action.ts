@@ -10,9 +10,10 @@ import {
   SlistFilters,
 } from '@sotaoi/omni/transactions';
 import { Output } from '@sotaoi/omni/output';
-import { Artifacts } from '@sotaoi/omni/artifacts';
+import { Artifacts, RecordRef } from '@sotaoi/omni/artifacts';
 import { RequestAbortHandler } from '@sotaoi/client/components';
 import { store } from '@sotaoi/client/store';
+const { io } = require('socket.io/client-dist/socket.io.js');
 
 // maybe split file in action types
 
@@ -151,9 +152,18 @@ class Action {
       formData.append('variant', variant || '');
       const controller = new AbortController();
       requestAbortHandler.register(() => controller.abort());
-      return await (
+      const result = await (
         await fetch(apiUrl + '/retrieve', { signal: controller.signal, method: 'POST', body: formData })
       ).json();
+      // use record ref to listen
+      const recordRef = new RecordRef(repository, uuid);
+      const appInfo = store().getAppInfo();
+      const socket = io.connect(`${appInfo.streamingBaseUrl}:${appInfo.streamingPort}`, { transports: ['websocket'] });
+      console.log(`db.records.update:${recordRef.serialize(null)}`);
+      socket.on(`db.records.update:${recordRef.serialize(null)}`, (msg: any) => {
+        console.log('db.records.update:', msg || null);
+      });
+      return result;
     } catch (err) {
       return new RetrieveResult(false, null, {
         code: 400,

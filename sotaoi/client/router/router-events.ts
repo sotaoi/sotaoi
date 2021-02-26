@@ -19,7 +19,7 @@ class RouterEvents {
 
   public static fire(event: string): void {
     if (typeof this.listeners[event] === 'undefined') {
-      console.info(`no listeners for event "${event}"`);
+      console.log(`no listeners for event "${event}"`);
       return;
     }
 

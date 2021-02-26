@@ -3,9 +3,10 @@ import { Server } from '@sotaoi/api/server';
 import { handlers } from '@app/api/handlers';
 import * as forms from '@app/omni/forms';
 import { ApiInit } from '@app/api/api-init';
+import { getAppInfo } from '@app/omni/get-app-info';
 
 // app info
-const appInfo = ApiInit.getInfo();
+const appInfo = getAppInfo();
 
 // app kernel
 const appKernel = ApiInit.kernel();

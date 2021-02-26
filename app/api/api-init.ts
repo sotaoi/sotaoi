@@ -13,18 +13,11 @@ import {
 } from '@sotaoi/omni/input';
 import { AuthRecord, RecordRef } from '@sotaoi/omni/artifacts';
 import { db } from '@sotaoi/api/db';
-import { AppInfo } from '@sotaoi/omni/state';
-import info from '@app/omni/info.json';
 import { AuthHandler } from '@sotaoi/api/commands/auth-handler';
 import { ResponseToolkit } from '@hapi/hapi';
 
 class ApiInit {
   // { -->
-
-  // app info
-  public static getInfo(): AppInfo {
-    return info;
-  }
 
   // app kernel
   public static kernel(): AppKernel {

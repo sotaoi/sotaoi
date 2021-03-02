@@ -1,9 +1,4 @@
 !/.env
-!/.env.production
-!/.env.staging
-!/.env.development
-!/.env.testing
-!/.env.local
 !/todo.txt
 /var/build/release
 /package-lock.json

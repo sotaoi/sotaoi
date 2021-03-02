@@ -15,20 +15,25 @@ const envVarWhitelist = [
   'MOBILE_BUNDLE_LOCATION',
 ];
 
+const processEnv = (): { [key: string]: string } => {
+  const envVars: { [key: string]: string } = {};
+  const processEnv = typeof process.env !== 'string' ? process.env : JSON.parse(process.env);
+  if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
+    //
+  }
+  for (const envVar of envVarWhitelist) {
+    envVars[envVar] = processEnv[envVar] || '';
+  }
+  return envVars;
+};
+
 const getAppInfo = (): AppInfo => {
   if (appInfoParsed) {
     return appInfoParsed as AppInfo;
   }
   appInfoParsed = JSON.parse(JSON.stringify(appInfo));
-  const envVars: { [key: string]: string } = {};
-  if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
-    console.log(process.env);
-  } else {
-    const processEnv = typeof process.env !== 'string' ? process.env : JSON.parse(process.env);
-    for (const envVar of envVarWhitelist) {
-      envVars[envVar] = processEnv[envVar] || '';
-    }
-  }
+  const envVars = processEnv();
+  console.log(envVars);
   for (const key of Object.keys(appInfoParsed)) {
     for (const [varName, varVal] of Object.entries(envVars)) {
       (appInfoParsed as any)[key] =

@@ -103,6 +103,7 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
     }),
   );
   http.createServer(mobileBundleApp).listen(8079);
+  console.log(`[${getTimestamp()}] Proxy server redirecting from port 8079 to 8081`);
 
   production
     ? http.createServer(app).listen(process.env.PORT)

@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 import TextEncoding from 'text-encoding';
 declare const global: {
   HermesInternal: null | { [key: string]: any };

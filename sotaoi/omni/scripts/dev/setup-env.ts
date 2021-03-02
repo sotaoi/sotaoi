@@ -1,9 +1,8 @@
 import { execSync } from 'child_process';
 import Os from 'os';
 import fs from 'fs';
-import path from 'path';
 import yargs from 'yargs';
-import { AppInfo } from '@sotaoi/omni/state';
+import { getAppInfo } from '@app/omni/get-app-info';
 
 const argv = yargs
   .option('info', {
@@ -16,7 +15,7 @@ const argv = yargs
 if (!argv.info) {
   throw new Error('File path for app app-info.json is missing. --info is required');
 }
-const info: AppInfo = JSON.parse(fs.readFileSync(path.resolve(argv.info)).toString());
+const info = getAppInfo();
 
 const main = (func: () => any): any => {
   // create snakeoil certs

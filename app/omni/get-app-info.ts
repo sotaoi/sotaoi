@@ -4,7 +4,16 @@ import { AppInfo } from '@sotaoi/omni/state';
 
 let appInfoParsed: AppInfo;
 
-const envVarWhitelist = ['NODE_ENV', 'APP_NAME', 'BUNDLE_ID', 'PACKAGE_NAME', 'DEV_DOMAIN', 'DEV_DOMAIN_ALIAS'];
+const envVarWhitelist = [
+  'NODE_ENV',
+  'APP_NAME',
+  'BUNDLE_ID',
+  'PACKAGE_NAME',
+  'DEV_DOMAIN',
+  'DEV_DOMAIN_ALIAS',
+  'DEV_MOBILE_API_URL',
+  'MOBILE_BUNDLE_LOCATION',
+];
 
 const getAppInfo = (): AppInfo => {
   if (appInfoParsed) {
@@ -12,9 +21,13 @@ const getAppInfo = (): AppInfo => {
   }
   appInfoParsed = JSON.parse(JSON.stringify(appInfo));
   const envVars: { [key: string]: string } = {};
-  const processEnv = typeof process.env !== 'string' ? process.env : JSON.parse(process.env);
-  for (const envVar of envVarWhitelist) {
-    envVars[envVar] = processEnv[envVar] || '';
+  if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
+    console.log(process.env);
+  } else {
+    const processEnv = typeof process.env !== 'string' ? process.env : JSON.parse(process.env);
+    for (const envVar of envVarWhitelist) {
+      envVars[envVar] = processEnv[envVar] || '';
+    }
   }
   for (const key of Object.keys(appInfoParsed)) {
     for (const [varName, varVal] of Object.entries(envVars)) {

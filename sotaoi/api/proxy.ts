@@ -94,6 +94,16 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
     },
   );
 
+  const mobileBundleApp = express();
+  mobileBundleApp.use(
+    createProxyMiddleware({
+      target: `http://localhost:8081`,
+      ws: true,
+      changeOrigin: true,
+    }),
+  );
+  http.createServer(mobileBundleApp).listen(8079);
+
   production
     ? http.createServer(app).listen(process.env.PORT)
     : https

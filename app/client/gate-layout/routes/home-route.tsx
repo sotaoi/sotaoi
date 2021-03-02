@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Helper } from '@sotaoi/client/helper';
 import { tailwind } from '@sotaoi/client/components/styles';
+import { getAppInfo } from '@app/omni/get-app-info';
 // !!
 // import { Button } from '@sotaoi/client/components/button';
 
@@ -31,6 +32,7 @@ const HomeRoute = (): null | React.ReactElement => {
             title={'asd'}
           /> */
       }
+      console.log(getAppInfo());
       return (
         <View style={tailwind('pt-12 items-center')}>
           <View style={tailwind('bg-blue-200 px-3 py-1 rounded-full')}>

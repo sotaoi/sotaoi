@@ -22,5 +22,6 @@ module.exports = {
         },
       },
     ],
+    ['inline-dotenv', { unsafe: true, systemVar: 'all' }],
   ],
 };

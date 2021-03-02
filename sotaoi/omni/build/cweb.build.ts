@@ -18,7 +18,7 @@ const main = async (): Promise<void> => {
   const compiler = webpack(config as any);
   compiler.run((ex: Error, stats: Stats) => {
     if (ex) {
-      console.log(ex);
+      console.info(ex);
       return;
     }
 
@@ -32,10 +32,10 @@ const main = async (): Promise<void> => {
 
     const { hash, startTime, endTime } = stats;
     if (!endTime || !startTime) {
-      console.log(`hash: ${hash}\n`);
+      console.info(`hash: ${hash}\n`);
       return;
     }
-    console.log(`hash: ${hash}\nbuild time: ${(endTime - startTime) / 1000}s\n`);
+    console.info(`hash: ${hash}\nbuild time: ${(endTime - startTime) / 1000}s\n`);
   });
 };
 

@@ -32,7 +32,7 @@ const HomeRoute = (): null | React.ReactElement => {
             title={'asd'}
           /> */
       }
-      console.log(getAppInfo());
+      console.info(getAppInfo());
       return (
         <View style={tailwind('pt-12 items-center')}>
           <View style={tailwind('bg-blue-200 px-3 py-1 rounded-full')}>

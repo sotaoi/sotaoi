@@ -31,7 +31,7 @@ class TaskUserForm extends ViewComponent<TaskUserFormProps> {
     React.useEffect(() => (): void => Form.destroy(), []);
 
     Form.onTaskSuccess(async (result) => {
-      console.log(result.data);
+      console.info(result.data);
     });
 
     return { form: Form };

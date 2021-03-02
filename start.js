@@ -9,8 +9,8 @@ const fs = require('fs');
 const main = async () => {
   !fs.existsSync('./output.log') && fs.writeFileSync('./output.log', '');
   const outputTail = new Tail('./output.log');
-  outputTail.on('line', (data) => console.log(data));
-  // outputTail.on('error', (error) => console.log('ERROR: ', error));
+  outputTail.on('line', (data) => console.info(data));
+  // outputTail.on('error', (error) => console.info('ERROR: ', error));
 
   if (process.env.NODE_ENV !== 'production') {
     exec('npm run start:api >> ./output.log 2>&1');

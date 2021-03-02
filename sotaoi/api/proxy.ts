@@ -94,16 +94,16 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
     },
   );
 
-  const mobileBundleApp = express();
-  mobileBundleApp.use(
-    createProxyMiddleware({
-      target: `http://localhost:8081`,
-      ws: true,
-      changeOrigin: true,
-    }),
-  );
-  http.createServer(mobileBundleApp).listen(8079);
-  console.log(`[${getTimestamp()}] Proxy server redirecting from port 8079 to 8081`);
+  // const mobileBundleApp = express();
+  // mobileBundleApp.use(
+  //   createProxyMiddleware({
+  //     target: `http://localhost:8081`,
+  //     ws: true,
+  //     changeOrigin: true,
+  //   }),
+  // );
+  // http.createServer(mobileBundleApp).listen(8079);
+  // console.info(`[${getTimestamp()}] Proxy server redirecting from port 8079 to 8081`);
 
   production
     ? http.createServer(app).listen(process.env.PORT)
@@ -134,7 +134,7 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
           app,
         )
         .listen(process.env.PORT);
-  console.log(`[${getTimestamp()}] Proxy server running on port ${process.env.PORT}`);
+  console.info(`[${getTimestamp()}] Proxy server running on port ${process.env.PORT}`);
 
   // # REDIRECT HTTP to HTTPS
   if (process.env.PORT === '443' && process.env.REDIRECT_FROM_PORT) {
@@ -145,7 +145,7 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
       ),
     );
     redirect.listen(process.env.REDIRECT_FROM_PORT);
-    console.log(`[${getTimestamp()}] Proxy server redirecting from port ${process.env.REDIRECT_FROM_PORT}`);
+    console.info(`[${getTimestamp()}] Proxy server redirecting from port ${process.env.REDIRECT_FROM_PORT}`);
   }
 };
 

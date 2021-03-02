@@ -70,12 +70,12 @@ class AppKernel {
             relativeTo: path.resolve('./storage'),
             rule: async (handler: ResponseToolkit, role: string, item: StoredItem): Promise<boolean> => {
               // const accessToken = AuthHandler.getAccessToken(handler);
-              // console.log('checking storage permissions');
-              // console.log('role:', role);
-              // console.log('domain:', item.domain);
-              // console.log('pathame:', item.pathname);
-              // console.log('access token:', accessToken);
-              // console.log('auth record:', await AuthHandler.translateAccessToken(handler, accessToken));
+              // console.info('checking storage permissions');
+              // console.info('role:', role);
+              // console.info('domain:', item.domain);
+              // console.info('pathame:', item.pathname);
+              // console.info('access token:', accessToken);
+              // console.info('auth record:', await AuthHandler.translateAccessToken(handler, accessToken));
 
               if (item.domain === 'public') {
                 return true;

@@ -96,7 +96,7 @@ class Server {
         // do nothing
       });
       httpsServer.listen(3001, () => {
-        console.log('listening on *:3001 (socket.io)');
+        console.info('listening on *:3001 (socket.io)');
       });
 
       await server.start();

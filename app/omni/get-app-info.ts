@@ -19,7 +19,15 @@ const processEnv = (): { [key: string]: string } => {
   const envVars: { [key: string]: string } = {};
   const processEnv = typeof process.env !== 'string' ? process.env : JSON.parse(process.env);
   if (typeof navigator !== 'undefined' && navigator.product === 'ReactNative') {
-    //
+    envVars.NODE_ENV = process.env.NODE_ENV || '';
+    envVars.APP_NAME = process.env.APP_NAME || '';
+    envVars.BUNDLE_ID = process.env.BUNDLE_ID || '';
+    envVars.PACKAGE_NAME = process.env.PACKAGE_NAME || '';
+    envVars.DEV_DOMAIN = process.env.DEV_DOMAIN || '';
+    envVars.DEV_DOMAIN_ALIAS = process.env.DEV_DOMAIN_ALIAS || '';
+    envVars.DEV_MOBILE_API_URL = process.env.DEV_MOBILE_API_URL || '';
+    envVars.MOBILE_BUNDLE_LOCATION = process.env.DEV_MOBILE_API_URL || '';
+    return envVars;
   }
   for (const envVar of envVarWhitelist) {
     envVars[envVar] = processEnv[envVar] || '';
@@ -33,7 +41,6 @@ const getAppInfo = (): AppInfo => {
   }
   appInfoParsed = JSON.parse(JSON.stringify(appInfo));
   const envVars = processEnv();
-  console.log(envVars);
   for (const key of Object.keys(appInfoParsed)) {
     for (const [varName, varVal] of Object.entries(envVars)) {
       (appInfoParsed as any)[key] =

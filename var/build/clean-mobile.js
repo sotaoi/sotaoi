@@ -19,7 +19,11 @@ const main = async () => {
         `JAVA_HOME="${path.resolve(javaDirectory, './JavaVirtualMachines/jdk1.8.0_212.jdk/Contents/Home')}"`,
       ];
 
-      execSync(`npx cross-env ${parameters.join(' ')} react-native run-android`, { stdio: 'inherit' });
+      // ios
+      // todo
+
+      // android
+      execSync(`${parameters.join(' ')} ./gradlew clean`, { stdio: 'inherit', cwd: path.resolve('./android') });
 
       break;
     // linux
@@ -42,3 +46,9 @@ const main = async () => {
 };
 
 main();
+
+// ios
+// todo
+
+// android
+//

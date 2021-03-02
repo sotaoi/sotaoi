@@ -66,10 +66,10 @@ const main = async (): Promise<void> => {
     response.body.accessToken = accessToken;
     accessTokenExpiresAt && (response.body.accessTokenExpiresAt = accessTokenExpiresAt.getTime().toString());
     response.body.user = JSON.stringify(user);
-    console.log('access token:', accessToken);
-    console.log('access token expires at:', accessTokenExpiresAt);
-    console.log('user:', user);
-    console.log('response:', response);
+    console.info('access token:', accessToken);
+    console.info('access token expires at:', accessTokenExpiresAt);
+    console.info('user:', user);
+    console.info('response:', response);
     // The request was successfully authenticated.
   } catch (err) {
     console.error('e', err);

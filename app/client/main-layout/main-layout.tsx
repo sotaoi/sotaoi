@@ -69,9 +69,9 @@ const MainLayout = (props: LayoutProps): React.ReactElement => {
         <View style={{ margin: 15 }}>
           <Link to={'/user/list/all'}>Users</Link>
         </View>
-        {/* <View style={{ margin: 15 }}>
+        <View style={{ margin: 15 }}>
           <Link to={'/user/hello-task'}>User Task</Link>
-        </View> */}
+        </View>
         <View style={{ margin: 15 }}>
           <Link to={'/post/store'}>Add post</Link>
         </View>

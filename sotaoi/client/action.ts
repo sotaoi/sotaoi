@@ -13,7 +13,7 @@ import { Output } from '@sotaoi/omni/output';
 import { Artifacts, RecordRef } from '@sotaoi/omni/artifacts';
 import { RequestAbortHandler } from '@sotaoi/client/components';
 import { store } from '@sotaoi/client/store';
-const { io } = require('socket.io/client-dist/socket.io.js');
+import { socket } from '@sotaoi/client/socket';
 
 // maybe split file in action types
 
@@ -157,10 +157,9 @@ class Action {
       ).json();
       // use record ref to listen
       const recordRef = new RecordRef(repository, uuid);
-      const appInfo = store().getAppInfo();
-      const socket = io.connect(`${appInfo.streamingBaseUrl}:${appInfo.streamingPort}`, { transports: ['websocket'] });
+      const io = socket().io();
       console.log(`db.records.update:${recordRef.serialize(null)}`);
-      socket.on(`db.records.update:${recordRef.serialize(null)}`, (msg: any) => {
+      io.on(`db.records.update:${recordRef.serialize(null)}`, async (msg: any) => {
         console.log('db.records.update:', msg || null);
       });
       return result;

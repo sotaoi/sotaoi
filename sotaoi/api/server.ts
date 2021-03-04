@@ -95,6 +95,10 @@ class Server {
       io.on('connection', (socket: any) => {
         // do nothing
       });
+      setTimeout(
+        () => io.emit('db.records.update:{"repository":"user","uuid":"5e919eef-3f8c-4672-9005-2d580f68bd53"}', 'yo'),
+        2000,
+      );
       httpsServer.listen(3001, () => {
         console.info('listening on *:3001 (socket.io)');
       });

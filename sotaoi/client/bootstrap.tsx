@@ -1,12 +1,14 @@
 import React from 'react';
 import ReactDom from 'react-dom';
 import { StoreCreator } from 'redux';
-import { Store, Storage, InputValidator } from '@sotaoi/client/contracts';
+import { Store, Storage, InputValidator, Socket } from '@sotaoi/client/contracts';
 import { StoreService } from '@sotaoi/client/services/store-service';
+import { SocketService } from '@sotaoi/client/services/socket-services';
 import { Helper } from '@sotaoi/client/helper';
 import { AppKernel } from '@sotaoi/client/app-kernel';
 import { store } from '@sotaoi/client/store';
 import { AppInfo } from '@sotaoi/omni/state';
+import { socket } from '@sotaoi/client/socket';
 
 class Bootstrap {
   static routerComponent: null | React.ReactElement = null;
@@ -33,14 +35,30 @@ class Bootstrap {
             return new StoreService(appInfo, apiUrl, createStore, inputValidator, storage);
           },
         );
+
+      // Socket
+      !app().has(Socket) &&
+        app().singleton<Socket>(
+          Socket,
+          (): SocketService => {
+            return new SocketService();
+          },
+        );
     });
     Helper.setTitle(appTitle);
+
+    const init = async (): Promise<void> => {
+      socket().connect(`${appInfo.streamingBaseUrl}:${appInfo.streamingPort}`, {
+        transports: ['websocket'],
+      });
+      await store().init();
+    };
 
     switch (true) {
       case Helper.isWeb():
         try {
           ReactDom.render(<Loading />, document.getElementById('bootstrap'));
-          await store().init();
+          await init();
           ReactDom.render(routerComponent, document.getElementById('bootstrap'));
         } catch (err) {
           console.error(err);
@@ -48,9 +66,11 @@ class Bootstrap {
         }
         break;
       case Helper.isMobile():
-        await store().init();
+        await init();
         break;
       case Helper.isElectron():
+        // no loader here yet
+        await init();
         // nothing here yet
         break;
       default:

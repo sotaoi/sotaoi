@@ -45,12 +45,21 @@ class Server {
       appKernel.bootstrap();
       await Setup.init(handlers, forms);
 
+      // const certs: { key: string | undefined; cert: string | undefined; ca?: string | undefined } = {
+      //   key: process.env.SSL_KEY,
+      //   cert: process.env.SSL_CERT,
+      // };
+      // if (process.env.SSL_CA) {
+      //   certs.ca = process.env.SSL_CA;
+      // }
+
       const certs = {
-        key: fs.readFileSync('./sotaoi/api/certs/privkey.pem'),
-        cert: fs.readFileSync('./sotaoi/api/certs/fullchain.pem'),
         // key: fs.readFileSync('./sotaoi/api/certs/private.key'),
         // cert: fs.readFileSync('./sotaoi/api/certs/certificate.crt'),
         // ca: fs.readFileSync('./sotaoi/api/certs/ca_bundle.crt'),
+
+        key: fs.readFileSync('./sotaoi/api/certs/privkey.pem'),
+        cert: fs.readFileSync('./sotaoi/api/certs/fullchain.pem'),
       };
 
       const server = Hapi.server({

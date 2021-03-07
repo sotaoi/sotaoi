@@ -45,6 +45,11 @@ const main = async () => {
   !fs.existsSync(path.resolve(`./sotaoi/omni/app-package.json`)) &&
     fs.symlinkSync('../../package.json', path.resolve(`./sotaoi/omni/app-package.json`));
 
+  fs.writeFileSync(
+    path.resolve('./.greenlockrc'),
+    `{"configDir":"${path.resolve('./var/greenlock.d')}","manager":"@greenlock/manager"}`,
+  );
+
   // }
 
   // sdk {

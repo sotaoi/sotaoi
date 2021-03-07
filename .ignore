@@ -1,4 +1,5 @@
 !/.env
+!/.greenlockrc
 !/todo.txt
 /var/build/release
 /package-lock.json

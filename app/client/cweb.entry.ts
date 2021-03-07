@@ -8,6 +8,9 @@ import { WebpackConfigFactory } from '@sotaoi/omni/build/client.webpack.config';
 import { paths } from '@sotaoi/omni/build/paths';
 import yargs from 'yargs';
 
+let serverInitInterval: any = null;
+let serverInitTries = 0;
+
 const main = async (): Promise<void> => {
   const argv = yargs
     .option('info', {
@@ -17,6 +20,23 @@ const main = async (): Promise<void> => {
     })
     .help()
     .alias('help', 'h').argv;
+
+  clearTimeout(serverInitInterval);
+  const keyPath = path.resolve(process.env.SSL_KEY || '');
+  const certPath = path.resolve(process.env.SSL_CERT || '');
+  const chainPath = path.resolve(process.env.SSL_CA || '');
+  if (!fs.existsSync(keyPath) || !fs.existsSync(certPath) || !fs.existsSync(chainPath)) {
+    if (serverInitTries === 60) {
+      console.error('server failed to start because at least one ssl certificate file is missing');
+      return;
+    }
+    serverInitTries++;
+    console.error('at least one certificate file is missing. retrying in 5 seconds...');
+    serverInitInterval = setTimeout(async (): Promise<void> => {
+      await main();
+    }, 5000);
+    return;
+  }
 
   if (!argv.info) {
     throw new Error('File path for app app-info.json is missing. --info is required');
@@ -42,10 +62,8 @@ const main = async (): Promise<void> => {
     },
     https: {
       key: fs.readFileSync('./sotaoi/api/certs/privkey.pem'),
-      cert: fs.readFileSync('./sotaoi/api/certs/fullchain.pem'),
-      // key: fs.readFileSync('./sotaoi/api/certs/private.key'),
-      // cert: fs.readFileSync('./sotaoi/api/certs/certificate.crt'),
-      // ca: fs.readFileSync('./sotaoi/api/certs/ca_bundle.crt'),
+      cert: fs.readFileSync('./sotaoi/api/certs/cert.pem'),
+      ca: fs.readFileSync('./sotaoi/api/certs/bundle.pem'),
     },
     host: HOST,
     overlay: false,

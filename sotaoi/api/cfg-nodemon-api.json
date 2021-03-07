@@ -1,6 +1,6 @@
 {
   "watch": ["./app/api", "./app/omni", "./sotaoi/api", "./sotaoi/omni", "./package.json"],
   "ext": "*",
-  "ignore": [],
+  "ignore": ["./sotaoi/api/certs"],
   "exec": "ts-node --project ./tsconfig.api.json ./app/api/api.entry.ts"
 }

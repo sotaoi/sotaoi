@@ -25,7 +25,7 @@ const main = async () => {
     fs.symlinkSync('../../app/omni', path.resolve(`${appSymlinkPath}/omni`));
   };
 
-  const createsotaoiSymlinks = () => {
+  const createSotaoiSymlinks = () => {
     fs.rmdirSync(sotaoiSymlinkPath, { recursive: true });
     fs.mkdirSync(sotaoiSymlinkPath);
     fs.symlinkSync('../../sotaoi/api', path.resolve(`${sotaoiSymlinkPath}/api`));
@@ -39,8 +39,11 @@ const main = async () => {
     createAppSymlinks();
   }
   if (!fs.existsSync(sotaoiSymlinkPath)) {
-    createsotaoiSymlinks();
+    createSotaoiSymlinks();
   }
+
+  !fs.existsSync(path.resolve(`./sotaoi/omni/app-package.json`)) &&
+    fs.symlinkSync('../../package.json', path.resolve(`./sotaoi/omni/app-package.json`));
 
   // }
 

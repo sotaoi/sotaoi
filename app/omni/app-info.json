@@ -4,6 +4,8 @@
   "packageName": "%{PACKAGE_NAME}%",
   "devDomain": "%{DEV_DOMAIN}%",
   "devDomainAlias": "%{DEV_DOMAIN_ALIAS}%",
+  "stageDomain": "%{STAGE_DOMAIN}%",
+  "stageDomainAlias": "%{STAGE_DOMAIN_ALIAS}%",
   "prodDomain": "monologz.herokuapp.com",
   "prodDomainAlias": "www.monologz.herokuapp.com",
   "apiDomainHelper": "monologz.ddns.net",
@@ -25,5 +27,7 @@
   "devClientDomain": "localhost",
   "devClientPort": "8080",
   "streamingBaseUrl": "https://%{DEV_DOMAIN}%",
-  "streamingPort": "3001"
+  "streamingPort": "3001",
+  "greenlockExecution": "%{GREENLOCK_EXECUTION}%",
+  "sslMaintainer": "%{SSL_MAINTAINER}%"
 }

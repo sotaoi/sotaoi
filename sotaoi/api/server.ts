@@ -1,5 +1,6 @@
 import { FormValidations } from '@sotaoi/omni/input';
 import fs from 'fs';
+import path from 'path';
 import Hapi, { ResponseToolkit } from '@hapi/hapi';
 import { Setup, RepositoryHandlers } from '@sotaoi/api/setup';
 import { greetingRoute } from '@sotaoi/api/routes/greeting-route';
@@ -24,6 +25,7 @@ import { AuthHandler } from '@sotaoi/api/commands/auth-handler';
 import socketio from 'socket.io';
 import express from 'express';
 import https from 'https';
+
 const HapiCors = require('hapi-cors');
 
 class Server {
@@ -39,27 +41,20 @@ class Server {
     deauth: (handler: ResponseToolkit) => Promise<void>,
   ): Promise<void> {
     try {
+      const keyPath = path.resolve(process.env.SSL_KEY || '');
+      const certPath = path.resolve(process.env.SSL_CERT || '');
+      const chainPath = path.resolve(process.env.SSL_CA || '');
+
       AuthHandler.setTranslateAccessToken(translateAccessToken);
       AuthHandler.setDeauth(deauth);
 
       appKernel.bootstrap();
       await Setup.init(handlers, forms);
 
-      // const certs: { key: string | undefined; cert: string | undefined; ca?: string | undefined } = {
-      //   key: process.env.SSL_KEY,
-      //   cert: process.env.SSL_CERT,
-      // };
-      // if (process.env.SSL_CA) {
-      //   certs.ca = process.env.SSL_CA;
-      // }
-
       const certs = {
-        // key: fs.readFileSync('./sotaoi/api/certs/private.key'),
-        // cert: fs.readFileSync('./sotaoi/api/certs/certificate.crt'),
-        // ca: fs.readFileSync('./sotaoi/api/certs/ca_bundle.crt'),
-
-        key: fs.readFileSync('./sotaoi/api/certs/privkey.pem'),
-        cert: fs.readFileSync('./sotaoi/api/certs/fullchain.pem'),
+        key: fs.readFileSync(keyPath),
+        cert: fs.readFileSync(certPath),
+        ca: fs.readFileSync(chainPath),
       };
 
       const server = Hapi.server({
@@ -92,11 +87,7 @@ class Server {
       const expressApp = express();
       const httpsServer = https.createServer(
         {
-          key: fs.readFileSync('./sotaoi/api/certs/privkey.pem'),
-          cert: fs.readFileSync('./sotaoi/api/certs/fullchain.pem'),
-          // key: fs.readFileSync('./sotaoi/api/certs/private.key'),
-          // cert: fs.readFileSync('./sotaoi/api/certs/certificate.crt'),
-          // ca_bundle: fs.readFileSync('./sotaoi/api/certs/ca_bundle.crt'),
+          ...certs,
         },
         expressApp,
       );

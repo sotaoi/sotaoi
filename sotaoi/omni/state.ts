@@ -33,6 +33,8 @@ interface AppInfo {
   packageName: string;
   devDomain: string;
   devDomainAlias: string;
+  stageDomain: string;
+  stageDomainAlias: string;
   prodDomain: string;
   prodDomainAlias: string;
   apiDomainHelper: string;
@@ -54,6 +56,8 @@ interface AppInfo {
   devClientPort: string;
   streamingBaseUrl: string;
   streamingPort: string;
+  greenlockExecution: string;
+  sslMaintainer: string;
 }
 
 interface RouterPropsConfig {

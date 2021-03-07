@@ -11,8 +11,14 @@ const envVarWhitelist = [
   'PACKAGE_NAME',
   'DEV_DOMAIN',
   'DEV_DOMAIN_ALIAS',
+  'STAGE_DOMAIN',
+  'STAGE_DOMAIN_ALIAS',
+  'PROD_DOMAIN',
+  'PROD_DOMAIN_ALIAS',
   'DEV_MOBILE_API_URL',
   'MOBILE_BUNDLE_LOCATION',
+  'GREENLOCK_EXECUTION',
+  'SSL_MAINTAINER',
 ];
 
 const processEnv = (): { [key: string]: string } => {
@@ -25,8 +31,14 @@ const processEnv = (): { [key: string]: string } => {
     envVars.PACKAGE_NAME = process.env.PACKAGE_NAME || '';
     envVars.DEV_DOMAIN = process.env.DEV_DOMAIN || '';
     envVars.DEV_DOMAIN_ALIAS = process.env.DEV_DOMAIN_ALIAS || '';
+    envVars.STAGE_DOMAIN = process.env.STAGE_DOMAIN || '';
+    envVars.STAGE_DOMAIN_ALIAS = process.env.STAGE_DOMAIN_ALIAS || '';
+    envVars.PROD_DOMAIN = process.env.PROD_DOMAIN || '';
+    envVars.PROD_DOMAIN_ALIAS = process.env.PROD_DOMAIN_ALIAS || '';
     envVars.DEV_MOBILE_API_URL = process.env.DEV_MOBILE_API_URL || '';
     envVars.MOBILE_BUNDLE_LOCATION = process.env.DEV_MOBILE_API_URL || '';
+    envVars.GREENLOCK_EXECUTION = process.env.GREENLOCK_EXECUTION || '';
+    envVars.SSL_MAINTAINER = process.env.SSL_MAINTAINER || '';
     return envVars;
   }
   for (const envVar of envVarWhitelist) {

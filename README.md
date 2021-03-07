@@ -4,16 +4,6 @@
 
 # Starting up
 
-## Setting up the application (Mac / Linux required)
-
-Run the following commands in the command line to setup the application
-
-```
-npm run dev:setup-env (edits /etc/hosts, adds self-signed certificates to trust store)
-```
-
-This sets up the packages neccessary for **development**
-
 ## Running the app
 
 In order to start the application, run each of these commands in a separate shell

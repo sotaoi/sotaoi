@@ -15,7 +15,7 @@ const WebpackConfigFactory = (webpackEnv: string): webpack.Configuration => {
   return {
     mode: isEnvProduction ? 'production' : 'development',
     devtool: 'source-map',
-    entry: paths.cwebEntry,
+    entry: paths.cwebDevcomponent,
     output: {
       path: paths.clientBuild,
       publicPath: '/',

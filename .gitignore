@@ -3,16 +3,17 @@
 # env
 /.env
 
-# certs
-/sotaoi/api/certs/*
-!/sotaoi/api/certs/.gitkeep
-
 # app
-/todo.txt
+/.greenlockrc
 /app/client/build
 /node_modules
+/sotaoi/api/certs/*
+!/sotaoi/api/certs/.gitkeep
+/todo.txt
 /var/build/release
 /var/build/sdk
+/var/greenlock.d/*
+!/var/greenlock.d/.gitkeep
 /var/logs
 
 # ide

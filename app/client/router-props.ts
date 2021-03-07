@@ -33,6 +33,14 @@ import { UpdatePostRoute } from '@app/client/main-layout/routes/update-post-rout
 
 const routerProps: RouterProps = {
   config: {
+    sControlPanel: {
+      prefix: '/s-control-panel',
+      layout: null as any,
+      routes: {
+        '/': null as any,
+      },
+      condition: (): boolean => true,
+    },
     gateLayout: {
       prefix: '/gate',
       layout: GateLayout,

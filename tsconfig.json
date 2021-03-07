@@ -22,20 +22,21 @@
   },
   "exclude": [
     "./android",
-    "./var/build",
-    "./ios",
-    "./knexfile.ts",
-    "./node_modules",
+    "./app/client/build",
     "./babel.config.js",
+    "./greenlock.js",
     "./index.js",
+    "./ios",
     "./jest.config.js",
+    "./knexfile.ts",
     "./metro.config.js",
+    "./node_modules",
     "./postcss.config.js",
     "./tailwind.config.js",
-    "./var/pmhook.js",
-    "./var/todel",
     "./sotaoi/client/mocks",
-    "./app/client/build",
-    "./start.js"
+    "./start.js",
+    "./var/build",
+    "./var/pmhook.js",
+    "./var/todel"
   ]
 }

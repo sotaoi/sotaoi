@@ -128,6 +128,9 @@ class Navigation {
 
   public static isMatch(layoutName: string, uri: string, routeScheme: string): boolean {
     uri = layoutName + '-' + uri;
+    if (uri + '/' === routeScheme) {
+      return true;
+    }
 
     let argMatches: null | RegExpMatchArray;
 

@@ -1,12 +1,13 @@
 import React from 'react';
 import { Helper } from '@sotaoi/client/helper';
 import { RouteChange } from '@sotaoi/client/router/route-change';
-import { RouterPropsConfig } from '@sotaoi/omni/state';
+import { LayoutProps, RouterPropsConfig } from '@sotaoi/omni/state';
 import { Navigation } from '@sotaoi/client/router/navigation';
 import { WebComponent } from '@sotaoi/client/router/component/web.component';
 import { MobileComponent } from '@sotaoi/client/router/component/mobile.component';
 import { Store as ReduxStore } from 'redux';
 import { ReactReduxContextValue } from 'react-redux';
+import { controlPanel } from './control-panel';
 
 interface RouterProps {
   config: RouterPropsConfig;
@@ -50,7 +51,25 @@ const redirect = (to: string): void => {
   RouteChange.redirect(to);
 };
 
-export { Router, pushRoute, replaceRoute, redirect };
+const routes = (controlPanelPrefix: string, routerProps: RouterProps): RouterProps => {
+  const camelizedControlPanelPrefix = Helper.camelizeKebab(controlPanelPrefix);
+  controlPanelPrefix.charAt(0) !== '/' && (controlPanelPrefix = '/' + controlPanelPrefix);
+  routerProps.config[camelizedControlPanelPrefix] = {
+    prefix: controlPanelPrefix,
+    layout: (props: LayoutProps): null | React.ReactElement => controlPanel().getControlPanelLayout(props),
+    routes: {
+      '/': (props: { [key: string]: any }): null | React.ReactElement => {
+        return controlPanel().getControlPanelAuthComponent(props);
+      },
+    },
+    condition: (): boolean => {
+      return Helper.isWeb();
+    },
+  };
+  return routerProps;
+};
+
+export { Router, pushRoute, replaceRoute, redirect, routes };
 export { Link } from '@sotaoi/client/router/link';
 export type { RouterProps };
 export type { LayoutProps } from '@sotaoi/omni/state';

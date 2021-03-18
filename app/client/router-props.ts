@@ -1,6 +1,6 @@
 import { store } from '@sotaoi/client/store';
 //
-import { RouterProps, redirect } from '@sotaoi/client/router';
+import { routes, RouterProps, redirect } from '@sotaoi/client/router';
 import { ErrorComponent } from '@app/client/components/error-component';
 import { HomeRoute } from '@app/client/gate-layout/routes/home-route';
 // gate
@@ -31,16 +31,8 @@ import { UpdatePostRoute } from '@app/client/main-layout/routes/update-post-rout
 //   }
 // });
 
-const routerProps: RouterProps = {
+const routerProps: RouterProps = routes('s-control-panel', {
   config: {
-    sControlPanel: {
-      prefix: '/s-control-panel',
-      layout: null as any,
-      routes: {
-        '/': null as any,
-      },
-      condition: (): boolean => true,
-    },
     gateLayout: {
       prefix: '/gate',
       layout: GateLayout,
@@ -87,6 +79,6 @@ const routerProps: RouterProps = {
   },
   errorComponent: ErrorComponent,
   // reduxStore,
-};
+});
 
 export { routerProps };

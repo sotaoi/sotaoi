@@ -3,7 +3,8 @@ import ReactDom from 'react-dom';
 import { StoreCreator } from 'redux';
 import { Store, Storage, InputValidator, Socket } from '@sotaoi/client/contracts';
 import { StoreService } from '@sotaoi/client/services/store-service';
-import { SocketService } from '@sotaoi/client/services/socket-services';
+import { SocketService } from '@sotaoi/client/services/socket-service';
+import { ControlPanelService } from '@sotaoi/client/services/control-panel-service';
 import { Helper } from '@sotaoi/client/helper';
 import { AppKernel } from '@sotaoi/client/app-kernel';
 import { store } from '@sotaoi/client/store';
@@ -42,6 +43,15 @@ class Bootstrap {
           Socket,
           (): SocketService => {
             return new SocketService();
+          },
+        );
+
+      // Control Panel
+      !app().has(ControlPanelService) &&
+        app().singleton<ControlPanelService>(
+          ControlPanelService,
+          (): ControlPanelService => {
+            return new ControlPanelService();
           },
         );
     });

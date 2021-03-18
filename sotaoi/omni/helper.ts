@@ -78,6 +78,15 @@ class Helper {
         .replace(/(?:^|:|,)(?:\s*\[)+/g, ''),
     );
   }
+
+  public static camelizeKebab(str: string) {
+    let arr = str.split('-');
+    let capital = arr.map((item, index) =>
+      index ? item.charAt(0).toUpperCase() + item.slice(1).toLowerCase() : item.toLowerCase(),
+    );
+    let camelString = capital.join('');
+    return camelString;
+  }
 }
 
 export { Helper };

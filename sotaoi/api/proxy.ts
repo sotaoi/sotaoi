@@ -116,7 +116,7 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
         appInfo.apiDomainHelper,
       ]) {
         const domain = req.get('host') || '';
-        if (domain.indexOf(validDomain) === -1) {
+        if (domain !== validDomain) {
           continue;
         }
         ok = true;

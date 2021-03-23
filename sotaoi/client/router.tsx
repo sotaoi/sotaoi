@@ -7,7 +7,7 @@ import { WebComponent } from '@sotaoi/client/router/component/web.component';
 import { MobileComponent } from '@sotaoi/client/router/component/mobile.component';
 import { Store as ReduxStore } from 'redux';
 import { ReactReduxContextValue } from 'react-redux';
-import { controlPanel } from './control-panel';
+import { controlPanel } from '@sotaoi/client/control-panel';
 
 interface RouterProps {
   config: RouterPropsConfig;

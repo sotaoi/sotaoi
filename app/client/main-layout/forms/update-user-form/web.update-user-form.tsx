@@ -92,6 +92,8 @@ const WebUpdateUserForm = (props: { form: UpdateForm; countries: RecordEntry[] }
         <br />
 
         <section>
+          <h4>Address</h4>
+          <hr />
           {fields.address.getFields().street.wasTouched() &&
             fields.address
               .getFields()
@@ -122,7 +124,7 @@ const WebUpdateUserForm = (props: { form: UpdateForm; countries: RecordEntry[] }
           </address.country.component>
           <br />
         </section>
-        <br />
+        <hr />
         <br />
 
         <button disabled={!Form.getFormState().canSubmit} type={'submit'}>

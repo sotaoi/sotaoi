@@ -2,38 +2,34 @@ import { RetrieveHandler } from '@sotaoi/api/queries/retrieve-handler';
 import { RetrieveResult } from '@sotaoi/omni/transactions';
 import { Retrieve } from '@sotaoi/omni/transactions';
 import { db } from '@sotaoi/api/db';
-import { storage } from '@sotaoi/api/storage';
+import { UserModel } from '@app/api/models/user-model';
 
 class UserRetrieve extends RetrieveHandler {
+  public async model(): Promise<UserModel> {
+    return new UserModel();
+  }
   public async handle(retrieve: Retrieve): Promise<RetrieveResult> {
     try {
       const user = await db('user').where('uuid', retrieve.uuid).first();
-      delete user.password;
-      user.address = await db('address').where('uuid', JSON.parse(user.address).uuid).first();
-      // const avatar = user.avatar;
-      // const [avatarImage, avatarAsset, cancelAvatar] = storage('main').handle(
-      //   { domain: 'public', pathname: ['user', user.uuid, 'avatar.png'].join('/') },
-      //   avatar,
-      // );
-
-      if (!user.address) {
-        throw new Error('failed to fetch address for user');
-      }
       if (!user) {
         const error = new Error('Retrieve failed');
         error.message = 'Not found';
         throw error;
       }
-      return new RetrieveResult(
+      const result = new RetrieveResult(
         true,
         {
           code: 200,
           title: 'Retrieve success',
           msg: 'Retrieve was successful',
-          record: user,
+          record: await this.transform(user, retrieve.variant),
         },
         null,
       );
+      if (!user.address) {
+        throw new Error('failed to fetch address for user');
+      }
+      return result;
     } catch (err) {
       return new RetrieveResult(false, null, {
         code: 400,

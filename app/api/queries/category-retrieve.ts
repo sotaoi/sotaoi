@@ -2,8 +2,12 @@ import { RetrieveHandler } from '@sotaoi/api/queries/retrieve-handler';
 import { RetrieveResult } from '@sotaoi/omni/transactions';
 import { Retrieve } from '@sotaoi/omni/transactions';
 import { db } from '@sotaoi/api/db';
+import { GenericModel } from '@sotaoi/api/models/generic-model';
 
 class CategoryRetrieve extends RetrieveHandler {
+  public async model(): Promise<GenericModel> {
+    return new GenericModel();
+  }
   public async handle(retrieve: Retrieve): Promise<RetrieveResult> {
     try {
       const category = await db('category').where('uuid', retrieve.uuid).first();

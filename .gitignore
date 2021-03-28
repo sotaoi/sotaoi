@@ -37,3 +37,7 @@
 /template/ios/Pods/
 /template/ios/Podfile.lock
 /packages/rn-tester/Gemfile.lock
+
+# php
+/php/node_modules
+/php/vendor

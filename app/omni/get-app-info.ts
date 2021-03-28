@@ -16,7 +16,8 @@ const envVarWhitelist = [
   'PROD_DOMAIN',
   'PROD_DOMAIN_ALIAS',
   'DEV_MOBILE_API_URL',
-  'MOBILE_BUNDLE_LOCATION',
+  'MOBILE_BUNDLE_LOCATION_HOST',
+  'MOBILE_BUNDLE_LOCATION_PORT',
   'GREENLOCK_EXECUTION',
   'SSL_MAINTAINER',
 ];
@@ -36,7 +37,8 @@ const processEnv = (): { [key: string]: string } => {
     envVars.PROD_DOMAIN = process.env.PROD_DOMAIN || '';
     envVars.PROD_DOMAIN_ALIAS = process.env.PROD_DOMAIN_ALIAS || '';
     envVars.DEV_MOBILE_API_URL = process.env.DEV_MOBILE_API_URL || '';
-    envVars.MOBILE_BUNDLE_LOCATION = process.env.DEV_MOBILE_API_URL || '';
+    envVars.MOBILE_BUNDLE_LOCATION_HOST = process.env.MOBILE_BUNDLE_LOCATION_HOST || '';
+    envVars.MOBILE_BUNDLE_LOCATION_PORT = process.env.MOBILE_BUNDLE_LOCATION_PORT || '';
     envVars.GREENLOCK_EXECUTION = process.env.GREENLOCK_EXECUTION || '';
     envVars.SSL_MAINTAINER = process.env.SSL_MAINTAINER || '';
     return envVars;

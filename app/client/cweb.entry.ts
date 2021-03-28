@@ -57,13 +57,13 @@ const main = async (): Promise<void> => {
     watchContentBase: true,
     publicPath: '/',
     watchOptions: {
-      ignored: path.resolve('node_modules'),
+      ignored: [path.resolve('./node_modules'), path.resolve('./php')],
       poll: true,
     },
     https: {
-      key: fs.readFileSync('./sotaoi/api/certs/privkey.pem'),
-      cert: fs.readFileSync('./sotaoi/api/certs/cert.pem'),
-      ca: fs.readFileSync('./sotaoi/api/certs/bundle.pem'),
+      key: fs.readFileSync(keyPath),
+      cert: fs.readFileSync(certPath),
+      ca: fs.readFileSync(chainPath),
     },
     host: HOST,
     overlay: false,

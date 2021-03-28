@@ -29,7 +29,6 @@ const main = async (): Promise<void> => {
   const app = express();
   const publicPath = path.resolve(__dirname, 'build');
 
-  app.use(express.static(publicPath));
   app.get('*', function (req: any, res: any) {
     res.sendFile(publicPath + '/index.html');
   });
@@ -37,9 +36,9 @@ const main = async (): Promise<void> => {
   https
     .createServer(
       {
-        key: fs.readFileSync('./sotaoi/api/certs/privkey.pem'),
-        cert: fs.readFileSync('./sotaoi/api/certs/cert.pem'),
-        ca: fs.readFileSync('./sotaoi/api/certs/bundle.pem'),
+        key: fs.readFileSync(keyPath),
+        cert: fs.readFileSync(certPath),
+        ca: fs.readFileSync(chainPath),
         rejectUnauthorized: false,
       },
       app,

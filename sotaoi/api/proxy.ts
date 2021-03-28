@@ -2,9 +2,9 @@ require('dotenv').config();
 process.env.PORT = process.env.PORT || '443';
 process.env.REDIRECT_FROM_PORT = process.env.REDIRECT_FROM_PORT || '80';
 
+import { execSync } from 'child_process';
 import path from 'path';
 import express, { Express } from 'express';
-import http from 'http';
 import https from 'https';
 import tls from 'tls';
 import { createProxyMiddleware } from 'http-proxy-middleware';
@@ -57,7 +57,15 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
   const production = process.env.NODE_ENV === 'production';
   const app = express();
 
-  // temporarily use localhost domain, so that heroku deployment will work
+  production
+    ? app.use(express.static('./app/client/build'))
+    : app.use((req, res, next) => {
+        if (req.url === '/') {
+          return next();
+        }
+        return express.static('./app/client/public')(req, res, next);
+      });
+  app.use(express.static('./php/public'));
 
   app.use(
     '/api',
@@ -104,6 +112,21 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
   //   },
   // );
 
+  JSON.parse(execSync('php artisan routes', { cwd: './php' }).toString()).map((route: string) => {
+    route = route.replace(new RegExp('{(?:\\s+)?(.*)(?:\\s+)?}'), ':$1');
+    app.use(
+      route,
+      (req, res, next): express.Response => {
+        return createProxyMiddleware({
+          secure: false,
+          target: `https://localhost:4000`,
+          ws: true,
+          changeOrigin: true,
+        })(req, res, next);
+      },
+    );
+  });
+
   app.use(
     '/',
     (req, res, next): express.Response => {
@@ -131,21 +154,21 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
           ? `https://localhost:${appInfo.prodClientPort}`
           : `https://localhost:${appInfo.devClientPort}`,
         ws: true,
-        changeOrigin: true,
+        changeOrigin: false,
       })(req, res, next);
     },
   );
 
-  const mobileBundleApp = express();
-  mobileBundleApp.use(
-    createProxyMiddleware({
-      target: `http://localhost:8081`,
-      ws: true,
-      changeOrigin: true,
-    }),
-  );
-  http.createServer(mobileBundleApp).listen(8079);
-  console.info(`[${getTimestamp()}] Proxy server redirecting from port 8079 to 8081`);
+  // const mobileBundleApp = express();
+  // mobileBundleApp.use(
+  //   createProxyMiddleware({
+  //     target: `http://localhost:8081`,
+  //     ws: true,
+  //     changeOrigin: true,
+  //   }),
+  // );
+  // http.createServer(mobileBundleApp).listen(8079);
+  // console.info(`[${getTimestamp()}] Proxy server redirecting from port 8079 to 8081`);
 
   const startServerInterval = setInterval(async (): Promise<void> => {
     if (!fs.existsSync(keyPath) || !fs.existsSync(certPath) || !fs.existsSync(chainPath)) {

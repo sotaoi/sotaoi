@@ -30,12 +30,18 @@ const bundlePath = path.resolve(`./var/greenlock.d/live/${altnames[0]}/bundle.pe
 const chainPath = path.resolve(`./var/greenlock.d/live/${altnames[0]}/chain.pem`);
 const fullchainPath = path.resolve(`./var/greenlock.d/live/${altnames[0]}/fullchain.pem`);
 
+const newKeyPath = path.resolve(process.env.SSL_CERT || '');
+const newCertPath = path.resolve(process.env.SSL_KEY || '');
+const newbundlePath = path.resolve(process.env.SSL_CA || '');
+const newChainPath = path.resolve(process.env.SSL_CHAIN || '');
+const newFullchainPath = path.resolve(process.env.SSL_FCHAIN || '');
+
 const copyCerts = (): void => {
-  fs.copyFileSync(keyPath, path.resolve('./sotaoi/api/certs/privkey.pem'));
-  fs.copyFileSync(certPath, path.resolve('./sotaoi/api/certs/cert.pem'));
-  fs.copyFileSync(bundlePath, path.resolve('./sotaoi/api/certs/bundle.pem'));
-  fs.copyFileSync(chainPath, path.resolve('./sotaoi/api/certs/chain.pem'));
-  fs.copyFileSync(fullchainPath, path.resolve('./sotaoi/api/certs/fullchain.pem'));
+  fs.copyFileSync(keyPath, newKeyPath);
+  fs.copyFileSync(certPath, newCertPath);
+  fs.copyFileSync(bundlePath, newbundlePath);
+  fs.copyFileSync(chainPath, newChainPath);
+  fs.copyFileSync(fullchainPath, newFullchainPath);
 };
 
 const main = async (): Promise<void> => {

@@ -1,0 +1,33 @@
+PHP Warning:  require(/Users/qwertypnk/prototype/php/vendor/autoload.php): failed to open stream: No such file or directory in /Users/qwertypnk/prototype/php/artisan on line 18
+
+Warning: require(/Users/qwertypnk/prototype/php/vendor/autoload.php): failed to open stream: No such file or directory in /Users/qwertypnk/prototype/php/artisan on line 18
+PHP Fatal error:  require(): Failed opening required '/Users/qwertypnk/prototype/php/vendor/autoload.php' (include_path='.:/usr/local/Cellar/php@7.3/7.3.27_1/share/php@7.3/pear') in /Users/qwertypnk/prototype/php/artisan on line 18
+
+Fatal error: require(): Failed opening required '/Users/qwertypnk/prototype/php/vendor/autoload.php' (include_path='.:/usr/local/Cellar/php@7.3/7.3.27_1/share/php@7.3/pear') in /Users/qwertypnk/prototype/php/artisan on line 18
+No scheduled commands are ready to run.
+No scheduled commands are ready to run.
+Starting Laravel development server: http://0.0.0.0:4001
+No scheduled commands are ready to run.
+[Sun Mar 28 11:30:13 2021] Failed to listen on 0.0.0.0:4001 (reason: Address already in use)
+No scheduled commands are ready to run.
+No scheduled commands are ready to run.
+Starting Laravel development server: http://0.0.0.0:4001
+No scheduled commands are ready to run.
+[Sun Mar 28 11:32:16 2021] Failed to listen on 0.0.0.0:4001 (reason: Address already in use)
+Starting Laravel development server: http://0.0.0.0:4001
+No scheduled commands are ready to run.
+[Sun Mar 28 11:32:26 2021] Failed to listen on 0.0.0.0:4001 (reason: Address already in use)
+Starting Laravel development server: http://0.0.0.0:4001
+No scheduled commands are ready to run.
+[Sun Mar 28 11:32:35 2021] Failed to listen on 0.0.0.0:4001 (reason: Address already in use)
+No scheduled commands are ready to run.
+Starting Laravel development server: http://0.0.0.0:4001
+No scheduled commands are ready to run.
+[Sun Mar 28 11:33:46 2021] Failed to listen on 0.0.0.0:4001 (reason: Address already in use)
+Starting Laravel development server: http://0.0.0.0:4001
+No scheduled commands are ready to run.
+[Sun Mar 28 11:42:14 2021] Failed to listen on 0.0.0.0:4001 (reason: Address already in use)
+Starting Laravel development server: http://0.0.0.0:4001
+No scheduled commands are ready to run.
+[Sun Mar 28 11:42:19 2021] Failed to listen on 0.0.0.0:4001 (reason: Address already in use)
+No scheduled commands are ready to run.

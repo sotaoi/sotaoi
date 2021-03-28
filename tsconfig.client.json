@@ -12,6 +12,7 @@
     "./knexfile.ts",
     "./metro.config.js",
     "./node_modules",
+    "./php",
     "./postcss.config.js",
     "./tailwind.config.js",
     "./var/pmhook.js",

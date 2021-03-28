@@ -9,6 +9,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./start.js",
     "start:api": "cross-env NODE_ENV=development PORT=3000 NODE_TLS_REJECT_UNAUTHORIZED=0 nodemon --config ./sotaoi/api/cfg-nodemon-api.json",
+    "start:php": "cross-env NODE_ENV=development node ./php/var/phpprx.js",
     "start:cweb": "cross-env NODE_ENV=development ts-node ./app/client/cweb.entry.ts --info ./app/omni/app-info.json",
     "start:crns": "react-native start > ./rn.log 2>&1 & tail -f ./rn.log",
     "start:candroid": "node ./var/build/run-android.js",
@@ -19,6 +20,7 @@
     "clean:mobile": "node ./var/build/clean-mobile.js",
     "deploy:heroku": "ts-node ./app/omni/scripts/deploy/deploy.heroku.ts",
     "start:api:prod": "cross-env NODE_ENV=production PORT=3000 NODE_TLS_REJECT_UNAUTHORIZED=0 node ./app/api/api.entry.js",
+    "start:php:prod": "cross-env NODE_ENV=production node ./php/var/phpprx.js",
     "start:cweb:prod": "cross-env NODE_ENV=production PORT=8080 node ./app/client/cweb.entry.prod.js",
     "start:proxy:prod": "cross-env NODE_ENV=production node ./app/api/proxy.entry.js",
     "dev:create-database": "ts-node ./sotaoi/omni/scripts/dev/create-database.ts",

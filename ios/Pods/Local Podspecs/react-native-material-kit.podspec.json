@@ -1,0 +1,23 @@
+{
+  "name": "react-native-material-kit",
+  "version": "0.6.0-beta.1",
+  "summary": "Bringing Material Design to React Native",
+  "requires_arc": true,
+  "authors": {
+    "xinthink": "yingxinwu.g@gmail.com"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/xinthink/react-native-material-kit",
+  "source": {
+    "git": "https://github.com/xinthink/react-native-material-kit.git"
+  },
+  "source_files": "iOS/RCTMaterialKit/*",
+  "platforms": {
+    "ios": "8.0"
+  },
+  "dependencies": {
+    "React": [
+
+    ]
+  }
+}

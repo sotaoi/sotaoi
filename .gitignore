@@ -40,4 +40,5 @@
 
 # php
 /php/node_modules
+/php/output.log
 /php/vendor

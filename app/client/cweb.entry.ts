@@ -1,4 +1,4 @@
-process.env.NODE_ENV = 'development';
+require('dotenv').config();
 
 import fs from 'fs';
 import path from 'path';
@@ -7,9 +7,14 @@ import WebpackDevServer from 'webpack-dev-server';
 import { WebpackConfigFactory } from '@sotaoi/omni/build/client.webpack.config';
 import { paths } from '@sotaoi/omni/build/paths';
 import yargs from 'yargs';
+import express from 'express';
+import https from 'https';
+// import { AppInfo } from '@sotaoi/omni/state';
 
 let serverInitInterval: any = null;
 let serverInitTries = 0;
+const PORT = '8080';
+const HOST = '0.0.0.0';
 
 const main = async (): Promise<void> => {
   const argv = yargs
@@ -21,10 +26,15 @@ const main = async (): Promise<void> => {
     .help()
     .alias('help', 'h').argv;
 
+  if (!argv.servebuild) {
+    throw new Error('--servebuild is required (--servebuild yes / --servebuild no)');
+  }
+
   clearTimeout(serverInitInterval);
   const keyPath = path.resolve(process.env.SSL_KEY || '');
   const certPath = path.resolve(process.env.SSL_CERT || '');
   const chainPath = path.resolve(process.env.SSL_CA || '');
+
   if (!fs.existsSync(keyPath) || !fs.existsSync(certPath) || !fs.existsSync(chainPath)) {
     if (serverInitTries === 60) {
       console.error('server failed to start because at least one ssl certificate file is missing');
@@ -38,20 +48,40 @@ const main = async (): Promise<void> => {
     return;
   }
 
-  if (!argv.info) {
-    throw new Error('File path for app app-info.json is missing. --info is required');
-  }
-  const info = JSON.parse(fs.readFileSync(path.resolve(argv.info)).toString());
+  if (argv.servebuild === 'yes') {
+    const app = express();
+    const publicPath = path.resolve('./public');
 
-  const PORT = info.devClientPort;
-  const HOST = process.env.HOST || '0.0.0.0';
+    app.get('*', function (req: any, res: any) {
+      res.sendFile(publicPath + '/index.html');
+    });
+
+    https
+      .createServer(
+        {
+          key: fs.readFileSync(keyPath),
+          cert: fs.readFileSync(certPath),
+          ca: fs.readFileSync(chainPath),
+          rejectUnauthorized: false,
+        },
+        app,
+      )
+      .listen(PORT);
+
+    return;
+  }
+
+  // if (!argv.info) {
+  //   throw new Error('File path for app app-info.json is missing. --info is required');
+  // }
+  // const info: AppInfo = JSON.parse(fs.readFileSync(path.resolve(argv.info)).toString());
 
   const config = WebpackConfigFactory('development');
 
   const compiler = webpack(config);
 
   const devServer = new WebpackDevServer(compiler, {
-    sockPort: 8080,
+    sockPort: PORT,
     compress: false,
     contentBase: paths.publicPath,
     watchContentBase: true,
@@ -80,7 +110,7 @@ const main = async (): Promise<void> => {
     disableHostCheck: true,
   });
 
-  devServer.listen(PORT, HOST);
+  devServer.listen(parseInt(PORT), HOST);
 };
 
 main();

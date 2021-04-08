@@ -1,5 +1,3 @@
-process.env.NODE_ENV = 'production';
-
 import fs from 'fs';
 import webpack, { Stats } from 'webpack';
 import { WebpackConfigFactory } from '@sotaoi/omni/build/client.webpack.config';

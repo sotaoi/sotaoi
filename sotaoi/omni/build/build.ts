@@ -1,17 +1,18 @@
-process.env.NODE_ENV = 'production';
-
 import fs from 'fs';
 import path from 'path';
 import { paths } from '@sotaoi/omni/build/paths';
 import { Helper } from '@sotaoi/api/helper';
 import { execSync } from 'child_process';
-import yargs from 'yargs';
+// import yargs from 'yargs';
 
 const main = async (): Promise<void> => {
-  const argv = yargs.help().alias('help', 'h').argv;
+  // const argv = yargs.help().alias('help', 'h').argv;
+
+  // npm install
+  execSync('npm install', { stdio: 'inherit' });
 
   // build web client
-  execSync('npm run build:cweb');
+  execSync('npm run build:cweb', { stdio: 'inherit' });
 
   // delete build folders
   fs.rmdirSync(paths.appBuild, { recursive: true });
@@ -47,20 +48,11 @@ const main = async (): Promise<void> => {
   Helper.copyFileSync(path.resolve('./var/pmhook.js'), path.resolve(paths.appBuild, 'var', 'pmhook.js'));
   Helper.copyFileSync(path.resolve('./start.js'), path.resolve(paths.appBuild, 'start.js'));
   const _package = JSON.parse(fs.readFileSync(path.resolve(paths.appBuild, 'package.json')).toString());
-  if (argv.target) {
-    _package.scripts = { start: _package.scripts[`start:${argv.target}`], ..._package.scripts };
-  }
   _package.scripts.postinstall = 'node ./var/pmhook.js --skipSdk';
   fs.writeFileSync(path.resolve(paths.appBuild, 'package.json'), JSON.stringify(_package, null, 2));
 
-  if (argv.target) {
-    // todo here: maybe this is a simple copy now
-    const info = JSON.parse(fs.readFileSync(path.resolve(paths.appBuild, 'app', 'omni', 'app-info.json')).toString());
-    fs.writeFileSync(path.resolve(paths.appBuild, 'app', 'omni', 'app-info.json'), JSON.stringify(info, null, 2));
-  }
-
   // install and ts compile
-  execSync('npx tsc', { cwd: path.resolve(paths.appBuild), stdio: 'inherit' });
+  execSync('npx tsc', { cwd: paths.appBuild, stdio: 'inherit' });
 
   // remove ts related
   fs.unlinkSync(path.resolve(paths.appBuild, 'tsconfig.json'));
@@ -88,10 +80,10 @@ const main = async (): Promise<void> => {
   fs.rmdirSync(cwebBuildPath);
 
   // php
-  execSync('node ./var/refresh.js', { cwd: path.resolve(paths.appBuild, 'php') });
+  execSync('node ./var/refresh.js', { cwd: path.resolve(paths.appBuild, 'php'), stdio: 'inherit' });
 
   // npm install
-  execSync('npm install', { cwd: paths.appBuild });
+  execSync('npm install', { cwd: paths.appBuild, stdio: 'inherit' });
 };
 
 main();

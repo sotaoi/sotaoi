@@ -17,7 +17,6 @@ const envVarWhitelist = [
   'STAGE_DOMAIN_ALIAS',
   'PROD_DOMAIN',
   'PROD_DOMAIN_ALIAS',
-  'DEV_MOBILE_API_URL',
   'MOBILE_BUNDLE_LOCATION',
   'GREENLOCK_EXECUTION',
   'SSL_MAINTAINER',
@@ -39,7 +38,6 @@ const processEnv = (): { [key: string]: string } => {
     envVars.STAGE_DOMAIN_ALIAS = process.env.STAGE_DOMAIN_ALIAS || '';
     envVars.PROD_DOMAIN = process.env.PROD_DOMAIN || '';
     envVars.PROD_DOMAIN_ALIAS = process.env.PROD_DOMAIN_ALIAS || '';
-    envVars.DEV_MOBILE_API_URL = process.env.DEV_MOBILE_API_URL || '';
     envVars.MOBILE_BUNDLE_LOCATION = process.env.MOBILE_BUNDLE_LOCATION || '';
     envVars.GREENLOCK_EXECUTION = process.env.GREENLOCK_EXECUTION || '';
     envVars.SSL_MAINTAINER = process.env.SSL_MAINTAINER || '';
@@ -76,11 +74,9 @@ const getAppDomain = (): string => {
     case 'staging':
       return appInfo.stageDomain;
     case 'development':
-    case 'testing':
-    case 'test':
       return appInfo.devDomain;
     default:
-      throw new Error('Could not determine environment');
+      return appInfo.localDomain;
   }
 };
 

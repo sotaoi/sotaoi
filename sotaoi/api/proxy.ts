@@ -31,7 +31,7 @@ const startServer = async (app: Express): Promise<void> => {
   https
     .createServer(
       {
-        SNICallback: async (domain, cb) => {
+        SNICallback: async (currentDomain, cb) => {
           const secureContext = tls.createSecureContext(
             await (async (): Promise<{ [key: string]: any }> => {
               // other sync / async procedures can go here
@@ -83,8 +83,8 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
     (req, res, next): express.Response => {
       let ok = false;
       for (const validDomain of validDomains) {
-        const domain = req.get('host') || '';
-        if (domain.indexOf(validDomain) === -1) {
+        const currentDomain = req.get('host') || '';
+        if (currentDomain.indexOf(validDomain) === -1) {
           continue;
         }
         ok = true;
@@ -137,8 +137,8 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
     (req, res, next): express.Response => {
       let ok = false;
       for (const validDomain of validDomains) {
-        const domain = req.get('host') || '';
-        if (domain !== validDomain) {
+        const currentDomain = req.get('host') || '';
+        if (currentDomain !== validDomain) {
           continue;
         }
         ok = true;

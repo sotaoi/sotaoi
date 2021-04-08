@@ -14,7 +14,6 @@
     "./node_modules",
     "./php",
     "./postcss.config.js",
-    "./public/placeholder.js",
     "./tailwind.config.js",
     "./var/pmhook.js",
     "./var/todel",

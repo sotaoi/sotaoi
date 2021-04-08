@@ -16,11 +16,12 @@ import { createStore } from 'redux';
 import { routerProps } from '@app/client/router-props';
 import { Loading } from '@app/client/components/loading';
 import { ErrorComponent } from '@app/client/components/error-component';
-import { getAppInfo } from '@app/omni/get-app-info';
+import { getAppInfo, getAppDomain } from '@app/omni/get-app-info';
 import { AppKernel } from '@sotaoi/client/app-kernel';
 import { Provider as PaperProvider } from 'react-native-paper';
 
 const appInfo = getAppInfo();
+const domain = getAppDomain();
 const appKernel = new AppKernel();
 
 const App = (): React.ReactElement => {
@@ -35,7 +36,7 @@ const App = (): React.ReactElement => {
     Bootstrap.init(
       'MONOlogz',
       appInfo,
-      process.env.NODE_ENV !== 'development' ? appInfo.prodApiUrl : appInfo.devMobileApiUrl,
+      `https://${domain}/api`,
       appKernel,
       routerComponent,
       createStore,

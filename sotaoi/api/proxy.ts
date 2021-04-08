@@ -11,6 +11,7 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import fs from 'fs';
 import { AppInfo } from '@sotaoi/omni/state';
 import { spawn } from 'child_process';
+import { getAppDomain } from '@app/omni/get-app-info';
 
 let greenlock = false;
 
@@ -54,8 +55,20 @@ const startServer = async (app: Express): Promise<void> => {
 };
 
 const proxy = async (appInfo: AppInfo): Promise<void> => {
-  const production = process.env.NODE_ENV === 'production';
   const app = express();
+
+  const validDomains = [
+    appInfo.prodDomain,
+    appInfo.prodDomainAlias,
+    appInfo.stageDomain,
+    appInfo.stageDomainAlias,
+    appInfo.devDomain,
+    appInfo.devDomainAlias,
+    appInfo.localDomain,
+    appInfo.localDomainAlias,
+  ];
+
+  const domain = getAppDomain();
 
   app.use((req, res, next) => {
     console.log(req.url);
@@ -69,13 +82,7 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
     '/api',
     (req, res, next): express.Response => {
       let ok = false;
-      for (let validDomain of [
-        appInfo.prodDomain,
-        appInfo.devDomain,
-        appInfo.prodDomainAlias,
-        appInfo.devDomainAlias,
-        appInfo.apiDomainHelper,
-      ]) {
+      for (const validDomain of validDomains) {
         const domain = req.get('host') || '';
         if (domain.indexOf(validDomain) === -1) {
           continue;
@@ -91,7 +98,7 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
         // pathRewrite: {
         //   '^/api/': '/api/',
         // },
-        target: production ? `https://localhost:${appInfo.prodApiPort}` : `https://localhost:${appInfo.devApiPort}`,
+        target: `https://${domain}:3000`,
         ws: false,
         changeOrigin: true,
       })(req, res, next);
@@ -103,7 +110,7 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
   //   (req, res, next): express.Response => {
   //     return createProxyMiddleware({
   //       secure: false,
-  //       target: `https://localhost:${appInfo.streamingPort}`,
+  //       target: `https://${domain}:${appInfo.streamingPort}`,
   //       ws: true,
   //       changeOrigin: true,
   //     })(req, res, next);
@@ -117,7 +124,7 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
       (req, res, next): express.Response => {
         return createProxyMiddleware({
           secure: false,
-          target: `https://localhost:4000`,
+          target: `https://${domain}:4000`,
           ws: true,
           changeOrigin: true,
         })(req, res, next);
@@ -129,13 +136,7 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
     '/',
     (req, res, next): express.Response => {
       let ok = false;
-      for (let validDomain of [
-        appInfo.prodDomain,
-        appInfo.devDomain,
-        appInfo.prodDomainAlias,
-        appInfo.devDomainAlias,
-        appInfo.apiDomainHelper,
-      ]) {
+      for (const validDomain of validDomains) {
         const domain = req.get('host') || '';
         if (domain !== validDomain) {
           continue;
@@ -148,9 +149,7 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
       }
       return createProxyMiddleware({
         secure: false,
-        target: production
-          ? `https://localhost:${appInfo.prodClientPort}`
-          : `https://localhost:${appInfo.devClientPort}`,
+        target: `https://${domain}:8080`,
         ws: true,
         changeOrigin: false,
       })(req, res, next);
@@ -160,7 +159,7 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
   // const mobileBundleApp = express();
   // mobileBundleApp.use(
   //   createProxyMiddleware({
-  //     target: `http://localhost:8081`,
+  //     target: `http://${domain}:8081`,
   //     ws: true,
   //     changeOrigin: true,
   //   }),
@@ -173,9 +172,9 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
       console.info('certificates not yet installed. waiting to start server...');
       if (!greenlock && appInfo.greenlockExecution === 'autorun') {
         greenlock = true;
-        const env =
+        const envFlag =
           process.env.NODE_ENV === 'production' ? 'prod' : process.env.NODE_ENV === 'staging' ? 'stage' : 'dev';
-        const greenlockProcess = spawn('npm', ['run', `${env}:greenlock`]);
+        const greenlockProcess = spawn('npm', ['run', `${envFlag}:greenlock`]);
         greenlockProcess.stdout.on('data', function (data) {
           console.info(data.toString());
         });
@@ -202,9 +201,7 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
         ));
         return res.send(urlSplit[2] + '.' + credentials.publicKeyJwk.kid);
       }
-      return res.redirect(
-        `https://${process.env.NODE_ENV !== 'development' ? appInfo.prodDomain : appInfo.devDomain}${req.url}`,
-      );
+      return res.redirect(`https://${domain}${req.url}`);
     });
     expressrdr.listen(process.env.REDIRECT_FROM_PORT);
     console.info(`[${getTimestamp()}] Proxy server redirecting from port ${process.env.REDIRECT_FROM_PORT}`);

@@ -27,7 +27,7 @@ const main = async (): Promise<void> => {
   }
 
   const app = express();
-  const publicPath = path.resolve(__dirname, 'build');
+  const publicPath = path.resolve('./public');
 
   app.get('*', function (req: any, res: any) {
     res.sendFile(publicPath + '/index.html');

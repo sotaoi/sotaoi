@@ -9,6 +9,8 @@ const envVarWhitelist = [
   'APP_NAME',
   'BUNDLE_ID',
   'PACKAGE_NAME',
+  'LOCAL_DOMAIN',
+  'LOCAL_DOMAIN_ALIAS',
   'DEV_DOMAIN',
   'DEV_DOMAIN_ALIAS',
   'STAGE_DOMAIN',
@@ -16,8 +18,7 @@ const envVarWhitelist = [
   'PROD_DOMAIN',
   'PROD_DOMAIN_ALIAS',
   'DEV_MOBILE_API_URL',
-  'MOBILE_BUNDLE_LOCATION_HOST',
-  'MOBILE_BUNDLE_LOCATION_PORT',
+  'MOBILE_BUNDLE_LOCATION',
   'GREENLOCK_EXECUTION',
   'SSL_MAINTAINER',
 ];
@@ -30,6 +31,8 @@ const processEnv = (): { [key: string]: string } => {
     envVars.APP_NAME = process.env.APP_NAME || '';
     envVars.BUNDLE_ID = process.env.BUNDLE_ID || '';
     envVars.PACKAGE_NAME = process.env.PACKAGE_NAME || '';
+    envVars.LOCAL_DOMAIN = process.env.LOCAL_DOMAIN || '';
+    envVars.LOCAL_DOMAIN_ALIAS = process.env.LOCAL_DOMAIN_ALIAS || '';
     envVars.DEV_DOMAIN = process.env.DEV_DOMAIN || '';
     envVars.DEV_DOMAIN_ALIAS = process.env.DEV_DOMAIN_ALIAS || '';
     envVars.STAGE_DOMAIN = process.env.STAGE_DOMAIN || '';
@@ -37,8 +40,7 @@ const processEnv = (): { [key: string]: string } => {
     envVars.PROD_DOMAIN = process.env.PROD_DOMAIN || '';
     envVars.PROD_DOMAIN_ALIAS = process.env.PROD_DOMAIN_ALIAS || '';
     envVars.DEV_MOBILE_API_URL = process.env.DEV_MOBILE_API_URL || '';
-    envVars.MOBILE_BUNDLE_LOCATION_HOST = process.env.MOBILE_BUNDLE_LOCATION_HOST || '';
-    envVars.MOBILE_BUNDLE_LOCATION_PORT = process.env.MOBILE_BUNDLE_LOCATION_PORT || '';
+    envVars.MOBILE_BUNDLE_LOCATION = process.env.MOBILE_BUNDLE_LOCATION || '';
     envVars.GREENLOCK_EXECUTION = process.env.GREENLOCK_EXECUTION || '';
     envVars.SSL_MAINTAINER = process.env.SSL_MAINTAINER || '';
     return envVars;
@@ -66,4 +68,20 @@ const getAppInfo = (): AppInfo => {
   return appInfoParsed;
 };
 
-export { getAppInfo, envVarWhitelist };
+const getAppDomain = (): string => {
+  const appInfo = getAppInfo();
+  switch (process.env.NODE_ENV) {
+    case 'production':
+      return appInfo.prodDomain;
+    case 'staging':
+      return appInfo.stageDomain;
+    case 'development':
+    case 'testing':
+    case 'test':
+      return appInfo.devDomain;
+    default:
+      throw new Error('Could not determine environment');
+  }
+};
+
+export { getAppInfo, getAppDomain, envVarWhitelist };

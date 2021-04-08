@@ -78,6 +78,20 @@ const main = async (): Promise<void> => {
     }
     fs.unlinkSync(item.fullpath);
   });
+
+  // final cweb build move
+  const cwebBuildPath = path.resolve(paths.appBuild, 'public', 'build');
+  Helper.readdirSync(cwebBuildPath).map((item) => {
+    const itemNewPath = path.resolve(paths.appBuild, 'public', item.filename);
+    fs.renameSync(item.fullpath, itemNewPath);
+  });
+  fs.rmdirSync(cwebBuildPath);
+
+  // php
+  execSync('node ./var/refresh.js', { cwd: path.resolve(paths.appBuild, 'php') });
+
+  // npm install
+  execSync('npm install', { cwd: paths.appBuild });
 };
 
 main();

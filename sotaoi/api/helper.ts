@@ -88,12 +88,6 @@ class Helper extends OmniHelper {
     fs.mkdirSync(path.dirname(to), { recursive: true });
     fs.copyFileSync(from, to);
   }
-
-  public static getPublicPath(_path = ''): string {
-    return process.env.NODE_ENV !== 'development'
-      ? path.resolve('./app/client/build', _path)
-      : path.resolve('./app/client/public', _path);
-  }
 }
 
 export { Helper };

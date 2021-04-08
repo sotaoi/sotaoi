@@ -13,6 +13,7 @@
     "./node_modules",
     "./php",
     "./postcss.config.js",
+    "./public/placeholder.js",
     "./tailwind.config.js",
     "./sotaoi/client",
     "./sotaoi/client/mocks",

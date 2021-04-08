@@ -2,5 +2,5 @@ node_modules
 
 *.d.ts
 
-/app/client/build
+/public/build
 /var/build/release

@@ -11,7 +11,7 @@ const outputTail = new tail('./output.log');
 outputTail.on('line', (data) => console.log(data));
 
 exec('php artisan serve --host 0.0.0.0 --port 4001 >> ./output.log 2>&1', { cwd: path.resolve(__dirname, '../') });
-const logTail = new tail(path.resolve('./php/storage/logs/laravel.log'));
+const logTail = new tail(path.resolve('./storage/logs/laravel.log'));
 logTail.on('line', (data) => console.log(data));
 
 // exec('npm run watch >> ./output.log 2>&1', { cwd: path.resolve(__dirname, '../') });

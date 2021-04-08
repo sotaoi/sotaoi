@@ -10,9 +10,8 @@ const paths = {
   // client
   apiEntry: resolveRoot('./app/api/api.entry.ts'),
   cwebDevcomponent: resolveRoot('./app/client/cweb.devcomponent.tsx'),
-  clientBuild: resolveRoot('./app/client/build'),
-  clientPublic: resolveRoot('./app/client/public'),
-  clientHtml: resolveRoot('./app/client/public/index.html'),
+  clientBuild: resolveRoot('./public/build'),
+  clientHtml: resolveRoot('./public/index.html'),
   appApiPath: resolveRoot('./app/api'),
   appClientPath: resolveRoot('./app/client'),
   appOmniPath: resolveRoot('./app/omni'),
@@ -24,6 +23,10 @@ const paths = {
   sotaoiPath: resolveRoot('./sotaoi'),
   nodeModulesPath: resolveRoot('./node_modules'),
   storagePath: resolveRoot('./storage'),
+  phpPath: resolveRoot('./php'),
+  //
+  logsPath: resolveRoot('./logs'),
+  publicPath: resolveRoot('./public'),
 };
 
 export { paths };

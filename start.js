@@ -14,12 +14,14 @@ const main = async () => {
 
   if (process.env.NODE_ENV !== 'production') {
     exec('npm run start:api >> ./output.log 2>&1');
+    exec('npm run start:php >> ./output.log 2>&1');
     exec('npm run start:cweb >> ./output.log 2>&1');
     exec('npm run start:proxy >> ./output.log 2>&1');
     return;
   }
 
   exec('npm run start:api:prod >> ./output.log 2>&1');
+  exec('npm run start:php:prod >> ./output.log 2>&1');
   exec('npm run start:cweb:prod >> ./output.log 2>&1');
   exec('npm run start:proxy:prod >> ./output.log 2>&1');
 };

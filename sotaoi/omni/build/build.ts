@@ -22,6 +22,10 @@ const main = async (): Promise<void> => {
   Helper.copyRecursiveSync(paths.appPath, `${paths.appBuild}/app`);
   Helper.copyRecursiveSync(paths.sotaoiPath, `${paths.appBuild}/sotaoi`);
   Helper.copyRecursiveSync(paths.storagePath, `${paths.appBuild}/storage`);
+  Helper.copyRecursiveSync(paths.phpPath, `${paths.appBuild}/php`);
+  //
+  fs.mkdirSync(`${paths.appBuild}/logs`);
+  Helper.copyRecursiveSync(paths.publicPath, `${paths.appBuild}/public`);
 
   // copy files
   const items = Helper.readdirSync(path.resolve('./'));

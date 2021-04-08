@@ -11,5 +11,3 @@ execSync('composer -n dump-autoload');
 execSync('php artisan config:cache', { stdio: 'inherit' });
 execSync('php artisan view:cache', { stdio: 'inherit' });
 execSync('php artisan queue:restart', { stdio: 'inherit' });
-execSync('npm run apidoc', { stdio: 'inherit' });
-execSync('npm run restart-supervisor', { stdio: 'inherit' });

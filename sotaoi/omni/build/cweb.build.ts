@@ -4,8 +4,6 @@ import fs from 'fs';
 import webpack, { Stats } from 'webpack';
 import { WebpackConfigFactory } from '@sotaoi/omni/build/client.webpack.config';
 import { paths } from '@sotaoi/omni/build/paths';
-import path from 'path';
-import { Helper } from '@sotaoi/api/helper';
 
 const main = async (): Promise<void> => {
   // generate configuration
@@ -21,14 +19,6 @@ const main = async (): Promise<void> => {
       console.info(ex);
       return;
     }
-
-    Helper.readdirSyncRecur(paths.clientPublic).map((item) => {
-      const nextPath = path.resolve(paths.clientBuild, item.fullpath.substr(paths.clientPublic.length + 1));
-      if (fs.existsSync(nextPath)) {
-        return;
-      }
-      Helper.copyFileSync(item.fullpath, nextPath);
-    });
 
     const { hash, startTime, endTime } = stats;
     if (!endTime || !startTime) {

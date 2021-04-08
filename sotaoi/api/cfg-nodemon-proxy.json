@@ -1,5 +1,5 @@
 {
-  "watch": ["./app/api/proxy.entry.ts", "./app/omni/app-info.json", "./app/client/public", "./sotaoi/api/proxy.ts"],
+  "watch": ["./app/api/proxy.entry.ts", "./app/omni/app-info.json", "./public", "./sotaoi/api/proxy.ts"],
   "ext": "*",
   "ignore": [],
   "exec": "ts-node ./app/api/proxy.entry.ts"

@@ -20,9 +20,9 @@ const WebpackConfigFactory = (webpackEnv: string): webpack.Configuration => {
       path: paths.clientBuild,
       publicPath: '/',
     },
-    // devServer: {
-    //   contentBase: paths.clientPublic,
-    // },
+    devServer: {
+      contentBase: paths.publicPath,
+    },
     module: {
       rules: [
         {

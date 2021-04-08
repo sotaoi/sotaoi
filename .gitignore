@@ -5,7 +5,8 @@
 
 # app
 /.greenlockrc
-/app/client/build
+/public/build
+/logs
 /node_modules
 /sotaoi/api/certs/*
 !/sotaoi/api/certs/.gitkeep
@@ -14,7 +15,6 @@
 /var/build/sdk
 /var/greenlock.d/*
 !/var/greenlock.d/.gitkeep
-/var/logs
 
 # ide
 /.idea
@@ -42,3 +42,6 @@
 /php/node_modules
 /php/output.log
 /php/vendor
+/public/hot
+/public/storage
+/storage/*.key

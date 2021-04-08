@@ -1,8 +1,7 @@
 !/.env
 !/.greenlockrc
 !/todo.txt
-/app/client/build/main.js
-/app/client/build/main.js.map
+/public/build
 /var/build/release
 /var/build/sdk
 /package-lock.json
@@ -10,5 +9,5 @@
 /android
 /ios
 /php/node_modules
-/php/storage/framework
 /php/vendor
+/storage/framework

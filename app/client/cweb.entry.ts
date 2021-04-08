@@ -53,11 +53,17 @@ const main = async (): Promise<void> => {
   const devServer = new WebpackDevServer(compiler, {
     sockPort: 8080,
     compress: false,
-    contentBase: paths.clientPublic,
+    contentBase: paths.publicPath,
     watchContentBase: true,
     publicPath: '/',
     watchOptions: {
-      ignored: [path.resolve('./node_modules'), path.resolve('./php')],
+      ignored: [
+        path.resolve('./node_modules'),
+        path.resolve('./php'),
+        path.resolve('./storage/app'),
+        path.resolve('./storage/framework'),
+        path.resolve('./storage/logs'),
+      ],
       poll: true,
     },
     https: {

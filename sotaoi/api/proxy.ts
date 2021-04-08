@@ -57,15 +57,13 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
   const production = process.env.NODE_ENV === 'production';
   const app = express();
 
-  production
-    ? app.use(express.static('./app/client/build'))
-    : app.use((req, res, next) => {
-        if (req.url === '/') {
-          return next();
-        }
-        return express.static('./app/client/public')(req, res, next);
-      });
-  app.use(express.static('./php/public'));
+  app.use((req, res, next) => {
+    console.log(req.url);
+    if (req.url === '/') {
+      return next();
+    }
+    return express.static('./public')(req, res, next);
+  });
 
   app.use(
     '/api',

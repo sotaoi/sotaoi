@@ -5,7 +5,7 @@
 /node_modules
 /var/build/release
 /var/build/sdk
-/var/logs
+/logs
 
 # ide
 /.idea

@@ -32,13 +32,7 @@ const WebComponent = (): null | React.ReactElement => {
 
   layoutMatches = 0;
   for (const [layoutName, layoutConfig] of Object.entries(config)) {
-    RouterEvents.setIsRunningConditions(true);
-    if (!layoutConfig.condition()) {
-      RouterEvents.setIsRunningConditions(false);
-      continue;
-    }
-    RouterEvents.setIsRunningConditions(false);
-
+    let didMatch = false;
     if (
       !layoutConfig.prefix ||
       layoutConfig.prefix === '/' ||
@@ -46,9 +40,22 @@ const WebComponent = (): null | React.ReactElement => {
         ? layoutConfig.prefix === RouteChange.getPathname().substr(0, layoutConfig.prefix.length)
         : `/${layoutConfig.prefix}` === RouteChange.getPathname().substr(0, layoutConfig.prefix.length + 1))
     ) {
+      didMatch = true;
       layoutMatches++;
     }
+
+    if (!didMatch) {
+      continue;
+    }
+
     Layout = layoutConfig.layout;
+
+    RouterEvents.setIsRunningConditions(true);
+    if (!layoutConfig.condition()) {
+      RouterEvents.setIsRunningConditions(false);
+      continue;
+    }
+    RouterEvents.setIsRunningConditions(false);
 
     for (let [routeScheme, RouteComponent] of Object.entries(layoutConfig.routes)) {
       routeScheme = Navigation.parseRouteScheme(layoutName, layoutConfig.prefix, routeScheme);

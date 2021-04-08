@@ -1,11 +1,13 @@
 import React from 'react';
-import { Link, LayoutProps, pushRoute } from '@sotaoi/client/router';
+import { Link, LayoutProps } from '@sotaoi/client/router';
 import { Action } from '@sotaoi/client/action';
 import { Helper } from '@sotaoi/client/helper';
 import { View, Text } from 'react-native';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
+import { store } from '@sotaoi/client/store';
 
 const MainLayout = (props: LayoutProps): React.ReactElement => {
+  const authRecord = store().getAuthRecord();
   if (Helper.isWeb()) {
     return (
       <section>
@@ -24,9 +26,11 @@ const MainLayout = (props: LayoutProps): React.ReactElement => {
             <span className={'text-lg no-underline text-grey-darkest hover:text-blue-dark ml-3'}>
               <Link to={'/user/list/all'}>Users</Link>
             </span>
-            <span className={'text-lg no-underline text-grey-darkest hover:text-blue-dark ml-3'}>
-              <Link to={'/user/about'}>Profile/About</Link>
-            </span>
+            {authRecord && (
+              <span className={'text-lg no-underline text-grey-darkest hover:text-blue-dark ml-3'}>
+                <Link to={`/${authRecord.repository}/view/${authRecord.uuid}`}>My Profile</Link>
+              </span>
+            )}
             <span className={'text-lg no-underline text-grey-darkest hover:text-blue-dark ml-3'}>
               <Link to={'/post/store'}>Add post</Link>
             </span>

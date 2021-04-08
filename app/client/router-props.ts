@@ -18,7 +18,6 @@ import { TaskUserRoute } from '@app/client/main-layout/routes/task-user-route';
 import { StorePostRoute } from '@app/client/main-layout/routes/store-post-route';
 import { HomeUserRoute } from '@app/client/main-layout/routes/home-user-route';
 //
-import { AboutRoute } from '@app/client/main-layout/routes/about-route';
 import { UpdatePostRoute } from '@app/client/main-layout/routes/update-post-route';
 
 // // custom redux store is working
@@ -66,7 +65,6 @@ const routerProps: RouterProps = routes('s-control-panel', {
         '/user/view/{uuid}': UserRoute,
         '/user/edit/{uuid}': UpdateUserRoute,
         '/user/hello-task': TaskUserRoute,
-        '/user/about': AboutRoute,
       },
       condition: (): boolean => {
         if (!store().getAuthRecord()) {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ViewComponent, ViewPromises, ViewData } from '@sotaoi/client/components';
 import { FormConstructor, UpdateFormFactory } from '@sotaoi/client/forms';
-import { Artifacts } from '@sotaoi/omni/artifacts';
+import { Artifacts, RecordRef } from '@sotaoi/omni/artifacts';
 import { getAllCountriesQuery } from '@app/client/queries/country-queries';
 import { pushRoute } from '@sotaoi/client/router';
 import { getUser } from '@app/client/queries/user-queries';
@@ -27,6 +27,7 @@ class UpdateUserForm extends ViewComponent<UpdateUserFormProps> {
 
   public init({ results, props }: ViewData<UpdateUserFormProps>): any {
     const user = results.user.result.record;
+    const userCountry = user.address?.country ? new RecordRef('country', user.address.country.uuid) : null;
     const countries = results.countries.result.records;
 
     const registerUserFormConstructor = FormConstructor(
@@ -38,7 +39,7 @@ class UpdateUserForm extends ViewComponent<UpdateUserFormProps> {
         address: {
           fields: {
             street: InputField.input(user.address.street),
-            country: RefSelectField.input(user.address.country),
+            country: RefSelectField.input(userCountry),
           },
         },
       },

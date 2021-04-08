@@ -231,61 +231,6 @@ abstract class ViewComponent<
   }
 }
 
-// const routeComponent = <ComponentProps extends { [key: string]: any }>(
-//   Component: React.FunctionComponent<RouteData<ComponentProps>>,
-// ): (() => React.ReactElement) => {
-//   return (): React.ReactElement => {
-//     const state = store().getState();
-//     const params = getParams<ComponentProps>();
-
-//     const [, setState] = React.useState();
-//     const forceUpdate = React.useCallback(() => setState({}), []);
-
-//     return <Component params={params} state={state} />;
-//   };
-// };
-
-// const viewComponent = <ComponentProps extends { [key: string]: any }>(
-//   Component: (data: { results: { [key: string]: any }; props: ComponentProps }) => null | React.ReactElement,
-//   promises: { [key: string]: (props: ComponentProps) => Promise<any> } = {},
-// ): React.FunctionComponent<ComponentProps> => {
-//   return (props: ComponentProps): null | React.ReactElement => {
-//     const [state, setState] = React.useState<ViewState>({
-//       results: {},
-//       success: true,
-//       done: false,
-//     });
-
-//     React.useEffect(() => {
-//       state.success = true;
-//       !state.done &&
-//         Promise.all(Object.values(promises).map((promise) => promise(props)))
-//           .then((res) => {
-//             Object.keys(promises).map((key, index) => {
-//               !res[index].success && (state.success = false);
-//               state.results[key] = res[index];
-//             });
-//           })
-//           .catch((err) => {
-//             console.error(err);
-//           })
-//           .finally(() => {
-//             setState({ results: state.results, success: state.success, done: true });
-//           });
-//     }, []);
-
-//     if (!state.done) {
-//       return null;
-//     }
-//     if (!state.success) {
-//       console.error('one or more promises failed:', state.results);
-//       return null;
-//     }
-
-//     return <Component results={state.results} props={props} />;
-//   };
-// };
-
 class RequestAbortHandler {
   protected aborts: (() => void)[];
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import { ViewComponent, ViewData, ViewPromises } from '@sotaoi/client/components';
-import _ from 'lodash';
 import { getPost } from '@app/client/queries/post-queries';
 import { DateComponent } from '@app/client/components/post-components/date-component';
 import { Content } from '@app/client/components/post-components/content';

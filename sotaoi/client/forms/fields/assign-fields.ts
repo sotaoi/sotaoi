@@ -6,7 +6,6 @@ import {
   SingleCollectionField,
   CollectionField,
 } from '@sotaoi/client/forms/fields/collection-field';
-import _ from 'lodash';
 
 const assignFields = (
   form: BaseForm,

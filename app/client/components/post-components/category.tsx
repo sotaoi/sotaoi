@@ -1,12 +1,9 @@
 import React from 'react';
 import { ViewComponent, ViewData, ViewPromises } from '@sotaoi/client/components';
-import _ from 'lodash';
-import { getCategory } from '@app/client/queries/category-queries';
 
 interface ViewComponentProps {
   categoryName: string;
 }
-//
 class Category extends ViewComponent<ViewComponentProps> {
   promises(): ViewPromises<ViewComponentProps> {
     return {};

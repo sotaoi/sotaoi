@@ -1,18 +1,14 @@
 import React from 'react';
 import { ViewComponent, ViewData, ViewPromises } from '@sotaoi/client/components';
-import _ from 'lodash';
 
 interface ViewComponentProps {
   content: string;
 }
-//
 class Content extends ViewComponent<ViewComponentProps> {
   promises(): ViewPromises<ViewComponentProps> {
     return {};
   }
   public web({ results, props }: ViewData<ViewComponentProps>): null | React.ReactElement {
-    // props.content.replace(/(?:\r\n|\r|\n)/g, '{""}');
-
     return (
       <>
         <p

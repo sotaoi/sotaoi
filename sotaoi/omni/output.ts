@@ -1,4 +1,3 @@
-import _ from 'lodash';
 import { CommandResult, AuthResult, TaskResult } from '@sotaoi/omni/transactions';
 
 class Output {

@@ -1,5 +1,5 @@
 import { Helper } from '@sotaoi/api/helper';
-import _, { sample } from 'lodash';
+import _ from 'lodash';
 
 function fillUuid(array: string[], q: number): void {
   for (let i = 0; i < q; i++) {
@@ -33,11 +33,10 @@ export async function seed(dbConnection: any): Promise<void> {
   const userUuids: string[] = [];
   const categoryUuids: string[] = [];
 
-  const nrCountries = 4,
-    nrUsers = 1,
-    nrAddresses = 1,
-    nrCategories = 2,
-    nrPosts = 10;
+  const nrCountries = 4;
+  const nrUsers = 1;
+  const nrAddresses = 1;
+  const nrCategories = 2;
   fillUuid(countryUuids, nrCountries);
   fillUuid(addressUuids, nrAddresses);
   fillUuid(userUuids, nrUsers);

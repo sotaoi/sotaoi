@@ -1,6 +1,5 @@
 import React from 'react';
 import { ViewComponent, ViewData, ViewPromises } from '@sotaoi/client/components';
-import _ from 'lodash';
 
 interface ViewComponentProps {
   date: string;

@@ -1,6 +1,5 @@
 import { BaseField } from '@sotaoi/client/forms/fields/base-field';
 import { SingleCollectionField, CollectionField } from '@sotaoi/client/forms/fields/collection-field';
-import _ from 'lodash';
 import { Helper, TransformerFn } from '@sotaoi/client/helper';
 import { Output as OmniOutput } from '@sotaoi/omni/output';
 

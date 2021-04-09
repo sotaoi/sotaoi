@@ -8,27 +8,27 @@ class Output {
     try {
       switch (true) {
         case typeof output !== 'object':
-        case typeof output.success !== 'boolean':
-        case typeof output.result === 'undefined':
-        case typeof output.error === 'undefined':
-        case output.result && output.error:
-        case typeof output.result !== 'object' &&
-          typeof output.error !== 'object' &&
-          output.result !== null &&
-          output.error !== null:
-        case typeof output.result?.code !== 'number' && typeof output.error?.code !== 'number':
-        case output.result !== null && output.error !== null:
+        case typeof output.code !== 'number':
+        case typeof output.title !== 'string':
+        case typeof output.msg !== 'string':
           throw new Error('bad output');
         default:
-          return new CommandResult(output.success, output.result, output.error);
+          return new CommandResult(
+            output.code,
+            output.title,
+            output.msg,
+            output.artifact || null,
+            output.validations || null,
+          );
       }
     } catch (err) {
-      return new CommandResult(false, null, {
-        code: 400,
-        title: err && err.name ? err.name : 'Error',
-        msg: err && err.message ? err.message : 'Something went wrong',
-        validations: null,
-      });
+      return new CommandResult(
+        400,
+        err && err.name ? err.name : 'Error',
+        err && err.message ? err.message : 'Something went wrong',
+        null,
+        null,
+      );
     }
   }
 

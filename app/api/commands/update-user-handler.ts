@@ -48,16 +48,7 @@ class UpdateUserHandler extends UpdateHandler {
     avatar ? saveAvatar() : removeAvatar();
     gallery ? saveGallery() : removeGallery();
 
-    return new CommandResult(
-      true,
-      {
-        code: 200,
-        title: 'Hello',
-        msg: 'Command test',
-        artifact: new Artifact('user', command.uuid),
-      },
-      null,
-    );
+    return new CommandResult(200, 'Hello', 'Command test', new Artifact('user', command.uuid), null);
   }
 }
 

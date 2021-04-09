@@ -55,14 +55,10 @@ class Command {
 
 abstract class BaseCommandResult {
   public success: boolean;
-  public result: null | CommandResultSuccess | AuthResultSuccess | TaskResultSuccess;
+  public result: null | AuthResultSuccess | TaskResultSuccess;
   public error: null | ErrorResult;
 
-  constructor(
-    success: boolean,
-    result: null | CommandResultSuccess | AuthResultSuccess | TaskResultSuccess,
-    error: null | ErrorResult,
-  ) {
+  constructor(success: boolean, result: null | AuthResultSuccess | TaskResultSuccess, error: null | ErrorResult) {
     this.success = success;
     this.result = result;
     this.error = error;
@@ -83,28 +79,35 @@ abstract class BaseCommandResult {
   }
 }
 
-class CommandResultSuccess {
-  code: number;
-  title: string;
-  msg: string;
-  artifact: null | Artifact;
+class CommandResult {
+  public success: boolean;
+  public code: number;
+  public msg: string;
+  public title: string;
+  public artifact: null | Artifact;
+  public validations: null | { [key: string]: string[] };
 
-  constructor(result: { code: number; title: string; msg: string; artifact: null | Artifact }) {
-    if (result.artifact !== null && !(result.artifact instanceof Artifact)) {
-      throw new Error('something went wrong, result.artifact should be null or Artifact');
-    }
-    this.code = result.code;
-    this.title = result.title;
-    this.msg = result.msg;
-    this.artifact = result.artifact;
+  constructor(
+    code: number,
+    msg: string,
+    title: string,
+    artifact: null | Artifact,
+    validations: null | { [key: string]: string[] },
+  ) {
+    this.success = code >= 200 && code < 300 ? true : false;
+    this.code = code;
+    this.msg = msg;
+    this.title = title;
+    this.artifact = artifact;
+    this.validations = validations;
   }
-}
-class CommandResult extends BaseCommandResult {
-  public result: null | CommandResultSuccess;
 
-  constructor(success: boolean, result: null | CommandResultSuccess, error: null | ErrorResult) {
-    super(success, result, error);
-    this.result = result;
+  public getCode(): number {
+    return this.code;
+  }
+
+  public getError(): ErrorResult {
+    return new ErrorResult(this.code, this.msg, this.title, this.validations);
   }
 }
 
@@ -429,7 +432,6 @@ export {
   ErrorResult,
   MsgResult,
   CommandResult,
-  CommandResultSuccess,
   RetrieveResult,
   QueryResult,
   AuthResult,

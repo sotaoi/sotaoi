@@ -213,12 +213,13 @@ class Output extends OmniOutput {
     const validationResult = inputValidator.getResult();
     if (!validationResult.valid) {
       const code = 422;
-      const commandResult = new CommandResult(false, null, {
+      const commandResult = new CommandResult(
         code,
-        title: validationResult.title,
-        msg: validationResult.message,
-        validations: validationResult.validations,
-      });
+        validationResult.title,
+        validationResult.message,
+        null,
+        validationResult.validations,
+      );
       return handler.response(commandResult).code(code);
     }
 

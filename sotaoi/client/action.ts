@@ -33,12 +33,7 @@ class Action {
       formData.append('repository', repository || '');
       return Output.parseCommand(await (await fetch(apiUrl + '/store', { method: 'POST', body: formData })).json());
     } catch (err) {
-      return new CommandResult(false, null, {
-        code: 400,
-        title: 'Error',
-        msg: 'Something went wrong',
-        validations: null,
-      });
+      return new CommandResult(400, 'Error', 'Something went wrong', null, null);
     }
   }
 
@@ -59,12 +54,7 @@ class Action {
       formData.append('uuid', uuid || '');
       return Output.parseCommand(await (await fetch(apiUrl + '/update', { method: 'POST', body: formData })).json());
     } catch (err) {
-      return new CommandResult(false, null, {
-        code: 400,
-        title: 'Error',
-        msg: 'Something went wrong',
-        validations: null,
-      });
+      return new CommandResult(400, 'Error', 'Something went wrong', null, null);
     }
   }
 
@@ -160,12 +150,7 @@ class Action {
     uuid: string,
   ): Promise<CommandResult> {
     // nothing here yet
-    return new CommandResult(false, null, {
-      code: 400,
-      title: 'Error',
-      msg: 'Something went wrong',
-      validations: null,
-    });
+    return new CommandResult(400, 'Error', 'Something went wrong', null, null);
   }
 
   public static async auth(

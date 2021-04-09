@@ -28,16 +28,7 @@ class StorePostHandler extends StoreHandler {
 
     saveImage();
 
-    return new CommandResult(
-      true,
-      {
-        code: 200,
-        title: 'result',
-        msg: 'post added',
-        artifact: new Artifact('post', postUuid),
-      },
-      null,
-    );
+    return new CommandResult(200, 'result', 'post added', new Artifact('post', postUuid), null);
   }
 }
 

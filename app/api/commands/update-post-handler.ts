@@ -27,16 +27,7 @@ class UpdatePostHandler extends UpdateHandler {
 
     image ? saveImage() : cancelImage();
 
-    return new CommandResult(
-      true,
-      {
-        code: 200,
-        title: 'Hello',
-        msg: 'Command test',
-        artifact: new Artifact('post', command.uuid),
-      },
-      null,
-    );
+    return new CommandResult(200, 'Hello', 'Command test', new Artifact('post', command.uuid), null);
   }
 }
 

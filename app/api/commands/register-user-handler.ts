@@ -55,16 +55,7 @@ class RegisterUserHandler extends StoreHandler {
     });
     this.handler.state('accessToken', accessToken);
 
-    return new CommandResult(
-      true,
-      {
-        code: 200,
-        title: 'Hello',
-        msg: 'You are authenticated',
-        artifact: authRecord,
-      },
-      null,
-    );
+    return new CommandResult(200, 'Hello', 'You are authenticated', authRecord, null);
   }
 }
 

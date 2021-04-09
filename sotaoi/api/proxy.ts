@@ -71,7 +71,6 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
   const domain = getAppDomain();
 
   app.use((req, res, next) => {
-    console.log(req.url);
     if (req.url === '/') {
       return next();
     }

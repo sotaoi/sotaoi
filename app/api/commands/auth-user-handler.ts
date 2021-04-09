@@ -16,12 +16,7 @@ class AuthUserHandler extends AuthHandler {
       .where('password', command.payload.password.serialize(true))
       .first();
     if (!user) {
-      return new AuthResult(true, null, {
-        code: 401,
-        title: 'Error',
-        msg: 'Invalid credentials',
-        validations: null,
-      });
+      return new AuthResult(401, 'Error', 'Invalid credentials', null, null, null);
     }
     const accessToken = Helper.uuid();
     // better token encryption needed here
@@ -32,17 +27,7 @@ class AuthUserHandler extends AuthHandler {
       token: accessToken,
     });
     this.saveAccessToken(accessToken);
-    return new AuthResult(
-      true,
-      {
-        code: 200,
-        title: 'Success',
-        msg: 'Authentication success',
-        authRecord,
-        accessToken,
-      },
-      null,
-    );
+    return new AuthResult(200, 'Success', 'Authentication success', authRecord, accessToken, null);
   }
 }
 

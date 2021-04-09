@@ -167,12 +167,7 @@ class Action {
       const result = Output.parseAuth(await (await fetch(apiUrl + '/auth', { method: 'POST', body: formData })).json());
       return result;
     } catch (err) {
-      return new AuthResult(false, null, {
-        code: 400,
-        title: 'Error',
-        msg: 'Something went wrong',
-        validations: null,
-      });
+      return new AuthResult(400, 'Error', 'Something went wrong', null, null, null);
     }
   }
 

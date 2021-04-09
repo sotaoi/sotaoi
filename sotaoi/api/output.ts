@@ -11,6 +11,8 @@ import {
   PlistFilters,
   SlistFilters,
   Retrieve,
+  AuthResult,
+  TaskResult,
 } from '@sotaoi/omni/transactions';
 import { Artifacts } from '@sotaoi/omni/artifacts';
 import { Setup } from '@sotaoi/api/setup';
@@ -153,7 +155,7 @@ class Output extends OmniOutput {
     let authHandler: AuthHandler;
     let taskCommand: TaskCommand;
     let taskHandler: TaskHandler;
-    let output: (payload: { [key: string]: any }) => Promise<CommandResult>;
+    let output: (payload: { [key: string]: any }) => Promise<CommandResult | AuthResult | TaskResult>;
     let formId: string;
     switch (true) {
       case type === 'store':
@@ -180,17 +182,17 @@ class Output extends OmniOutput {
       case type === 'auth':
         authHandler = Setup.getAuthHandler(repository, handler);
         formId = await authHandler.getFormId();
-        output = async (payload: { [key: string]: any }): Promise<CommandResult> => {
+        output = async (payload: { [key: string]: any }): Promise<AuthResult> => {
           authCommand = new AuthCommand(new Artifacts(artifacts), repository, payload, strategy);
-          return this.parseCommand(await authHandler.handle(authCommand));
+          return this.parseAuth(await authHandler.handle(authCommand));
         };
         break;
       case type === 'task':
         taskHandler = Setup.getTaskHandler(repository, task, handler);
         formId = await taskHandler.getFormId();
-        output = async (payload: { [key: string]: any }): Promise<CommandResult> => {
+        output = async (payload: { [key: string]: any }): Promise<TaskResult> => {
           taskCommand = new TaskCommand(authRecord, new Artifacts(artifacts), role, repository, task, payload);
-          return this.parseCommand(await taskHandler.handle(taskCommand));
+          return this.parseTask(await taskHandler.handle(taskCommand));
         };
         break;
       default:

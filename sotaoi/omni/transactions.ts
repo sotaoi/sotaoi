@@ -1,5 +1,4 @@
 import { Artifacts, AuthRecord, RecordEntry, Artifact } from '@sotaoi/omni/artifacts';
-import Joi from 'joi';
 
 abstract class ResponseToolkit<ResponseObject> {
   abstract response: (value: any) => ResponseObject;
@@ -55,10 +54,10 @@ class Command {
 
 abstract class BaseCommandResult {
   public success: boolean;
-  public result: null | AuthResultSuccess | TaskResultSuccess;
+  public result: null | TaskResultSuccess;
   public error: null | ErrorResult;
 
-  constructor(success: boolean, result: null | AuthResultSuccess | TaskResultSuccess, error: null | ErrorResult) {
+  constructor(success: boolean, result: null | TaskResultSuccess, error: null | ErrorResult) {
     this.success = success;
     this.result = result;
     this.error = error;
@@ -139,45 +138,38 @@ class RetrieveResult {
   }
 }
 
-class AuthResultSuccess {
-  code: number;
-  title: string;
-  msg: string;
-  authRecord: AuthRecord;
-  accessToken: string;
+class AuthResult {
+  public success: boolean;
+  public code: number;
+  public title: string;
+  public msg: string;
+  public authRecord: null | AuthRecord;
+  public accessToken: null | string;
+  public validations: null | { [key: string]: string[] };
 
-  constructor(result: { code: number; title: string; msg: string; authRecord: AuthRecord; accessToken: string }) {
-    if (result.authRecord !== null && !(result.authRecord instanceof AuthRecord)) {
-      throw new Error('something went wrong, result.authRecord should be null or AuthRecord');
-    }
-    Joi.object({ code: Joi.number(), title: Joi.string(), msg: Joi.string(), authRecord: Joi.any() }).validate(result);
-    this.code = result.code;
-    this.title = result.title;
-    this.msg = result.msg;
-    this.authRecord = result.authRecord;
-    this.accessToken = result.accessToken;
-  }
-}
-class AuthResult extends BaseCommandResult {
-  result: null | AuthResultSuccess;
-
-  constructor(success: boolean, result: null | AuthResultSuccess, error: null | ErrorResult) {
-    super(success, result, error);
-    this.result = result;
+  constructor(
+    code: number,
+    title: string,
+    msg: string,
+    authRecord: null | AuthRecord,
+    accessToken: null | string,
+    validations: null | { [key: string]: string[] },
+  ) {
+    this.success = code >= 200 && code < 300 ? true : false;
+    this.code = code;
+    this.msg = msg;
+    this.title = title;
+    this.authRecord = authRecord;
+    this.accessToken = accessToken;
+    this.validations = validations;
   }
 
   public getCode(): number {
-    if (typeof this.result?.code !== 'number' && typeof this.error?.code !== 'number') {
-      throw new Error('something went wrong');
-    }
-    return (this.result?.code || this.error?.code) as number;
+    return this.code;
   }
 
   public getError(): ErrorResult {
-    if (!this.error) {
-      throw new Error('failed to get error, error is null');
-    }
-    return this.error;
+    return new ErrorResult(this.code, this.msg, this.title, this.validations);
   }
 }
 
@@ -188,10 +180,6 @@ class TaskResultSuccess {
   data: null | { [key: string]: any };
 
   constructor(result: { code: number; title: string; msg: string; data: null | { [key: string]: any } }) {
-    if (result.data !== null && !(result.data instanceof Object)) {
-      throw new Error('something went wrong, result.data should be null or Object');
-    }
-    Joi.object({ code: Joi.number(), title: Joi.string(), msg: Joi.string(), data: Joi.any() });
     this.code = result.code;
     this.title = result.title;
     this.msg = result.msg;
@@ -435,7 +423,6 @@ export {
   RetrieveResult,
   QueryResult,
   AuthResult,
-  AuthResultSuccess,
   TaskResult,
   TaskResultSuccess,
   Payload,

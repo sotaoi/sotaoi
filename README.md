@@ -19,3 +19,7 @@ In case there is a problem with running the proxy, try running it with superuser
 ```
 sudo npm run start:proxy
 ```
+
+# DevNotes
+
+Joi is currently unused

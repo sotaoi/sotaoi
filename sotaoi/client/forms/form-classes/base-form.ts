@@ -1,14 +1,7 @@
 import React from 'react';
 import { BaseField, FieldConstructor } from '@sotaoi/client/forms/fields/base-field';
 import { assignFields } from '@sotaoi/client/forms/fields/assign-fields';
-import {
-  Payload,
-  CommandResult,
-  AuthResult,
-  AuthResultSuccess,
-  TaskResult,
-  TaskResultSuccess,
-} from '@sotaoi/omni/transactions';
+import { Payload, CommandResult, AuthResult, TaskResult, TaskResultSuccess } from '@sotaoi/omni/transactions';
 import { AuthRecord, Artifacts } from '@sotaoi/omni/artifacts';
 import { BaseInput, FormValidations } from '@sotaoi/omni/input';
 import { Helper } from '@sotaoi/client/helper';
@@ -50,7 +43,7 @@ abstract class BaseForm {
 
   public rerender: (force: boolean) => void;
   public onCommandSuccess: (onCommandSuccessFn: (result: CommandResult) => Promise<any>) => void;
-  public onAuthSuccess: (onAuthSuccessFn: (result: AuthResultSuccess) => Promise<any>) => void;
+  public onAuthSuccess: (onAuthSuccessFn: (result: AuthResult) => Promise<any>) => void;
   public onTaskSuccess: (onTaskSuccessFn: (result: TaskResultSuccess) => Promise<any>) => void;
 
   public destroy: () => void;
@@ -65,7 +58,7 @@ abstract class BaseForm {
   protected _sending: boolean;
   protected _validating: boolean;
   protected _realOnCommandSuccess: (result: CommandResult) => Promise<any>;
-  protected _realOnAuthSuccess: (result: AuthResultSuccess) => Promise<any>;
+  protected _realOnAuthSuccess: (result: AuthResult) => Promise<any>;
   protected _realOnTaskSuccess: (result: TaskResultSuccess) => Promise<any>;
 
   protected static inputValidator: InputValidator;
@@ -118,7 +111,7 @@ abstract class BaseForm {
     this.onCommandSuccess = (onCommandSuccessFn: (result: CommandResult) => Promise<any>): void => {
       this._realOnCommandSuccess = onCommandSuccessFn;
     };
-    this.onAuthSuccess = (onAuthSuccessFn: (result: AuthResultSuccess) => Promise<any>): void => {
+    this.onAuthSuccess = (onAuthSuccessFn: (result: AuthResult) => Promise<any>): void => {
       this._realOnAuthSuccess = onAuthSuccessFn;
     };
     this.onTaskSuccess = (onTaskSuccessFn: (result: TaskResultSuccess) => Promise<any>): void => {
@@ -131,7 +124,7 @@ abstract class BaseForm {
     this._sending = false;
     this._validating = false;
     this._realOnCommandSuccess = async (result: CommandResult): Promise<void> => undefined;
-    this._realOnAuthSuccess = async (result: AuthResultSuccess): Promise<void> => undefined;
+    this._realOnAuthSuccess = async (result: AuthResult): Promise<void> => undefined;
     this._realOnTaskSuccess = async (result: TaskResultSuccess): Promise<void> => undefined;
 
     this.state = null;
@@ -275,19 +268,19 @@ abstract class BaseForm {
             this.setSending(false);
             return;
           }
-          if (!authOutput.result || !authOutput.result.authRecord) {
+          if (!authOutput.authRecord) {
             throw new Error('something went wrong - auth command failure');
           }
-          authOutput.result.authRecord = AuthRecord.deserialize(authOutput.result.authRecord);
-          if (!(authOutput.result.authRecord instanceof AuthRecord)) {
+          authOutput.authRecord = AuthRecord.deserialize(authOutput.authRecord);
+          if (!(authOutput.authRecord instanceof AuthRecord)) {
             throw new Error('something went wrong - auth record unknown type');
           }
 
           this.setSending(false);
           this.reset();
 
-          await store().setAuthRecord(authOutput.result.authRecord, authOutput.result.accessToken);
-          await this._realOnAuthSuccess(authOutput.result);
+          await store().setAuthRecord(authOutput.authRecord, authOutput.accessToken);
+          await this._realOnAuthSuccess(authOutput);
 
           return;
         case type === 'task':

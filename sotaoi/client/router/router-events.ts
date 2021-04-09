@@ -1,5 +1,7 @@
 import { Helper } from '@sotaoi/client/helper';
 
+const log = console.log;
+
 class RouterEvents {
   public static listeners: { [key: string]: { [key: string]: () => void } } = {};
   protected static redirectingTo: false | string = false;
@@ -19,7 +21,7 @@ class RouterEvents {
 
   public static fire(event: string): void {
     if (typeof this.listeners[event] === 'undefined') {
-      console.log(`no listeners for event "${event}"`);
+      log(`no listeners for event "${event}"`);
       return;
     }
 

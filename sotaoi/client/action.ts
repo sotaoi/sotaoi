@@ -194,12 +194,7 @@ class Action {
       formData.append('task', task || '');
       return Output.parseTask(await (await fetch(apiUrl + '/task', { method: 'POST', body: formData })).json());
     } catch (err) {
-      return new TaskResult(false, null, {
-        code: 400,
-        title: 'Error',
-        msg: 'Something went wrong',
-        validations: null,
-      });
+      return new TaskResult(400, 'Error', 'Something went wrong', null, null);
     }
   }
 }

@@ -52,32 +52,6 @@ class Command {
   }
 }
 
-abstract class BaseCommandResult {
-  public success: boolean;
-  public result: null | TaskResultSuccess;
-  public error: null | ErrorResult;
-
-  constructor(success: boolean, result: null | TaskResultSuccess, error: null | ErrorResult) {
-    this.success = success;
-    this.result = result;
-    this.error = error;
-  }
-
-  public getCode(): number {
-    if (typeof this.result?.code !== 'number' && typeof this.error?.code !== 'number') {
-      throw new Error('something went wrong');
-    }
-    return (this.result?.code || this.error?.code) as number;
-  }
-
-  public getError(): ErrorResult {
-    if (!this.error) {
-      throw new Error('failed to get error, error is null');
-    }
-    return this.error;
-  }
-}
-
 class CommandResult {
   public success: boolean;
   public code: number;
@@ -173,32 +147,35 @@ class AuthResult {
   }
 }
 
-class TaskResultSuccess {
-  code: number;
-  title: string;
-  msg: string;
-  data: null | { [key: string]: any };
+class TaskResult {
+  public success: boolean;
+  public code: number;
+  public title: string;
+  public msg: string;
+  public data: null | { [key: string]: any };
+  public validations: null | { [key: string]: string[] };
 
-  constructor(result: { code: number; title: string; msg: string; data: null | { [key: string]: any } }) {
-    this.code = result.code;
-    this.title = result.title;
-    this.msg = result.msg;
-    this.data = result.data;
-  }
-}
-class TaskResult extends BaseCommandResult {
-  result: null | TaskResultSuccess;
-
-  constructor(success: boolean, result: null | TaskResultSuccess, error: null | ErrorResult) {
-    super(success, result, error);
-    this.result = result;
+  constructor(
+    code: number,
+    title: string,
+    msg: string,
+    data: null | { [key: string]: any },
+    validations: null | { [key: string]: string[] },
+  ) {
+    this.success = code >= 200 && code < 300 ? true : false;
+    this.code = code;
+    this.msg = msg;
+    this.title = title;
+    this.data = data;
+    this.validations = validations;
   }
 
   public getCode(): number {
-    if (typeof this.result?.code !== 'number' && typeof this.error?.code !== 'number') {
-      throw new Error('something went wrong');
-    }
-    return (this.result?.code || this.error?.code) as number;
+    return this.code;
+  }
+
+  public getError(): ErrorResult {
+    return new ErrorResult(this.code, this.msg, this.title, this.validations);
   }
 }
 
@@ -424,7 +401,6 @@ export {
   QueryResult,
   AuthResult,
   TaskResult,
-  TaskResultSuccess,
   Payload,
   Retrieve,
   FlistQuery,

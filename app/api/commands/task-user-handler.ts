@@ -7,14 +7,11 @@ class TaskUserHandler extends TaskHandler {
 
   public async handle(command: TaskCommand): Promise<TaskResult> {
     return new TaskResult(
-      true,
+      200,
+      'Hello',
+      'Task test',
       {
-        code: 200,
-        title: 'Hello',
-        msg: 'Ttask test',
-        data: {
-          ok: 'boomer',
-        },
+        ok: 'boomer',
       },
       null,
     );

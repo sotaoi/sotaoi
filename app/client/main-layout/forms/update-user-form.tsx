@@ -1,7 +1,7 @@
 import React from 'react';
 import { ViewComponent, ViewPromises, ViewData } from '@sotaoi/client/components';
 import { FormConstructor, UpdateFormFactory } from '@sotaoi/client/forms';
-import { Artifacts, RecordRef } from '@sotaoi/omni/artifacts';
+import { Artifacts, RecordRef, RecordEntry } from '@sotaoi/omni/artifacts';
 import { getAllCountriesQuery } from '@app/client/queries/country-queries';
 import { pushRoute } from '@sotaoi/client/router';
 import { getUser } from '@app/client/queries/user-queries';
@@ -11,6 +11,7 @@ import { RefSelectField } from '@sotaoi/client/forms/fields/ref-select-field';
 import { FileField } from '@sotaoi/client/forms/fields/file-field';
 import { getUserUpdateFormValidations } from '@app/client/queries/validation-queries';
 import { MultiFileField } from '@sotaoi/client/forms/fields/multi-file-field';
+import { UpdateForm } from '@sotaoi/client/forms/form-classes/update-form';
 
 // todo here: (and in any component in general) handle component error
 interface UpdateUserFormProps {
@@ -25,7 +26,7 @@ class UpdateUserForm extends ViewComponent<UpdateUserFormProps> {
     };
   }
 
-  public init({ results, props }: ViewData<UpdateUserFormProps>): any {
+  public init({ results, props }: ViewData<UpdateUserFormProps>): { form: UpdateForm; countries: RecordEntry[] } {
     const user = results.user.record;
     const userCountryRef = user.address?.country ? new RecordRef('country', user.address.country.uuid) : null;
     const countries = results.countries.records;

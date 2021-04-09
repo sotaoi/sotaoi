@@ -6,6 +6,7 @@ import { store } from '@sotaoi/client/store';
 import { Action, Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { RequestAbortHandlerAbstract } from '@sotaoi/omni/transactions';
+import { View, Text } from 'react-native';
 
 interface NoProps {}
 
@@ -25,17 +26,43 @@ abstract class RouteComponent<ComponentProps> extends React.Component<ComponentP
     this.state = {};
     switch (true) {
       case Helper.isWeb():
-        this.component = (data: RouteData<ComponentProps>): null | React.ReactElement => this.web(data);
+        this.component = (data: RouteData<ComponentProps>): null | React.ReactElement => {
+          try {
+            return this.web(data);
+          } catch (err) {
+            const Component = this.errorComponent;
+            return <Component error={err} />;
+          }
+        };
         break;
       case Helper.isMobile():
-        this.component = (data: RouteData<ComponentProps>): null | React.ReactElement => this.mobile(data);
+        this.component = (data: RouteData<ComponentProps>): null | React.ReactElement => {
+          try {
+            return this.mobile(data);
+          } catch (err) {
+            const Component = this.errorComponent;
+            return <Component error={err} />;
+          }
+        };
         break;
       case Helper.isElectron():
-        this.component = (data: RouteData<ComponentProps>): null | React.ReactElement => this.electron(data);
+        this.component = (data: RouteData<ComponentProps>): null | React.ReactElement => {
+          try {
+            return this.electron(data);
+          } catch (err) {
+            const Component = this.errorComponent;
+            return <Component error={err} />;
+          }
+        };
         break;
       default:
         throw new Error('unknown environment');
     }
+  }
+
+  public errorComponent(props: { error: Error }): null | React.ReactElement {
+    console.error(props.error);
+    return <GenericTextComponent text={'???'} />;
   }
 
   public asset(item: null | string, role = 'assets'): null | string {
@@ -103,21 +130,44 @@ abstract class ViewComponent<
 
     switch (true) {
       case Helper.isWeb():
-        this.component = (data: ViewData<ComponentProps, MappedState, DispatchProps>): null | React.ReactElement =>
-          this.web(data);
+        this.component = (data: ViewData<ComponentProps, MappedState, DispatchProps>): null | React.ReactElement => {
+          try {
+            return this.web(data);
+          } catch (err) {
+            const Component = this.errorComponent;
+            return <Component error={err} />;
+          }
+        };
         break;
       case Helper.isMobile():
-        this.component = (data: ViewData<ComponentProps, MappedState, DispatchProps>): null | React.ReactElement =>
-          this.mobile(data);
+        this.component = (data: ViewData<ComponentProps, MappedState, DispatchProps>): null | React.ReactElement => {
+          try {
+            return this.mobile(data);
+          } catch (err) {
+            const Component = this.errorComponent;
+            return <Component error={err} />;
+          }
+        };
         break;
       case Helper.isElectron():
-        this.component = (data: ViewData<ComponentProps, MappedState, DispatchProps>): null | React.ReactElement =>
-          this.electron(data);
+        this.component = (data: ViewData<ComponentProps, MappedState, DispatchProps>): null | React.ReactElement => {
+          try {
+            return this.electron(data);
+          } catch (err) {
+            const Component = this.errorComponent;
+            return <Component error={err} />;
+          }
+        };
         break;
       default:
         throw new Error('unknown environment');
     }
     this.dispatch = <T extends DispatchProps>(action: T): T => Navigation.reduxStore?.dispatch(action) || action;
+  }
+
+  public errorComponent(props: { error: Error }): null | React.ReactElement {
+    console.error(props.error);
+    return <GenericTextComponent text={'???'} />;
   }
 
   public asset(item: null | string, role = 'assets'): null | string {
@@ -250,6 +300,27 @@ class RequestAbortHandler extends RequestAbortHandlerAbstract {
     this.aborts = [];
   }
 }
+
+const GenericTextComponent = (props: { text: string }): React.ReactElement => {
+  if (Helper.isWeb()) {
+    return (
+      <div>
+        <span>{props.text}</span>
+      </div>
+    );
+  }
+  if (Helper.isMobile()) {
+    return (
+      <View>
+        <Text>{props.text}</Text>
+      </View>
+    );
+  }
+  if (Helper.isElectron()) {
+    throw new Error('Electron not yet implemented');
+  }
+  throw new Error('Unknown environment');
+};
 
 export { RouteComponent, ViewComponent, RequestAbortHandler };
 export type { RouteData, ViewData, ViewPromises };

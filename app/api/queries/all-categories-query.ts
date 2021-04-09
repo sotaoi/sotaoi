@@ -9,24 +9,10 @@ class AllCategoriesQuery extends FlistQueryHandler {
       const categories = db('category').orderBy('id', 'desc');
       categories.where(query.filters?.where || true);
       query.filters?.limit && categories.limit(query.filters.limit);
-      return new QueryResult(
-        true,
-        {
-          code: 200,
-          title: 'Query success',
-          msg: 'Query was successful',
-          records: await categories,
-        },
-        null,
-      );
+      return new QueryResult(200, 'Query success', 'Query was successful', await categories, null);
     } catch (err) {
       logger().error(err && err.stack ? err.stack : err);
-      return new QueryResult(false, null, {
-        code: 400,
-        title: 'Error',
-        msg: 'Query failed',
-        validations: null,
-      });
+      return new QueryResult(400, 'Error', 'Query failed', null, null);
     }
   }
 }

@@ -13,7 +13,7 @@ class UsersView extends ViewComponent<NoProps> {
   }
 
   public web({ results, props }: ViewData<NoProps>): null | React.ReactElement {
-    const users = results.users.result.records;
+    const users = results.users.records;
     const userList = users.map((user: RecordEntry) => ({
       record: user,
       ref: new RecordRef('user', user.uuid),

@@ -91,12 +91,7 @@ class Action {
         await fetch(apiUrl + '/query', { signal: controller.signal, method: 'POST', body: formData })
       ).json();
     } catch (err) {
-      return new QueryResult(false, null, {
-        code: 400,
-        title: 'Error',
-        msg: 'Something went wrong',
-        validations: null,
-      });
+      return new QueryResult(400, 'Error', 'Something went wrong', null, null);
     }
   }
 
@@ -109,12 +104,7 @@ class Action {
     requestAbortHandler: RequestAbortHandler,
   ): Promise<QueryResult> {
     // nothing here yet
-    return new QueryResult(false, null, {
-      code: 400,
-      title: 'Error',
-      msg: 'Something went wrong',
-      validations: null,
-    });
+    return new QueryResult(400, 'Error', 'Something went wrong', null, null);
   }
 
   public static async slistQuery(
@@ -126,12 +116,7 @@ class Action {
     requestAbortHandler: RequestAbortHandler,
   ): Promise<QueryResult> {
     // nothing here yet
-    return new QueryResult(false, null, {
-      code: 400,
-      title: 'Error',
-      msg: 'Something went wrong',
-      validations: null,
-    });
+    return new QueryResult(400, 'Error', 'Something went wrong', null, null);
   }
 
   public static async retrieve(
@@ -164,12 +149,7 @@ class Action {
       });
       return result;
     } catch (err) {
-      return new RetrieveResult(false, null, {
-        code: 400,
-        title: 'Error',
-        msg: 'Something went wrong',
-        validations: null,
-      });
+      return new RetrieveResult(400, 'Error', 'Something went wrong', null, null);
     }
   }
 

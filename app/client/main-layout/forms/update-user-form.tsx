@@ -26,9 +26,10 @@ class UpdateUserForm extends ViewComponent<UpdateUserFormProps> {
   }
 
   public init({ results, props }: ViewData<UpdateUserFormProps>): any {
-    const user = results.user.result.record;
+    console.log(results.user);
+    const user = results.user.record;
     const userCountry = user.address?.country ? new RecordRef('country', user.address.country.uuid) : null;
-    const countries = results.countries.result.records;
+    const countries = results.countries.records;
 
     const registerUserFormConstructor = FormConstructor(
       {

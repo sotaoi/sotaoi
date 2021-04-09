@@ -6,12 +6,7 @@ import { RecordEntry } from '@sotaoi/omni/artifacts';
 class AllUsersQuery extends FlistQueryHandler {
   public async handle(query: FlistQuery): Promise<QueryResult> {
     if (!(await this.requireArtifact(query.authRecord).ofType('user'))) {
-      return new QueryResult(false, null, {
-        code: 401,
-        title: 'Unauthorized',
-        msg: 'No authorization to run query',
-        validations: null,
-      });
+      return new QueryResult(401, 'Unauthorized', 'No authorization to run query', null, null);
     }
 
     try {
@@ -19,23 +14,9 @@ class AllUsersQuery extends FlistQueryHandler {
         delete user.password;
         return user;
       });
-      return new QueryResult(
-        true,
-        {
-          code: 200,
-          title: 'Query success',
-          msg: 'Query was successful',
-          records: users,
-        },
-        null,
-      );
+      return new QueryResult(200, 'Query success', 'Query was successful', users, null);
     } catch (err) {
-      return new QueryResult(false, null, {
-        code: 400,
-        title: 'Error',
-        msg: 'Query failed',
-        validations: null,
-      });
+      return new QueryResult(400, 'Error', 'Query failed', null, null);
     }
   }
 }

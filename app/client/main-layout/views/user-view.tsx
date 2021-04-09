@@ -14,7 +14,7 @@ class UserView extends ViewComponent<UserViewProps> {
   }
 
   public web({ results, props }: ViewData<UserViewProps>): null | React.ReactElement {
-    const user = results.user.result.record;
+    const user = results.user.record;
     const avatar = this.asset(user.avatar);
     const gallery = this.assets(user.gallery);
     return (

@@ -17,13 +17,10 @@ class UserRetrieve extends RetrieveHandler {
         throw error;
       }
       const result = new RetrieveResult(
-        true,
-        {
-          code: 200,
-          title: 'Retrieve success',
-          msg: 'Retrieve was successful',
-          record: await this.transform(user, retrieve.variant),
-        },
+        200,
+        'Retrieve success',
+        'Retrieve was successful',
+        await this.transform(user, retrieve.variant),
         null,
       );
       if (!user.address) {
@@ -31,12 +28,13 @@ class UserRetrieve extends RetrieveHandler {
       }
       return result;
     } catch (err) {
-      return new RetrieveResult(false, null, {
-        code: 400,
-        title: err && err.name ? err.name : 'Error',
-        msg: err && err.message ? err.message : 'Retrieve failed',
-        validations: null,
-      });
+      return new RetrieveResult(
+        400,
+        err && err.name ? err.name : 'Error',
+        err && err.message ? err.message : 'Retrieve failed',
+        null,
+        null,
+      );
     }
   }
 }

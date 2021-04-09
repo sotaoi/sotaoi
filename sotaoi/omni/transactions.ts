@@ -1,4 +1,4 @@
-import { Artifacts, AuthRecord, RecordRef, RecordEntry, Artifact } from '@sotaoi/omni/artifacts';
+import { Artifacts, AuthRecord, RecordEntry, Artifact } from '@sotaoi/omni/artifacts';
 import Joi from 'joi';
 
 abstract class ResponseToolkit<ResponseObject> {
@@ -108,28 +108,31 @@ class CommandResult extends BaseCommandResult {
   }
 }
 
-interface RetrieveResultInterface {
-  code: number;
-  title: string;
-  msg: string;
-  record: RecordEntry;
-}
 class RetrieveResult {
-  success: boolean;
-  result: null | RetrieveResultInterface;
-  error: null | ErrorResult;
+  public success: boolean;
+  public code: number;
+  public title: string;
+  public msg: string;
+  public record: null | RecordEntry;
+  public validations: null | { [key: string]: string[] };
 
-  constructor(success: boolean, result: null | RetrieveResultInterface, error: null | ErrorResult) {
-    this.success = success;
-    this.result = result;
-    this.error = error;
+  constructor(
+    code: number,
+    title: string,
+    msg: string,
+    record: null | RecordEntry,
+    validations: null | { [key: string]: string[] },
+  ) {
+    this.success = code >= 200 && code < 300 ? true : false;
+    this.code = code;
+    this.title = title;
+    this.msg = msg;
+    this.record = record;
+    this.validations = validations;
   }
 
   public getCode(): number {
-    if (typeof this.result?.code !== 'number' && typeof this.error?.code !== 'number') {
-      throw new Error('something went wrong');
-    }
-    return (this.result?.code || this.error?.code) as number;
+    return this.code;
   }
 }
 
@@ -208,28 +211,31 @@ class TaskResult extends BaseCommandResult {
   }
 }
 
-interface QueryResultInterface {
-  code: number;
-  title: string;
-  msg: string;
-  records: RecordEntry[];
-}
 class QueryResult {
-  success: boolean;
-  result: null | QueryResultInterface;
-  error: null | ErrorResult;
+  public success: boolean;
+  public code: number;
+  public title: string;
+  public msg: string;
+  public records: null | RecordEntry[];
+  public validations: null | { [key: string]: string[] };
 
-  constructor(success: boolean, result: null | QueryResultInterface, error: null | ErrorResult) {
-    this.success = success;
-    this.result = result;
-    this.error = error;
+  constructor(
+    code: number,
+    title: string,
+    msg: string,
+    records: null | RecordEntry[],
+    validations: null | { [key: string]: string[] },
+  ) {
+    this.success = code >= 200 && code < 300 ? true : false;
+    this.code = code;
+    this.title = title;
+    this.msg = msg;
+    this.records = records;
+    this.validations = validations;
   }
 
   public getCode(): number {
-    if (typeof this.result?.code !== 'number' && typeof this.error?.code !== 'number') {
-      throw new Error('something went wrong');
-    }
-    return (this.result?.code || this.error?.code) as number;
+    return this.code;
   }
 }
 
@@ -392,6 +398,32 @@ class SlistFilters extends QueryFilters {
   }
 }
 
+//
+
+abstract class RequestAbortHandlerAbstract {
+  protected aborts: (() => void)[];
+
+  constructor() {
+    this.aborts = [];
+  }
+
+  abstract abort(): void;
+  abstract register(abort: () => void): void;
+  abstract clear(): void;
+}
+
+type RetrieveAction = (
+  props: { [key: string]: any },
+  requestAbortHandler: RequestAbortHandlerAbstract,
+) => Promise<RetrieveResult>;
+
+type QueryAction = (
+  props: { [key: string]: any },
+  requestAbortHandler: RequestAbortHandlerAbstract,
+) => Promise<QueryResult>;
+
+//
+
 export {
   Command,
   ErrorResult,
@@ -413,5 +445,7 @@ export {
   FlistFilters,
   PlistFilters,
   SlistFilters,
+  RequestAbortHandlerAbstract,
 };
+export type { RetrieveAction, QueryAction };
 export type { QueryBuilder } from 'knex';

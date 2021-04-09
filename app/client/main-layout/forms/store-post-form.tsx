@@ -25,7 +25,7 @@ class StorePostForm extends ViewComponent<StorePostFormProps> {
   }
 
   public init({ results, props }: ViewData<StorePostFormProps>): { form: StoreForm; categories: RecordEntry[] } {
-    const categories = results.categories.result.records;
+    const categories = results.categories.records;
     const userUuid = store().getAuthRecord()?.uuid;
     const storePostFormConstructor = FormConstructor(
       {

@@ -16,8 +16,8 @@ class PostsView extends ViewComponent<ViewComponentProps> {
   }
 
   public web({ results, props }: ViewData<ViewComponentProps>): null | React.ReactElement {
-    const posts = results.posts.result.records;
-    // const categories = results.categories.result.records;
+    const posts = results.posts.records;
+    // const categories = results.categories.records;
     return (
       <section className="text-gray-700 body-font">
         <div className="container px-5 py-24 mx-auto">

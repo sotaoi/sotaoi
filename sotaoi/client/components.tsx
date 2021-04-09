@@ -5,6 +5,7 @@ import { Helper } from '@sotaoi/client/helper';
 import { store } from '@sotaoi/client/store';
 import { Action, Dispatch } from 'redux';
 import { connect } from 'react-redux';
+import { RequestAbortHandlerAbstract } from '@sotaoi/omni/transactions';
 
 interface NoProps {}
 
@@ -231,10 +232,9 @@ abstract class ViewComponent<
   }
 }
 
-class RequestAbortHandler {
-  protected aborts: (() => void)[];
-
+class RequestAbortHandler extends RequestAbortHandlerAbstract {
   constructor() {
+    super();
     this.aborts = [];
   }
 

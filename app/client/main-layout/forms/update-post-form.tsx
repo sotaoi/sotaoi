@@ -27,9 +27,9 @@ class UpdatePostForm extends ViewComponent<UpdatePostFormProps> {
   }
 
   public init({ results, props }: ViewData<UpdatePostFormProps>): { form: StoreForm; categories: RecordEntry[] } {
-    const categories = results.categories.result.records;
+    const categories = results.categories.records;
 
-    const post = results.post.result.record;
+    const post = results.post.record;
     const updatePostFormConstructor = FormConstructor(
       {
         title: InputField.input(post.title),

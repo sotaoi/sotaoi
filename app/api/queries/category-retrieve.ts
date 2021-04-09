@@ -16,23 +16,9 @@ class CategoryRetrieve extends RetrieveHandler {
         error.message = 'Not found';
         throw error;
       }
-      return new RetrieveResult(
-        true,
-        {
-          code: 200,
-          title: 'Retrieve success',
-          msg: 'Retrieve was successful',
-          record: category,
-        },
-        null,
-      );
+      return new RetrieveResult(200, 'Retrieve success', 'Retrieve was successful', category, null);
     } catch (err) {
-      return new RetrieveResult(false, null, {
-        code: 400,
-        title: 'Error',
-        msg: 'Retrieve failed',
-        validations: null,
-      });
+      return new RetrieveResult(400, 'Error', 'Retrieve failed', null, null);
     }
   }
 }

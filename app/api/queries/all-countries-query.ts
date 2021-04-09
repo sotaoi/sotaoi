@@ -9,24 +9,10 @@ class AllCountriesQuery extends FlistQueryHandler {
       const countries = db('country').orderBy('id', 'desc');
       countries.where(query.filters?.where || true);
       query.filters?.limit && countries.limit(query.filters.limit);
-      return new QueryResult(
-        true,
-        {
-          code: 200,
-          title: 'Query success',
-          msg: 'Query was successful',
-          records: await countries,
-        },
-        null,
-      );
+      return new QueryResult(200, 'Query success', 'Query was successful', await countries, null);
     } catch (err) {
       logger().error(err && err.stack ? err.stack : err);
-      return new QueryResult(false, null, {
-        code: 400,
-        title: 'Error',
-        msg: 'Query failed',
-        validations: null,
-      });
+      return new QueryResult(400, 'Error', 'Query failed', null, null);
     }
   }
 }

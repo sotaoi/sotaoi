@@ -6,23 +6,9 @@ class AllPostsQuery extends FlistQueryHandler {
   public async handle(query: FlistQuery): Promise<QueryResult> {
     try {
       const posts = await db('post').orderBy('id', 'desc');
-      return new QueryResult(
-        true,
-        {
-          code: 200,
-          title: 'Query success',
-          msg: 'Query was successful',
-          records: posts,
-        },
-        null,
-      );
+      return new QueryResult(200, 'Query success', 'Query was successful', posts, null);
     } catch (err) {
-      return new QueryResult(false, null, {
-        code: 400,
-        title: 'Error',
-        msg: 'Query failed',
-        validations: null,
-      });
+      return new QueryResult(400, 'Error', 'Query failed', null, null);
     }
   }
 }

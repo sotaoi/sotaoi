@@ -1,6 +1,5 @@
 import React from 'react';
 import { RouteComponent, RouteData } from '@sotaoi/client/components';
-import { ErrorComponent } from '@app/client/components/error-component';
 import { StorePostForm } from '@app/client/main-layout/forms/store-post-form';
 
 interface Props {
@@ -9,12 +8,7 @@ interface Props {
 }
 class StorePostRoute extends RouteComponent<Props> {
   public display({ params }: RouteData<Props>): null | React.ReactElement {
-    try {
-      return <StorePostForm filters={params.filters || null} />;
-    } catch (err) {
-      console.warn(err);
-      return <ErrorComponent error={err} />;
-    }
+    return <StorePostForm filters={params.filters || null} />;
   }
   public web(props: RouteData<Props>): null | React.ReactElement {
     return this.display(props);

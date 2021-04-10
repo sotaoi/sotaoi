@@ -5,7 +5,7 @@ import { store } from '@sotaoi/client/store';
 
 const getAllUsersQuery = (): QueryAction => {
   return (props: { [key: string]: any }, requestAbortHandler: RequestAbortHandler): Promise<QueryResult> =>
-    Action.flistQuery(store().getAccessToken(), null, 'user', 'get-all', null, requestAbortHandler);
+    Action.flistQuery(store().getAccessToken(), null, 'user', 'get-all', null, null, requestAbortHandler);
 };
 
 const getUser = (): RetrieveAction => {

@@ -64,6 +64,7 @@ class Action {
     repository: string,
     list: string,
     filters: null | FlistFilters,
+    variant: null | string,
     requestAbortHandler: RequestAbortHandler,
   ): Promise<QueryResult> {
     try {
@@ -75,6 +76,7 @@ class Action {
       formData.append('repository', repository);
       formData.append('list', list);
       formData.append('filters', filters ? JSON.stringify(filters) : '');
+      formData.append('variant', variant || '');
       const controller = new AbortController();
       requestAbortHandler.register(() => controller.abort());
       return await (

@@ -1,6 +1,6 @@
 import { Model } from '@sotaoi/api/models/model';
 import { RecordEntry } from '@sotaoi/omni/artifacts';
-import { CountryModel } from './country-model';
+import { CountryModel } from '@app/api/models/country-model';
 
 class AddressModel extends Model {
   public async repository(): Promise<string> {

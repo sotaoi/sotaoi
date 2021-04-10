@@ -287,6 +287,7 @@ class FlistQuery extends Query<null | FlistFilters> {
     repository: string,
     list: string,
     filters: null | FlistFilters,
+    variant: null | string,
   ) {
     if (!(filters instanceof FlistFilters) && filters !== null) {
       throw new Error('something went wrong - bad flist filters');
@@ -303,6 +304,7 @@ class PlistQuery extends Query<null | PlistFilters> {
     repository: string,
     list: string,
     filters: null | PlistFilters,
+    variant: null | string,
   ) {
     if (!(filters instanceof PlistFilters) && filters !== null) {
       throw new Error('something went wrong - bad plist filters');
@@ -319,6 +321,7 @@ class SlistQuery extends Query<null | SlistFilters> {
     repository: string,
     list: string,
     filters: null | SlistFilters,
+    variant: null | string,
   ) {
     if (!(filters instanceof SlistFilters) && filters !== null) {
       throw new Error('something went wrong - bad slist filters');

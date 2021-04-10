@@ -70,14 +70,30 @@ class RecordRef {
     }
     return new RecordRef(parsed.repository, parsed.uuid);
   }
+
+  public static fromRecordEntry(recordEntry: RecordEntry): RecordRef {
+    return new RecordRef(recordEntry.__repository__, recordEntry.uuid);
+  }
 }
 
-class RecordEntry {
+class Record {
   [key: string]: any;
   public uuid: string;
 
-  constructor(uuid: string) {
+  constructor(uuid: string, data: { [key: string]: any }) {
     this.uuid = uuid;
+    for (const key of Object.keys(data)) {
+      this[key] = data[key];
+    }
+  }
+}
+
+class RecordEntry extends Record {
+  public __repository__: string;
+
+  constructor(repository: string, uuid: string, data: { [key: string]: any }) {
+    super(uuid, data);
+    this.__repository__ = repository;
   }
 }
 
@@ -133,4 +149,4 @@ class Artifacts {
   }
 }
 
-export { Artifact, AuthRecord, RecordRef, RecordEntry, Artifacts };
+export { Artifact, AuthRecord, Record, RecordRef, RecordEntry, Artifacts };

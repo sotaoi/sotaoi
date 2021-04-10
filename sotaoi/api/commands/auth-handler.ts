@@ -11,6 +11,11 @@ abstract class AuthHandler extends BaseHandler {
   abstract async getFormId(): Promise<string>;
   abstract async handle(command: AuthCommand): Promise<AuthResult>;
 
+  public async __handle__(command: AuthCommand): Promise<AuthResult> {
+    const result = await this.handle(command);
+    return result;
+  }
+
   protected static _translateAccessToken = async (
     handler: ResponseToolkit,
     accessToken: string,

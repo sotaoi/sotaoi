@@ -1,7 +1,6 @@
 import React from 'react';
 import { RouteComponent, RouteData } from '@sotaoi/client/components';
 import { Errors } from '@app/client/errors';
-import { ErrorComponent } from '@app/client/components/error-component';
 import { AuthUserForm } from '@app/client/gate-layout/forms/auth-user-form';
 
 interface Props {
@@ -9,15 +8,10 @@ interface Props {
 }
 class AuthUserRoute extends RouteComponent<Props> {
   public display({ params }: RouteData<Props>): null | React.ReactElement {
-    try {
-      if (['user'].indexOf(params.repository) === -1) {
-        throw new Errors.InvalidRegisterRepository();
-      }
-      return <AuthUserForm />;
-    } catch (err) {
-      console.warn(err);
-      return <ErrorComponent error={err} />;
+    if (['user'].indexOf(params.repository) === -1) {
+      throw new Errors.InvalidRegisterRepository();
     }
+    return <AuthUserForm />;
   }
 
   public web(props: RouteData<Props>): null | React.ReactElement {

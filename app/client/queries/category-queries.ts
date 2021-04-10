@@ -10,7 +10,7 @@ const getAllCategoriesQuery = () => {
     if (props.filters) {
       filters = new FlistFilters(Helper.decodeSegment(props.filters), 100);
     }
-    return Action.flistQuery(store().getAccessToken(), null, 'category', 'get-all', filters, requestAbortHandler);
+    return Action.flistQuery(store().getAccessToken(), null, 'category', 'get-all', filters, null, requestAbortHandler);
   };
 };
 const getCategory = () => {

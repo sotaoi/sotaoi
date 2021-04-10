@@ -1,7 +1,6 @@
 import React from 'react';
 import { RouteComponent, RouteData } from '@sotaoi/client/components';
 import { Errors } from '@app/client/errors';
-import { ErrorComponent } from '@app/client/components/error-component';
 import { RegisterUserForm } from '@app/client/gate-layout/forms/register-user-form';
 
 interface Props {
@@ -10,16 +9,10 @@ interface Props {
 }
 class RegisterUserRoute extends RouteComponent<Props> {
   public display({ params }: RouteData<Props>): null | React.ReactElement {
-    try {
-      if (['user'].indexOf(params.repository) === -1) {
-        throw new Errors.InvalidRegisterRepository();
-      }
-
-      return <RegisterUserForm filters={params.filters || null} />;
-    } catch (err) {
-      console.warn(err);
-      return <ErrorComponent error={err} />;
+    if (['user'].indexOf(params.repository) === -1) {
+      throw new Errors.InvalidRegisterRepository();
     }
+    return <RegisterUserForm filters={params.filters || null} />;
   }
   public web(props: RouteData<Props>): null | React.ReactElement {
     return this.display(props);

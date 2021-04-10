@@ -8,7 +8,7 @@ class UserModel extends Model {
   }
 
   public async repository(): Promise<string> {
-    return 'address';
+    return 'user';
   }
 
   public async view(user: RecordEntry): Promise<RecordEntry> {

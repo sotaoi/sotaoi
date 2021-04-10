@@ -1,4 +1,4 @@
-import { RecordEntry, RecordRef } from '@sotaoi/omni/artifacts';
+import { RecordEntry, RecordRef, Record } from '@sotaoi/omni/artifacts';
 import { db } from '@sotaoi/api/db';
 import { QueryBuilder } from 'knex';
 
@@ -35,15 +35,15 @@ abstract class Model {
     return db(repository);
   }
 
-  public async transform(record: RecordEntry, variant: null | string): Promise<RecordEntry> {
+  public async transform(record: Record, variant: null | string): Promise<RecordEntry> {
     for (const hidden of await this.hidden()) {
       delete record[hidden];
     }
+    const recordEntry = new RecordEntry(await this.repository(), record.uuid, record);
     const _this: any = this;
-    if (!variant || typeof _this[variant] !== 'function') {
-      return await this.view(record);
-    }
-    return await _this[variant](record);
+    return !variant || typeof _this[variant] !== 'function'
+      ? await this.view(recordEntry)
+      : await _this[variant](recordEntry);
   }
 }
 

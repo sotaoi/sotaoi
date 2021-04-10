@@ -1,6 +1,5 @@
 import React from 'react';
 import { RouteComponent, RouteData } from '@sotaoi/client/components';
-import { ErrorComponent } from '@app/client/components/error-component';
 import { UpdatePostForm } from '@app/client/main-layout/forms/update-post-form';
 
 interface Props {
@@ -8,12 +7,7 @@ interface Props {
 }
 class UpdatePostRoute extends RouteComponent<Props> {
   public display({ params }: RouteData<Props>): null | React.ReactElement {
-    try {
-      return <UpdatePostForm uuid={params.uuid} />;
-    } catch (err) {
-      console.warn(err);
-      return <ErrorComponent error={err} />;
-    }
+    return <UpdatePostForm uuid={params.uuid} />;
   }
   public web(props: RouteData<Props>): null | React.ReactElement {
     return this.display(props);

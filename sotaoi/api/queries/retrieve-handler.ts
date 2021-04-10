@@ -1,13 +1,22 @@
 import { RetrieveResult } from '@sotaoi/omni/transactions';
 import { Retrieve } from '@sotaoi/omni/transactions';
 import { Model } from '@sotaoi/api/models/model';
-import { RecordEntry } from '@sotaoi/omni/artifacts';
+import { RecordEntry, Record } from '@sotaoi/omni/artifacts';
+import { Errors } from '@app/client/errors';
 
 abstract class RetrieveHandler {
-  abstract model(): Promise<Model>;
-  abstract handle(retrieve: Retrieve): Promise<RetrieveResult>;
+  abstract async model(): Promise<Model>;
+  abstract async handle(retrieve: Retrieve): Promise<RetrieveResult>;
 
-  public async transform(record: RecordEntry, variant: null | string): Promise<RecordEntry> {
+  public async __handle__(retrieve: Retrieve): Promise<RetrieveResult> {
+    const result = await this.handle(retrieve);
+    if (result.record && !(result.record instanceof RecordEntry)) {
+      throw new Errors.ResultIsCorrupt();
+    }
+    return result;
+  }
+
+  public async transform(record: Record, variant: null | string): Promise<RecordEntry> {
     return await (await this.model()).transform(record, variant);
   }
 

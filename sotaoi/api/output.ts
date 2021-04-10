@@ -163,7 +163,7 @@ class Output extends OmniOutput {
         formId = await storeHandler.getFormId();
         output = async (payload: { [key: string]: any }): Promise<CommandResult> => {
           storeCommand = new StoreCommand(authRecord, new Artifacts(artifacts), role, repository, payload);
-          return this.parseCommand(await storeHandler.handle(storeCommand));
+          return this.parseCommand(await storeHandler.__handle__(storeCommand));
         };
         break;
       case type === 'update':
@@ -174,7 +174,7 @@ class Output extends OmniOutput {
         formId = await updateHandler.getFormId();
         output = async (payload: { [key: string]: any }): Promise<CommandResult> => {
           updateCommand = new UpdateCommand(authRecord, new Artifacts(artifacts), role, repository, uuid, payload);
-          return this.parseCommand(await updateHandler.handle(updateCommand));
+          return this.parseCommand(await updateHandler.__handle__(updateCommand));
         };
         break;
       case type === 'remove':
@@ -184,7 +184,7 @@ class Output extends OmniOutput {
         formId = await authHandler.getFormId();
         output = async (payload: { [key: string]: any }): Promise<AuthResult> => {
           authCommand = new AuthCommand(new Artifacts(artifacts), repository, payload, strategy);
-          return this.parseAuth(await authHandler.handle(authCommand));
+          return this.parseAuth(await authHandler.__handle__(authCommand));
         };
         break;
       case type === 'task':
@@ -192,7 +192,7 @@ class Output extends OmniOutput {
         formId = await taskHandler.getFormId();
         output = async (payload: { [key: string]: any }): Promise<TaskResult> => {
           taskCommand = new TaskCommand(authRecord, new Artifacts(artifacts), role, repository, task, payload);
-          return this.parseTask(await taskHandler.handle(taskCommand));
+          return this.parseTask(await taskHandler.__handle__(taskCommand));
         };
         break;
       default:
@@ -272,9 +272,10 @@ class Output extends OmniOutput {
           query.repository,
           query.list,
           query.filters ? new FlistFilters(query.filters.where, query.filters.limit) : null,
+          query.variant,
         );
 
-        output = await queryHandler.handle(flistQuery);
+        output = await queryHandler.__handle__(flistQuery);
         break;
       case query.type === 'plist':
         plistQuery = new PlistQuery(
@@ -284,8 +285,9 @@ class Output extends OmniOutput {
           query.repository,
           query.list,
           query.filters ? new PlistFilters(query.filters.where, query.filters.page, query.filters.perPage) : null,
+          query.variant,
         );
-        output = await queryHandler.handle(plistQuery);
+        output = await queryHandler.__handle__(plistQuery);
         break;
       case query.type === 'slist':
         slistQuery = new SlistQuery(
@@ -295,8 +297,9 @@ class Output extends OmniOutput {
           query.repository,
           query.list,
           query.filters ? new SlistFilters(query.filters.where, query.filters.batchSize) : null,
+          query.variant,
         );
-        output = await queryHandler.handle(slistQuery);
+        output = await queryHandler.__handle__(slistQuery);
         break;
       default:
         throw new Error('failed to run query - unknown list type');
@@ -319,7 +322,7 @@ class Output extends OmniOutput {
       payload.variant || null,
     );
     const retrieveHandler = Setup.getRetrieveHandler(retrieve.repository, handler);
-    const output = await retrieveHandler.handle(retrieve);
+    const output = await retrieveHandler.__handle__(retrieve);
     return handler.response(output).code(output.getCode());
   }
 

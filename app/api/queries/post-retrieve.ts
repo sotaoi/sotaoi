@@ -6,7 +6,7 @@ import { GenericModel } from '@sotaoi/api/models/generic-model';
 
 class PostRetrieve extends RetrieveHandler {
   public async model(): Promise<GenericModel> {
-    return new GenericModel();
+    return new GenericModel('post');
   }
   public async handle(retrieve: Retrieve): Promise<RetrieveResult> {
     try {
@@ -22,7 +22,13 @@ class PostRetrieve extends RetrieveHandler {
         error.message = 'Not found';
         throw error;
       }
-      return new RetrieveResult(200, 'Retrieve success', 'Retrieve was successful', post, null);
+      return new RetrieveResult(
+        200,
+        'Retrieve success',
+        'Retrieve was successful',
+        await this.transform(post, null),
+        null,
+      );
     } catch (err) {
       return new RetrieveResult(400, 'Error', 'Retrieve failed', null, null);
     }

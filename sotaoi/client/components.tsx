@@ -62,7 +62,7 @@ abstract class RouteComponent<ComponentProps> extends React.Component<ComponentP
 
   public errorComponent(props: { error: Error }): null | React.ReactElement {
     console.error(props.error);
-    return <GenericTextComponent text={'???'} />;
+    return <GenericErrorComponent />;
   }
 
   public asset(item: null | string, role = 'assets'): null | string {
@@ -167,7 +167,7 @@ abstract class ViewComponent<
 
   public errorComponent(props: { error: Error }): null | React.ReactElement {
     console.error(props.error);
-    return <GenericTextComponent text={'???'} />;
+    return <GenericErrorComponent />;
   }
 
   public asset(item: null | string, role = 'assets'): null | string {
@@ -315,6 +315,19 @@ const GenericTextComponent = (props: { text: string }): React.ReactElement => {
         <Text>{props.text}</Text>
       </View>
     );
+  }
+  if (Helper.isElectron()) {
+    throw new Error('Electron not yet implemented');
+  }
+  throw new Error('Unknown environment');
+};
+
+const GenericErrorComponent = (props: NoProps) => {
+  if (Helper.isWeb()) {
+    return <img src={'/sotaoi/errors/error.svg'} style={{ margin: 10, width: 100, height: 100 }} />;
+  }
+  if (Helper.isMobile()) {
+    throw new Error('todo here: mobile');
   }
   if (Helper.isElectron()) {
     throw new Error('Electron not yet implemented');

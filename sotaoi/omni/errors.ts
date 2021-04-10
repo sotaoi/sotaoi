@@ -8,6 +8,7 @@ class ErrorException extends Error {
 }
 
 const Errors: { [key: string]: typeof ErrorException } = {
+  ResultIsCorrupt: class ResultIsCorruptError extends ErrorException {},
   NotFoundView: class NotFoundViewError extends ErrorException {},
   ComponentFail: class ComponentFailError extends ErrorException {},
   NotFoundLayout: class NotFoundLayoutError extends ErrorException {},

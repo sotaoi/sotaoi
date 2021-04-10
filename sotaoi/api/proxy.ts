@@ -68,7 +68,7 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
     appInfo.localDomainAlias,
   ];
 
-  const domain = getAppDomain();
+  // const domain = getAppDomain();
 
   app.use((req, res, next) => {
     if (req.url === '/') {
@@ -97,7 +97,8 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
         // pathRewrite: {
         //   '^/api/': '/api/',
         // },
-        target: `https://${domain}:3000`,
+        // target: `https://${domain}:3000`,
+        target: `https://localhost:3000`,
         ws: false,
         changeOrigin: true,
       })(req, res, next);
@@ -109,7 +110,8 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
   //   (req, res, next): express.Response => {
   //     return createProxyMiddleware({
   //       secure: false,
-  //       target: `https://${domain}:${appInfo.streamingPort}`,
+  //       // target: `https://${domain}:${appInfo.streamingPort}`,
+  //       target: `https://localhost:${appInfo.streamingPort}`,
   //       ws: true,
   //       changeOrigin: true,
   //     })(req, res, next);
@@ -123,7 +125,8 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
       (req, res, next): express.Response => {
         return createProxyMiddleware({
           secure: false,
-          target: `https://${domain}:4000`,
+          // target: `https://${domain}:4000`,
+          target: `https://localhost:4000`,
           ws: true,
           changeOrigin: true,
         })(req, res, next);
@@ -148,7 +151,8 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
       }
       return createProxyMiddleware({
         secure: false,
-        target: `https://${domain}:8080`,
+        // target: `https://${domain}:8080`,
+        target: `https://localhost:8080`,
         ws: true,
         changeOrigin: false,
       })(req, res, next);
@@ -158,7 +162,8 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
   // const mobileBundleApp = express();
   // mobileBundleApp.use(
   //   createProxyMiddleware({
-  //     target: `http://${domain}:8081`,
+  //     // target: `http://${domain}:8081`,
+  //     target: `http://localhost:8081`,
   //     ws: true,
   //     changeOrigin: true,
   //   }),
@@ -200,7 +205,8 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
         ));
         return res.send(urlSplit[2] + '.' + credentials.publicKeyJwk.kid);
       }
-      return res.redirect(`https://${domain}${req.url}`);
+      // return res.redirect(`https://${domain}${req.url}`);
+      return res.redirect(`https://localhost${req.url}`);
     });
     expressrdr.listen(process.env.REDIRECT_FROM_PORT);
     console.info(`[${getTimestamp()}] Proxy server redirecting from port ${process.env.REDIRECT_FROM_PORT}`);

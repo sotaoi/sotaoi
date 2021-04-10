@@ -12,7 +12,9 @@ const main = async (): Promise<void> => {
   execSync('npm install', { stdio: 'inherit' });
 
   // build web client
-  execSync('npm run build:cweb', { stdio: 'inherit' });
+  execSync(`cross-env NODE_ENV=${process.env.NODE_ENV} ts-node ./sotaoi/omni/build/cweb.build.ts`, {
+    stdio: 'inherit',
+  });
 
   // delete build folders
   fs.rmdirSync(paths.appBuild, { recursive: true });
@@ -78,6 +80,9 @@ const main = async (): Promise<void> => {
     fs.renameSync(item.fullpath, itemNewPath);
   });
   fs.rmdirSync(cwebBuildPath);
+
+  // clean source web build
+  fs.rmdirSync(paths.clientBuild, { recursive: true });
 
   // php
   execSync('node ./var/refresh.js', { cwd: path.resolve(paths.appBuild, 'php'), stdio: 'inherit' });

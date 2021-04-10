@@ -15,7 +15,6 @@
     "start:candroid": "node ./var/build/run-android.js",
     "start:cios": "node ./var/build/run-ios.js",
     "start:proxy": "cross-env NODE_ENV=development PORT=443 nodemon --config ./sotaoi/api/cfg-nodemon-proxy.json",
-    "build:cweb": "cross-env NODE_ENV=production ts-node ./sotaoi/omni/build/cweb.build.ts",
     "build:prod": "cross-env NODE_ENV=production ts-node ./sotaoi/omni/build/build.ts",
     "clean:mobile": "node ./var/build/clean-mobile.js",
     "start:api:prod": "cross-env NODE_ENV=production PORT=3000 NODE_TLS_REJECT_UNAUTHORIZED=0 node ./app/api/api.entry.js",

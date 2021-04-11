@@ -17,6 +17,7 @@ const paths = {
   appOmniPath: resolveRoot('./app/omni'),
   sotaoiApiPath: resolveRoot('./sotaoi/api'),
   sotaoiClientPath: resolveRoot('./sotaoi/client'),
+  sotaoiModulesPath: resolveRoot('./sotaoi/modules'),
   sotaoiOmniPath: resolveRoot('./sotaoi/omni'),
   appBuild: resolveRoot('./var/build/release'),
   appPath: resolveRoot('./app'),

@@ -56,6 +56,7 @@
     "@react-native-picker/picker": "^1.9.4",
     "@sotaoi/api": "file:sotaoi/api",
     "@sotaoi/client": "file:sotaoi/client",
+    "@sotaoi/modules": "file:sotaoi/modules",
     "@sotaoi/omni": "file:sotaoi/omni",
     "@types/hapi-cors": "file:sotaoi/api/types/hapi-cors",
     "@types/hapi__hapi": "^19.0.3",

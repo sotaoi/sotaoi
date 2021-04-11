@@ -6,6 +6,9 @@ import { handlers } from '@app/api/handlers';
 import * as forms from '@app/omni/forms';
 import { ApiInit } from '@app/api/api-init';
 import { getAppInfo } from '@app/omni/get-app-info';
+import { AddressModel } from './models/address-model';
+import { UserModel } from './models/user-model';
+import { CountryModel } from './models/country-model';
 
 let serverInitInterval: any = null;
 let serverInitTries = 0;
@@ -43,8 +46,15 @@ const main = async (): Promise<void> => {
   // deauth
   const deauth = ApiInit.deauth;
 
+  // models
+  const models = {
+    address: new AddressModel(),
+    country: new CountryModel(),
+    user: new UserModel(),
+  };
+
   // start
-  Server.init(appInfo, appKernel, handlers, forms, translateAccessToken, deauth);
+  Server.init(appInfo, appKernel, handlers, models, forms, translateAccessToken, deauth);
 };
 
 main();

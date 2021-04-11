@@ -8,6 +8,7 @@ import { TaskHandler } from '@sotaoi/api/commands/task-handler';
 import { FormValidations } from '@sotaoi/omni/input';
 import { QueryFilters } from '@sotaoi/omni/transactions';
 import { ResponseToolkit } from '@hapi/hapi';
+import { Model } from '@sotaoi/api/models/model';
 
 interface RepositoryHandlers {
   store?: typeof StoreHandler;
@@ -21,13 +22,16 @@ interface RepositoryHandlers {
 
 class Setup {
   protected static handlers: { [key: string]: RepositoryHandlers };
+  protected static models: { [key: string]: Model };
   protected static forms: { [key: string]: { [key: string]: FormValidations } };
 
   public static async init(
     handlers: { [key: string]: RepositoryHandlers },
+    models: { [key: string]: Model },
     formSet: { [key: string]: { [key: string]: () => Promise<FormValidations> } },
   ): Promise<void> {
     this.handlers = handlers;
+    this.models = models;
     this.forms = {};
     for (const [repository, form] of Object.entries(formSet)) {
       this.forms[repository] = {};
@@ -83,6 +87,10 @@ class Setup {
       throw new Error('no handler found');
     }
     return new (taskHandlers[task] as any)(handler);
+  }
+
+  public static getModel(key: string): Model {
+    return this.models[key] || null;
   }
 
   public static getForm(repository: string, formId: string): FormValidations {

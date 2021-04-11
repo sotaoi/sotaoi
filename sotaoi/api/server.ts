@@ -25,6 +25,7 @@ import { AuthHandler } from '@sotaoi/api/commands/auth-handler';
 import socketio from 'socket.io';
 import express from 'express';
 import https from 'https';
+import { Model } from '@sotaoi/api/models/model';
 
 const HapiCors = require('hapi-cors');
 
@@ -33,6 +34,7 @@ class Server {
     appInfo: AppInfo,
     appKernel: AppKernel,
     handlers: { [key: string]: RepositoryHandlers },
+    models: { [key: string]: Model },
     forms: { [key: string]: { [key: string]: () => Promise<FormValidations> } },
     translateAccessToken: (
       handler: ResponseToolkit,
@@ -49,7 +51,7 @@ class Server {
       AuthHandler.setDeauth(deauth);
 
       appKernel.bootstrap();
-      await Setup.init(handlers, forms);
+      await Setup.init(handlers, models, forms);
 
       const certs = {
         key: fs.readFileSync(keyPath),

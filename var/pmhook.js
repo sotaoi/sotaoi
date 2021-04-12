@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const yargs = require('yargs');
+const { execSync } = require('child_process');
 
 const main = async () => {
   const argv = yargs
@@ -50,6 +51,14 @@ const main = async () => {
     path.resolve('./.greenlockrc'),
     `{"configDir":"${path.resolve('./var/greenlock.d')}","manager":"@greenlock/manager"}`,
   );
+
+  !fs.existsSync(path.resolve('./.env')) && fs.copyFileSync(path.resolve('./.env.example'), path.resolve('./.env'));
+
+  // php {
+  !fs.existsSync(path.resolve('./php/.env')) &&
+    fs.copyFileSync(path.resolve('./php/.env.example'), path.resolve('./php/.env'));
+  execSync('node ./var/refresh.js', { cwd: path.resolve('./php') });
+  // }
 
   // }
 

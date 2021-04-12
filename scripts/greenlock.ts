@@ -4,6 +4,7 @@ import path from 'path';
 import _package from '@sotaoi/omni/app-package.json';
 import { getAppInfo } from '@app/omni/get-app-info';
 import fs from 'fs';
+import { spawn } from 'child_process';
 const Greenlock = require('greenlock');
 
 const appInfo = getAppInfo();
@@ -45,6 +46,16 @@ const copyCerts = (): void => {
 };
 
 const main = async (): Promise<void> => {
+  const startproxy = spawn('npx', [
+    'cross-env',
+    'NODE_ENV=development',
+    'PORT=443',
+    'ts-node',
+    './app/api/proxy.entry.ts',
+  ]);
+  startproxy.stdout.on('data', (data) => console.log(data.toString()));
+  startproxy.stderr.on('data', (data) => console.log(data.toString()));
+
   const greenlock = Greenlock.create({
     configDir: path.resolve('./var/greenlock.d'),
     packageAgent: _package.name + '/' + _package.version,

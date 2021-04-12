@@ -11,7 +11,7 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import fs from 'fs';
 import { AppInfo } from '@sotaoi/omni/state';
 import { spawn } from 'child_process';
-import { getAppDomain } from '@app/omni/get-app-info';
+// import { getAppDomain } from '@app/omni/get-app-info';
 
 let greenlock = false;
 
@@ -203,6 +203,7 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
         const credentials = require(path.resolve(
           `./var/greenlock.d/accounts/${acme[0]}/directory/${appInfo.sslMaintainer}.json`,
         ));
+        console.info('greenlock credentials:', credentials);
         return res.send(urlSplit[2] + '.' + credentials.publicKeyJwk.kid);
       }
       // return res.redirect(`https://${domain}${req.url}`);

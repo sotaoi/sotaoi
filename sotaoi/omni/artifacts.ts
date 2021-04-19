@@ -23,6 +23,7 @@ class AuthRecord extends Artifact {
   public createdAt: Date;
   public active: boolean;
   public pocket: { [key: string]: any };
+  public siblings: null | Artifact[]; // <-- siblings for multi (artifact) auth
 
   constructor(repository: string, uuid: string, createdAt: Date, active: boolean) {
     super(repository, uuid);
@@ -32,6 +33,7 @@ class AuthRecord extends Artifact {
     this.createdAt = createdAt;
     this.active = active;
     this.pocket = {};
+    this.siblings = null;
   }
 
   public static deserialize(value: { repository: string; uuid: string; createdAt: Date; active: boolean }): AuthRecord {

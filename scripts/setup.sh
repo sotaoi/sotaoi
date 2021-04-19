@@ -44,9 +44,15 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
       rm "$HOMEPATH/composer-setup.php"
       refreshSource
     fi
+    if [[ $(which mysql) == "" ]]; then
+      echo "Installing MySQL..."
+      sudo apt -y install mysql-server
+      mysql_secure_installation
+      refreshSource
+    fi
     sudo bash -c 'echo "net.ipv4.ip_unprivileged_port_start=0" > /etc/sysctl.d/50-unprivileged-ports.conf'
     sudo sysctl --system
-    echo fs.inotify.max_user_watches=512000 | sudo tee -a /etc/sysctl.conf
+    echo fs.inotify.max_user_watches=2097152 | sudo tee -a /etc/sysctl.conf
     sudo sysctl -p
     exec bash
   elif [[ $(whichwhich yum) != "" ]]; then

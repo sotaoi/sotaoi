@@ -4,8 +4,11 @@ import path from 'path';
 import _package from '@sotaoi/omni/app-package.json';
 import { getAppInfo } from '@app/omni/get-app-info';
 import fs from 'fs';
-import { spawn } from 'child_process';
+import { exec } from 'child_process';
 const Greenlock = require('greenlock');
+const Tail = require('tail').Tail;
+
+let proxyProcess: any = null;
 
 const appInfo = getAppInfo();
 
@@ -37,24 +40,49 @@ const newbundlePath = path.resolve(process.env.SSL_CA || '');
 const newChainPath = path.resolve(process.env.SSL_CHAIN || '');
 const newFullchainPath = path.resolve(process.env.SSL_FCHAIN || '');
 
-const copyCerts = (): void => {
-  fs.copyFileSync(keyPath, newKeyPath);
-  fs.copyFileSync(certPath, newCertPath);
-  fs.copyFileSync(bundlePath, newbundlePath);
-  fs.copyFileSync(chainPath, newChainPath);
-  fs.copyFileSync(fullchainPath, newFullchainPath);
+const checkCertificatesInterval = (): void => {
+  let intervalCount = 0;
+  setInterval(() => {
+    if (
+      fs.existsSync(keyPath) &&
+      fs.existsSync(certPath) &&
+      fs.existsSync(bundlePath) &&
+      fs.existsSync(chainPath) &&
+      fs.existsSync(fullchainPath)
+    ) {
+      if (intervalCount > 19) {
+        console.error('certificate files (all or some) appear to be missing');
+        console.log(!!proxyProcess);
+        proxyProcess && proxyProcess.kill();
+        process.exit(1);
+      }
+      intervalCount++;
+
+      fs.copyFileSync(keyPath, newKeyPath);
+      fs.copyFileSync(certPath, newCertPath);
+      fs.copyFileSync(bundlePath, newbundlePath);
+      fs.copyFileSync(chainPath, newChainPath);
+      fs.copyFileSync(fullchainPath, newFullchainPath);
+
+      console.info('greenlock ok. all done');
+      console.log(!!proxyProcess);
+      proxyProcess && proxyProcess.kill();
+      process.exit(0);
+    }
+  }, 1000);
 };
 
 const main = async (): Promise<void> => {
-  const startproxy = spawn('npx', [
-    'cross-env',
-    'NODE_ENV=development',
-    'PORT=443',
-    'ts-node',
-    './app/api/proxy.entry.ts',
-  ]);
-  startproxy.stdout.on('data', (data) => console.log(data.toString()));
-  startproxy.stderr.on('data', (data) => console.log(data.toString()));
+  fs.rmdirSync(path.resolve('./var/greenlock.d'), { recursive: true });
+  fs.mkdirSync(path.resolve('./var/greenlock.d'));
+  fs.writeFileSync(path.resolve('./var/greenlock.d/.gitkeep'), '');
+  fs.writeFileSync(path.resolve('./var/greenlock.d/output.log'), '');
+
+  const greenlockTail = new Tail('./var/greenlock.d/output.log');
+  greenlockTail.on('line', (data: string) => console.info(data));
+  proxyProcess = exec(
+    'npx cross-env NODE_ENV=development PORT=443 GREENLOCK=yes ts-node ./app/api/proxy.entry.ts >> ./var/greenlock.d/output.log 2>&1',
+  );
 
   const greenlock = Greenlock.create({
     configDir: path.resolve('./var/greenlock.d'),
@@ -79,27 +107,15 @@ const main = async (): Promise<void> => {
     })
     .then((fullConfig: any) => {
       console.info('greenlock ok. fetching certificates...');
+      checkCertificatesInterval();
     })
     .catch((err: any) => {
       console.error(err);
+      proxyProcess && proxyProcess.kill();
+      process.exit(1);
     });
 };
 
 main();
-
-process.on('exit', function () {
-  if (
-    !fs.existsSync(keyPath) ||
-    !fs.existsSync(certPath) ||
-    !fs.existsSync(bundlePath) ||
-    !fs.existsSync(chainPath) ||
-    !fs.existsSync(fullchainPath)
-  ) {
-    console.error('certificate files (all or some) appear to be missing');
-    return;
-  }
-  copyCerts();
-  console.info('greenlock ok. all done');
-});
 
 export {};

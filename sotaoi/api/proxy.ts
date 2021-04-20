@@ -172,6 +172,9 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
   // console.info(`[${getTimestamp()}] Proxy server redirecting from port 8079 to 8081`);
 
   const startServerInterval = setInterval(async (): Promise<void> => {
+    if (process.env.GREENLOCK === 'yes') {
+      return;
+    }
     if (!fs.existsSync(keyPath) || !fs.existsSync(certPath) || !fs.existsSync(chainPath)) {
       console.info('certificates not yet installed. waiting to start server...');
       if (!greenlock && appInfo.greenlockExecution === 'autorun') {

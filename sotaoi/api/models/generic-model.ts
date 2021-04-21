@@ -1,5 +1,6 @@
 import { Model } from '@sotaoi/api/models/model';
 import { RecordEntry } from '@sotaoi/omni/artifacts';
+import { Schema } from '@sotaoi/api/db';
 
 class GenericModel extends Model {
   private _repository: string;
@@ -11,6 +12,10 @@ class GenericModel extends Model {
 
   public repository(): string {
     return this._repository;
+  }
+
+  public schema(): Schema {
+    return new Schema({}, { strict: false });
   }
 
   public async hidden(): Promise<string[]> {

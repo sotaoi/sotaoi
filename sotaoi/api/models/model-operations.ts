@@ -1,6 +1,6 @@
 import { Record } from '@sotaoi/omni/artifacts';
 import { Model } from '@sotaoi/api/models/model';
-import mongoose from 'mongoose';
+import { model as dbModel, Model as DbModel, Schema } from '@sotaoi/api/db';
 
 class ModelOperations {
   protected model: Model;
@@ -9,16 +9,15 @@ class ModelOperations {
     this.model = model;
   }
 
-  public static get(model: string): mongoose.Model<any> {
+  public static get(model: string): DbModel<any> {
     try {
-      return mongoose.model(model);
+      return dbModel(model);
     } catch (err) {
-      return mongoose.model(model, new mongoose.Schema({}, { strict: false }));
+      return dbModel(model, new Schema({}, { strict: false }));
     }
   }
 
   public async cleanupDocs(): Promise<void> {
-    // const model = mongoose.model(this.model.repository(), new mongoose.Schema({}, { strict: false }));
     const model = ModelOperations.get(this.model.repository());
     await model.deleteMany({
       $or: [

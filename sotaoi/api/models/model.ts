@@ -3,9 +3,11 @@ import { db } from '@sotaoi/api/db';
 // import { QueryBuilder } from 'knex';
 import { Setup } from '@sotaoi/api/setup';
 import { ModelOperations } from '@sotaoi/api/models/model-operations';
+import { Schema, Model as DbModel } from '@sotaoi/api/db';
 
 abstract class Model {
   abstract repository(): string;
+  abstract schema(): Schema;
   abstract async hidden(): Promise<string[]>;
   abstract async view(record: RecordEntry): Promise<RecordEntry>;
 
@@ -59,20 +61,22 @@ abstract class Model {
       if (!model) {
         continue;
       }
-      const modelDb = model.db(model.repository());
-      const relRecords: { [key: string]: RecordEntry } = {};
-      for (const relRecord of (await modelDb.whereIn(key, refs[repository])) || []) {
-        relRecords[new RecordRef(rel, relRecord.uuid).serialize(false)] = await model.transform(relRecord, relVariant);
-      }
-      records.map((record) => {
-        record[rel] && (record[rel] = relRecords[record[rel]]);
-      });
+      // todo here: imporant
+      // const modelDb = model.db(model.repository());
+      // const relRecords: { [key: string]: RecordEntry } = {};
+      // for (const relRecord of (await modelDb.whereIn(key, refs[repository])) || []) {
+      //   relRecords[new RecordRef(rel, relRecord.uuid).serialize(false)] = await model.transform(relRecord, relVariant);
+      // }
+      // records.map((record) => {
+      //   record[rel] && (record[rel] = relRecords[record[rel]]);
+      // });
     }
   }
 
   // public db(repository: string): QueryBuilder {
-  public db(repository: string): any {
-    return db(repository);
+  public db(repository: null | string = null): DbModel<any> {
+    !repository && (repository = this.repository());
+    return ModelOperations.get(repository);
   }
 
   // todo here: move transform to model operations

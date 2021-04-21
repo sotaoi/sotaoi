@@ -11,3 +11,4 @@ const disconnect = async (): Promise<void> => {
 };
 
 export { db, disconnect };
+export * from 'mongoose';

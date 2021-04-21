@@ -1,5 +1,6 @@
 import { Model } from '@sotaoi/api/models/model';
 import { RecordEntry } from '@sotaoi/omni/artifacts';
+import { Schema } from '@sotaoi/api/db';
 
 class AddressModel extends Model {
   public repository(): string {
@@ -8,6 +9,10 @@ class AddressModel extends Model {
 
   public async hidden(): Promise<string[]> {
     return [];
+  }
+
+  public schema(): Schema {
+    return new Schema({}, { strict: false });
   }
 
   public async view(address: RecordEntry): Promise<RecordEntry> {

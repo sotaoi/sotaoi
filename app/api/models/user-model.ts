@@ -6,7 +6,7 @@ class UserModel extends Model {
     return ['password'];
   }
 
-  public async repository(): Promise<string> {
+  public repository(): string {
     return 'user';
   }
 

@@ -34,7 +34,7 @@ const App = (): React.ReactElement => {
 
   React.useEffect(() => {
     Bootstrap.init(
-      'MONOlogz',
+      appInfo.name,
       appInfo,
       `https://${domain}/api`,
       appKernel,

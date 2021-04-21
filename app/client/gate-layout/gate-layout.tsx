@@ -14,7 +14,7 @@ const GateLayout = (props: LayoutProps): React.ReactElement => {
         >
           <div className="mb-2 sm:mb-0">
             <span className={'text-2xl no-underline text-grey-darkest hover:text-blue-dark'}>
-              <Link to={'/'}>MONOlogz</Link>
+              <Link to={'/'}>Alarmer</Link>
             </span>
             <span
               className={
@@ -39,7 +39,7 @@ const GateLayout = (props: LayoutProps): React.ReactElement => {
         {/*  */}
 
         <View style={{ margin: 15 }}>
-          <Link to={'/'}>MONOlogz</Link>
+          <Link to={'/'}>Alarmer</Link>
         </View>
         {/* <h2>Gate Layout</h2> */}
         <View style={{ margin: 15 }}>

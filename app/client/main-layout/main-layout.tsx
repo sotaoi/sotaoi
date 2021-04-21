@@ -18,7 +18,7 @@ const MainLayout = (props: LayoutProps): React.ReactElement => {
         >
           <div className="mt-1 ml-2 mb-0 sm:mb-0">
             <span className={'text-2xl no-underline text-grey-darkest hover:text-blue-dark'}>
-              <Link to={'/'}>MONOlogz</Link>
+              <Link to={'/'}>Alarmer</Link>
             </span>
             <span className={'text-lg no-underline text-grey-darkest hover:text-blue-dark ml-3'}>
               <Link to={'/post/list/all'}>Posts</Link>
@@ -64,7 +64,7 @@ const MainLayout = (props: LayoutProps): React.ReactElement => {
         {/*  */}
 
         <View style={{ margin: 15 }}>
-          <Link to={'/'}>MONOlogz</Link>
+          <Link to={'/'}>Alarmer</Link>
         </View>
         {/* <h2 style={{ margin: 15 }}>Main Layout</h2> */}
         <View style={{ margin: 15 }}>

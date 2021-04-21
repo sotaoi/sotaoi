@@ -138,7 +138,7 @@ class Navigation {
 
     try {
       argMatches = routeScheme.match(/{[^({}).]+}/g);
-    } catch (ex) {
+    } catch (err) {
       return false;
     }
     const args = argMatches ? argMatches.map((routeScheme) => routeScheme.replace(/[{}]/g, '')) : [];
@@ -158,7 +158,7 @@ class Navigation {
     let match: null | RegExpMatchArray;
     try {
       match = uri.match(regex);
-    } catch (ex) {
+    } catch (err) {
       return false;
     }
     return !!match;
@@ -202,7 +202,7 @@ class Navigation {
 
     try {
       argMatches = routeScheme.match(/{[^({}).]+}/g);
-    } catch (ex) {
+    } catch (err) {
       return {} as ParamsType;
     }
     const args = argMatches ? argMatches.map((routeScheme) => routeScheme.replace(/[{}]/g, '')) : [];
@@ -221,7 +221,7 @@ class Navigation {
     let match: null | RegExpMatchArray;
     try {
       match = currentPath.match(regex);
-    } catch (ex) {
+    } catch (err) {
       return {} as ParamsType;
     }
     match &&

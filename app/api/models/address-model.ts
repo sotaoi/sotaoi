@@ -2,7 +2,7 @@ import { Model } from '@sotaoi/api/models/model';
 import { RecordEntry } from '@sotaoi/omni/artifacts';
 
 class AddressModel extends Model {
-  public async repository(): Promise<string> {
+  public repository(): string {
     return 'address';
   }
 

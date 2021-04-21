@@ -6,9 +6,9 @@ import { handlers } from '@app/api/handlers';
 import * as forms from '@app/omni/forms';
 import { ApiInit } from '@app/api/api-init';
 import { getAppInfo } from '@app/omni/get-app-info';
-import { AddressModel } from './models/address-model';
-import { UserModel } from './models/user-model';
-import { CountryModel } from './models/country-model';
+import { AddressModel } from '@app/api/models/address-model';
+import { UserModel } from '@app/api/models/user-model';
+import { CountryModel } from '@app/api/models/country-model';
 
 let serverInitInterval: any = null;
 let serverInitTries = 0;

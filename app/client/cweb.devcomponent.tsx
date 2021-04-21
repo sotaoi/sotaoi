@@ -17,7 +17,7 @@ const main = async (): Promise<void> => {
   const appKernel = new AppKernel();
   const routerComponent = <Router {...routerProps} />;
   Bootstrap.init(
-    'MONOlogz',
+    appInfo.name,
     appInfo,
     `https://${domain}/api`,
     appKernel,

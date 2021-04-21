@@ -2,7 +2,7 @@ import { Model } from '@sotaoi/api/models/model';
 import { RecordEntry } from '@sotaoi/omni/artifacts';
 
 class CountryModel extends Model {
-  public async repository(): Promise<string> {
+  public repository(): string {
     return 'country';
   }
 

@@ -1,5 +1,5 @@
 import { Model } from '@sotaoi/api/models/model';
-import { RecordEntry, Record } from '@sotaoi/omni/artifacts';
+import { RecordEntry } from '@sotaoi/omni/artifacts';
 
 class GenericModel extends Model {
   private _repository: string;
@@ -9,7 +9,7 @@ class GenericModel extends Model {
     this._repository = repository;
   }
 
-  public async repository(): Promise<string> {
+  public repository(): string {
     return this._repository;
   }
 

@@ -1,4 +1,4 @@
-import mysql from 'mysql';
+import mysql, { QueryError } from 'mysql2';
 import { config } from '@sotaoi/api/config';
 
 const clogger = console.log;
@@ -9,11 +9,12 @@ const conn = mysql.createConnection({
   host: dbConfig.host,
   user: dbConfig.user,
   password: dbConfig.password,
+  insecureAuth: true,
 });
 
 clogger('connecting to mysql.');
 
-conn.connect((ex, result) => {
+conn.connect((ex: QueryError | null) => {
   if (ex) {
     throw ex;
   }

@@ -34,8 +34,8 @@ const bundlePath = path.resolve(`./var/greenlock.d/live/${altnames[0]}/bundle.pe
 const chainPath = path.resolve(`./var/greenlock.d/live/${altnames[0]}/chain.pem`);
 const fullchainPath = path.resolve(`./var/greenlock.d/live/${altnames[0]}/fullchain.pem`);
 
-const newKeyPath = path.resolve(process.env.SSL_CERT || '');
-const newCertPath = path.resolve(process.env.SSL_KEY || '');
+const newKeyPath = path.resolve(process.env.SSL_KEY || '');
+const newCertPath = path.resolve(process.env.SSL_CERT || '');
 const newbundlePath = path.resolve(process.env.SSL_CA || '');
 const newChainPath = path.resolve(process.env.SSL_CHAIN || '');
 const newFullchainPath = path.resolve(process.env.SSL_FCHAIN || '');
@@ -52,7 +52,6 @@ const checkCertificatesInterval = (): void => {
     ) {
       if (intervalCount > 19) {
         console.error('certificate files (all or some) appear to be missing');
-        console.log(!!proxyProcess);
         proxyProcess && proxyProcess.kill();
         process.exit(1);
       }
@@ -65,7 +64,6 @@ const checkCertificatesInterval = (): void => {
       fs.copyFileSync(fullchainPath, newFullchainPath);
 
       console.info('greenlock ok. all done');
-      console.log(!!proxyProcess);
       proxyProcess && proxyProcess.kill();
       process.exit(0);
     }
@@ -73,6 +71,26 @@ const checkCertificatesInterval = (): void => {
 };
 
 const main = async (): Promise<void> => {
+  // clean and backup ./sotaoi/api/certs/*.pem
+  !fs.existsSync(path.resolve('./sotaoi/api/certs/backup')) && fs.mkdirSync(path.resolve('./sotaoi/api/certs/backup'));
+  fs.existsSync(path.resolve('./sotaoi/api/certs/bundle.pem')) &&
+    fs.renameSync(path.resolve('./sotaoi/api/certs/bundle.pem'), path.resolve('./sotaoi/api/certs/backup/bundle.pem'));
+  fs.existsSync(path.resolve('./sotaoi/api/certs/cert.pem')) &&
+    fs.renameSync(path.resolve('./sotaoi/api/certs/cert.pem'), path.resolve('./sotaoi/api/certs/backup/cert.pem'));
+  fs.existsSync(path.resolve('./sotaoi/api/certs/chain.pem')) &&
+    fs.renameSync(path.resolve('./sotaoi/api/certs/chain.pem'), path.resolve('./sotaoi/api/certs/backup/chain.pem'));
+  fs.existsSync(path.resolve('./sotaoi/api/certs/fullchain.pem')) &&
+    fs.renameSync(
+      path.resolve('./sotaoi/api/certs/fullchain.pem'),
+      path.resolve('./sotaoi/api/certs/backup/fullchain.pem'),
+    );
+  fs.existsSync(path.resolve('./sotaoi/api/certs/privkey.pem')) &&
+    fs.renameSync(
+      path.resolve('./sotaoi/api/certs/privkey.pem'),
+      path.resolve('./sotaoi/api/certs/backup/privkey.pem'),
+    );
+
+  // clean ./var/greenlock.d
   fs.rmdirSync(path.resolve('./var/greenlock.d'), { recursive: true });
   fs.mkdirSync(path.resolve('./var/greenlock.d'));
   fs.writeFileSync(path.resolve('./var/greenlock.d/.gitkeep'), '');
@@ -83,6 +101,10 @@ const main = async (): Promise<void> => {
   proxyProcess = exec(
     'npx cross-env NODE_ENV=development PORT=443 GREENLOCK=yes ts-node ./app/api/proxy.entry.ts >> ./var/greenlock.d/output.log 2>&1',
   );
+
+  await setTimeout((): void => {
+    //
+  }, 1500);
 
   const greenlock = Greenlock.create({
     configDir: path.resolve('./var/greenlock.d'),

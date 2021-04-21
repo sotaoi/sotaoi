@@ -11,7 +11,7 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import fs from 'fs';
 import { AppInfo } from '@sotaoi/omni/state';
 import { spawn } from 'child_process';
-// import { getAppDomain } from '@app/omni/get-app-info';
+import { getAppDomain } from '@app/omni/get-app-info';
 
 let greenlock = false;
 
@@ -68,7 +68,7 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
     appInfo.localDomainAlias,
   ];
 
-  // const domain = getAppDomain();
+  const domain = getAppDomain();
 
   app.use((req, res, next) => {
     if (req.url === '/') {
@@ -209,8 +209,7 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
         console.info('greenlock credentials:', credentials);
         return res.send(urlSplit[2] + '.' + credentials.publicKeyJwk.kid);
       }
-      // return res.redirect(`https://${domain}${req.url}`);
-      return res.redirect(`https://localhost${req.url}`);
+      return res.redirect(`https://${domain}${req.url}`);
     });
     expressrdr.listen(process.env.REDIRECT_FROM_PORT);
     console.info(`[${getTimestamp()}] Proxy server redirecting from port ${process.env.REDIRECT_FROM_PORT}`);

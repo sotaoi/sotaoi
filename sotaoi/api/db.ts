@@ -12,10 +12,13 @@ const connect = async (): Promise<void> => {
   }
   connected = true;
   const dbConfig = config('db');
-  await mongoose.connect(`mongodb://localhost:27017/${dbConfig.connection.database}`, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  });
+  await mongoose.connect(
+    `mongodb://${dbConfig.connection.host}:${dbConfig.connection.port}/${dbConfig.connection.database}`,
+    {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    },
+  );
 };
 
 const seed = async (): Promise<void> => {

@@ -5,8 +5,11 @@ import { Helper } from '@sotaoi/client/helper';
 import { View, Text } from 'react-native';
 import { TouchableOpacity, ScrollView } from 'react-native-gesture-handler';
 import { store } from '@sotaoi/client/store';
+import { useTranslation } from 'react-i18next';
 
 const MainLayout = (props: LayoutProps): React.ReactElement => {
+  const { t } = useTranslation();
+
   const authRecord = store().getAuthRecord();
   if (Helper.isWeb()) {
     return (
@@ -18,7 +21,7 @@ const MainLayout = (props: LayoutProps): React.ReactElement => {
         >
           <div className="mt-1 ml-2 mb-0 sm:mb-0">
             <span className={'text-2xl no-underline text-grey-darkest hover:text-blue-dark'}>
-              <Link to={'/'}>Alarmer</Link>
+              <Link to={'/'}>{t('app.general.welcome')}</Link>
             </span>
             <span className={'text-lg no-underline text-grey-darkest hover:text-blue-dark ml-3'}>
               <Link to={'/post/list/all'}>Posts</Link>

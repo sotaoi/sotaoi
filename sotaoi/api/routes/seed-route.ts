@@ -1,7 +1,8 @@
 import { Request, ServerRoute, ResponseToolkit, ResponseObject } from '@hapi/hapi';
-import { Seed, Lang } from '@sotaoi/omni/state';
+import { Seed } from '@sotaoi/omni/state';
 import { ErrorResult } from '@sotaoi/omni/transactions';
 import { AuthHandler } from '@sotaoi/api/commands/auth-handler';
+import { lang } from '@sotaoi/api/lang';
 
 const seedRoute: ServerRoute = {
   method: 'GET',
@@ -13,17 +14,11 @@ const seedRoute: ServerRoute = {
         AuthHandler.getAccessToken(handler),
       );
       const code = 200;
-      const lang: Lang = {
-        code: 'en',
-        name: 'English',
-      };
       const seed: Seed = {
         'app.meta.title': '',
         'app.credentials.accessToken': accessToken,
         'app.credentials.authRecord': authRecord,
-        'app.lang.selected': lang,
-        'app.lang.default': lang,
-        'app.lang.available': [lang],
+        ...(await lang().getLangData()),
       };
       return handler.response(seed).code(code);
     } catch (err) {

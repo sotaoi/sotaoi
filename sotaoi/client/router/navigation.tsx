@@ -169,7 +169,7 @@ class Navigation {
     prefix.charAt(0) !== '/' && (prefix = `/${prefix}`);
     routeScheme.charAt(0) !== '/' && (routeScheme = `/${routeScheme}`);
     routeScheme = ignorePrefix ? routeScheme : prefix + routeScheme;
-    // todo here: fix this
+    // todo mediumprio: fix this
     routeScheme.charAt(0) === '/' && routeScheme.charAt(1) === '/' && (routeScheme = routeScheme.substr(1));
     return layoutName + '-' + routeScheme;
   }

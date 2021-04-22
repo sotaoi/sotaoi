@@ -13,7 +13,7 @@ import { getUserUpdateFormValidations } from '@app/client/queries/validation-que
 import { MultiFileField } from '@sotaoi/client/forms/fields/multi-file-field';
 import { UpdateForm } from '@sotaoi/client/forms/form-classes/update-form';
 
-// todo here: (and in any component in general) handle component error
+// todo mediumprio: (and in any component in general) handle component error
 interface UpdateUserFormProps {
   uuid: string;
 }

@@ -11,7 +11,7 @@ class UserModel extends Model {
   }
 
   public async view(user: RecordEntry): Promise<RecordEntry> {
-    // todo here: promise all resolve here (await promise resolve all?)
+    // todo mediumprio: promise all resolve here (await promise resolve all?)
     await this.with(user, 'address:view');
     return user;
   }

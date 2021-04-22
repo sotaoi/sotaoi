@@ -5,7 +5,7 @@ const user: { [key: string]: () => Promise<FormValidations> } = {
   'user-register-form': async () => ({
     email: [...validations.user.email, { method: 'required' }],
     password: [...validations.user.password, { method: 'required' }],
-    // todo here: add image type validation to validation fns
+    // todo mediumprio: add image type validation to validation fns
     // avatar: [{ method: 'required' }, { method: 'file', args: { type: 'image', maxSize: 1000000 } }],
     avatar: [],
     gallery: [{ method: 'multiFile', args: { type: 'image', maxSize: 1000000 } }],
@@ -19,7 +19,7 @@ const user: { [key: string]: () => Promise<FormValidations> } = {
   }),
   'user-update-form': async () => ({
     email: [...validations.user.email, { method: 'required' }],
-    // todo here: add image type validation to validation fns
+    // todo mediumprio: add image type validation to validation fns
     avatar: [{ method: 'required' }, { method: 'file', args: { type: 'image', maxSize: 1000000 } }],
     gallery: [{ method: 'multiFile', args: { type: 'image', maxSize: 1000000 } }],
     address: {

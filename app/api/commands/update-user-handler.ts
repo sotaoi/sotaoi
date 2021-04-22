@@ -4,8 +4,8 @@ import { Artifact } from '@sotaoi/omni/artifacts';
 import { UpdateHandler } from '@sotaoi/api/commands/update-handler';
 import { storage } from '@sotaoi/api/storage';
 import { Asset } from '@sotaoi/omni/input';
-import { UserModel } from '../models/user-model';
-import { AddressModel } from '../models/address-model';
+import { UserModel } from '@app/api/models/user-model';
+import { AddressModel } from '@app/api/models/address-model';
 
 class UpdateUserHandler extends UpdateHandler {
   public getFormId = async (): Promise<string> => 'user-update-form';

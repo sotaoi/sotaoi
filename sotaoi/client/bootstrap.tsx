@@ -10,6 +10,7 @@ import { AppKernel } from '@sotaoi/client/app-kernel';
 import { store } from '@sotaoi/client/store';
 import { AppInfo } from '@sotaoi/omni/state';
 import { socket } from '@sotaoi/client/socket';
+import { lang } from '@sotaoi/client/lang';
 
 class Bootstrap {
   static routerComponent: null | React.ReactElement = null;
@@ -62,6 +63,7 @@ class Bootstrap {
         transports: ['websocket'],
       });
       await store().init();
+      await lang().init(store);
     };
 
     switch (true) {

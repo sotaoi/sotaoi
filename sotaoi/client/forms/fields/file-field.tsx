@@ -84,7 +84,7 @@ class FileField extends BaseField<FileInput, ComponentProps, ComponentState> {
   }
 
   public wasChanged(): boolean {
-    // todo here: implement
+    // todo mediumprio: implement
     return true;
   }
 

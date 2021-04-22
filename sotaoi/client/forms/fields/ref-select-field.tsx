@@ -79,7 +79,7 @@ class RefSelectField extends BaseField<RefSelectInput, ComponentProps, Component
   }
 
   public wasChanged(): boolean {
-    // todo here: implement
+    // todo mediumprio: implement
     return true;
   }
 

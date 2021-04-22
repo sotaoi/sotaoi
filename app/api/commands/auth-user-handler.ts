@@ -6,7 +6,7 @@ import { Helper } from '@sotaoi/api/helper';
 import { UserModel } from '@app/api/models/user-model';
 import { GenericModel } from '@sotaoi/api/models/generic-model';
 
-// todo here: generate token
+// todo mediumprio: generate token
 
 class AuthUserHandler extends AuthHandler {
   public getFormId = async (): Promise<string> => 'auth-user-form';

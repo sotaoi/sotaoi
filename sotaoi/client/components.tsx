@@ -72,7 +72,7 @@ abstract class RouteComponent<ComponentProps> extends React.Component<ComponentP
     return (items && JSON.parse(items).map((item: string) => Helper.asset(item, role))) || null;
   }
 
-  // todo here: mapStateToProps
+  // todo mediumprio: mapStateToProps
 
   public readonly render = (): null | React.ReactElement => {
     const appState = store().getState();

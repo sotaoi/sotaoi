@@ -4,8 +4,8 @@ import { AuthRecord } from '@sotaoi/omni/artifacts';
 import { BaseHandler } from '@sotaoi/api/base-handler';
 import { ResponseToolkit } from '@hapi/hapi';
 
-// todo here: rename user column to something abstract
-// todo here: add strategy to translate access token (auth registry)
+// todo mediumprio: rename user column to something abstract
+// todo mediumprio: add strategy to translate access token (auth registry)
 
 abstract class AuthHandler extends BaseHandler {
   abstract async getFormId(): Promise<string>;

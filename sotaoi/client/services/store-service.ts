@@ -75,6 +75,7 @@ class StoreService extends Store {
       'app.lang.selected': seed['app.lang.selected'],
       'app.lang.default': seed['app.lang.default'],
       'app.lang.available': seed['app.lang.available'],
+      'app.lang.translations': seed['app.lang.translations'],
     };
     this.store = this.createStore<State, Action, any, any>((state = this.initialState, action: Action) => {
       switch (action.type) {
@@ -159,6 +160,10 @@ class StoreService extends Store {
 
   public getAvailableLangs(): Lang[] {
     return this.store.getState()['app.lang.available'];
+  }
+
+  public getTranslations(): { [key: string]: { [key: string]: string } } {
+    return this.store.getState()['app.lang.translations'];
   }
 
   public subscribe(callback: () => void): () => void {

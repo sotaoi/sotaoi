@@ -58,7 +58,7 @@ abstract class Model {
     return ModelOperations.get(repository);
   }
 
-  // todo here: move transform to model operations
+  // todo mediumprio: move transform to model operations
   public async transform(record: Record, variant: null | string): Promise<RecordEntry> {
     for (const hidden of await this.hidden()) {
       delete record[hidden];

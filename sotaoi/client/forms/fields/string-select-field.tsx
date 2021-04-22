@@ -69,7 +69,7 @@ class StringSelectField extends BaseField<StringSelectInput, ComponentProps, Com
   }
 
   public wasChanged(): boolean {
-    // todo here: implement
+    // todo mediumprio: implement
     return true;
   }
 

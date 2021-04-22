@@ -38,6 +38,7 @@ abstract class Store {
       'app.lang.selected': { code: 'en', name: 'English' },
       'app.lang.default': { code: 'en', name: 'English' },
       'app.lang.available': [{ code: 'en', name: 'English' }],
+      'app.lang.translations': {},
     };
   }
 
@@ -54,6 +55,7 @@ abstract class Store {
   abstract getSelectedLang(): Lang;
   abstract getDefaultLang(): Lang;
   abstract getAvailableLangs(): Lang[];
+  abstract getTranslations(): { [key: string]: { [key: string]: string } };
   abstract subscribe(callback: () => void): () => void;
   abstract getState(): State;
   abstract getAppInfo(): AppInfo;

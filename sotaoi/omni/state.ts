@@ -6,6 +6,7 @@ class State {
   public 'app.lang.selected': Lang;
   public 'app.lang.default': Lang;
   public 'app.lang.available': Lang[];
+  public 'app.lang.translations': { [key: string]: { [key: string]: string } };
 }
 
 class Lang {
@@ -25,6 +26,7 @@ class Seed {
   public 'app.lang.selected': Lang;
   public 'app.lang.default': Lang;
   public 'app.lang.available': Lang[];
+  public 'app.lang.translations': { [key: string]: { [key: string]: string } };
 }
 
 interface AppInfo {

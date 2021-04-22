@@ -62,7 +62,7 @@ class BooleanField extends BaseField<BooleanInput, ComponentProps, ComponentStat
   }
 
   public wasChanged(): boolean {
-    // todo here: implement
+    // todo mediumprio: implement
     return true;
   }
 

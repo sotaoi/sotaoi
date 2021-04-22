@@ -1,7 +1,6 @@
 import type { InputValidatorInterface } from '@sotaoi/omni/definitions/input-validator-interface';
 import { BaseInput, FieldValidation, CollectionInput, FormValidations } from '@sotaoi/omni/input';
-// import { QueryBuilder, ErrorResult } from '@sotaoi/omni/transactions';
-import { ErrorResult } from '@sotaoi/omni/transactions';
+import { DbModel, ErrorResult } from '@sotaoi/omni/transactions';
 
 type RequesterFn = (key: string, validations: FieldValidation[], args: { [key: string]: any }) => Promise<string[]>;
 
@@ -42,8 +41,7 @@ abstract class InputValidator<FormValidation = null>
   public static DEFALUT_ERROR_MSG = 'Field validation failed for method "%s"';
 
   protected config: InputValidatorConfig;
-  // protected db: null | ((repository: string) => QueryBuilder);
-  protected db: null | ((repository: string) => any);
+  protected db: null | ((repository: string) => DbModel<any>);
   protected requester: null | RequesterFn;
   protected formValidation: null | FormValidation;
   protected errorTitle: null | string;
@@ -53,8 +51,7 @@ abstract class InputValidator<FormValidation = null>
 
   constructor(
     config: InputValidatorConfig,
-    // db: null | ((repository: string) => QueryBuilder),
-    db: null | ((repository: string) => any),
+    db: null | ((repository: string) => DbModel<any>),
     requester: null | RequesterFn,
   ) {
     if ((!db && !requester) || (!!db && !!requester)) {

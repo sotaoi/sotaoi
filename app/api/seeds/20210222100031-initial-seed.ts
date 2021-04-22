@@ -5,6 +5,7 @@ import { AddressModel } from '@app/api/models/address-model';
 import { CountryModel } from '@app/api/models/country-model';
 import { GenericModel } from '@sotaoi/api/models/generic-model';
 import { Job } from '@sotaoi/api/job';
+import { Record } from '@sotaoi/omni/artifacts';
 
 class InitialSeed extends Job {
   public async handle(): Promise<void> {
@@ -14,17 +15,15 @@ class InitialSeed extends Job {
       }
     }
 
-    const emailValue = 'user@gmail.com';
-    const passwordValue = 'pass';
+    const emailValue = 'asd@asd.com';
+    const passwordValue = 'asdasd';
 
     const categoryNames: string[] = ['poetry', 'reviews'];
-    const categories: { name: string; uuid: string }[] = [];
+    const categories: Record[] = [];
 
     const countryNames: string[] = ['Romania', 'Germany', 'France', 'USA'];
     const countryCodes: string[] = ['RO', 'GE', 'FR', 'US'];
-    const countries: { name: string; code: string; uuid: string }[] = [];
-
-    const posts: { uuid: string; title: string; content: string; createdBy: string; category: string }[] = [];
+    const countries: Record[] = [];
 
     const addressUuids: string[] = [];
     const countryUuids: string[] = [];
@@ -57,9 +56,9 @@ class InitialSeed extends Job {
 
     for (let i = 0; i < nrCountries; i++) {
       countries.push({
+        uuid: countryUuids[i],
         name: countryNames[i],
         code: countryCodes[i],
-        uuid: countryUuids[i],
       });
     }
     for (let i = 0; i < nrCategories; i++) {
@@ -68,6 +67,16 @@ class InitialSeed extends Job {
         uuid: categoryUuids[i],
       });
     }
+
+    const posts = [
+      {
+        uuid: Helper.uuid(),
+        title: 'Hello Post',
+        content: 'This is a post content',
+        createdBy: userUuids[0],
+        category: categories[0].uuid,
+      },
+    ];
 
     await user.db().insertMany({
       uuid: userUuids[0],

@@ -5,6 +5,7 @@ import _package from '@sotaoi/omni/app-package.json';
 import { getAppInfo } from '@app/omni/get-app-info';
 import fs from 'fs';
 import { exec } from 'child_process';
+import { logger } from '@sotaoi/api/logger';
 const Greenlock = require('greenlock');
 const Tail = require('tail').Tail;
 
@@ -51,7 +52,7 @@ const checkCertificatesInterval = (): void => {
       fs.existsSync(fullchainPath)
     ) {
       if (intervalCount > 19) {
-        console.error('certificate files (all or some) appear to be missing');
+        logger().error('certificate files (all or some) appear to be missing');
         proxyProcess && proxyProcess.kill();
         process.exit(1);
       }
@@ -115,7 +116,7 @@ const main = async (): Promise<void> => {
     notify: (event: any, details: any) => {
       if ('error' === event) {
         // `details` is an error object in this case
-        console.error(details);
+        logger().error(details);
       }
     },
   });
@@ -132,7 +133,7 @@ const main = async (): Promise<void> => {
       checkCertificatesInterval();
     })
     .catch((err: any) => {
-      console.error(err);
+      logger().error(err && err.stack ? err.stack : err);
       proxyProcess && proxyProcess.kill();
       process.exit(1);
     });

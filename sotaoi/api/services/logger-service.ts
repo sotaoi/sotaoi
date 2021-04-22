@@ -4,11 +4,8 @@ import chalk from 'chalk';
 import { stringify } from 'flatted';
 import { Logger } from '@sotaoi/api/contracts';
 
-// eslint-disable-next-line no-console
 const log = console.log;
-// eslint-disable-next-line no-console
 const warn = console.warn;
-// eslint-disable-next-line no-console
 const error = console.error;
 
 class LoggerService extends Logger {
@@ -26,7 +23,6 @@ class LoggerService extends Logger {
     let header = new Date().toISOString().substr(0, 19).replace('T', ' ');
     header = `[${header}] NOTICE:`;
     textArr.map((text) => {
-      // eslint-disable-next-line
       log(header, text);
       const flatText = typeof text === 'object' ? stringify(text) : String(text);
       fs.appendFileSync(this.logfile, header + ' ' + flatText + '\n\n');
@@ -43,7 +39,6 @@ class LoggerService extends Logger {
     let header = new Date().toISOString().substr(0, 19).replace('T', ' ');
     header = `[${header}] INFO:`;
     textArr.map((text) => {
-      // eslint-disable-next-line
       log(header, text);
       const flatText = typeof text === 'object' ? stringify(text) : String(text);
       fs.appendFileSync(this.logfile, header + ' ' + flatText + '\n\n');
@@ -60,7 +55,6 @@ class LoggerService extends Logger {
     let header = new Date().toISOString().substr(0, 19).replace('T', ' ');
     header = `[${header}] WARNING:`;
     textArr.map((text) => {
-      // eslint-disable-next-line
       warn(chalk.yellow(header, text));
       const flatText = typeof text === 'object' ? stringify(text) : String(text);
       fs.appendFileSync(this.logfile, header + ' ' + flatText + '\n\n');
@@ -76,7 +70,6 @@ class LoggerService extends Logger {
     let header = new Date().toISOString().substr(0, 19).replace('T', ' ');
     header = `[${header}] ERROR:`;
     textArr.map((text) => {
-      // eslint-disable-next-line
       error(chalk.red(header, text));
       const flatText = typeof text === 'object' ? stringify(text) : String(text);
       fs.appendFileSync(this.logfile, header + ' ' + flatText + '\n\n');

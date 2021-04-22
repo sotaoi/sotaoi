@@ -1,8 +1,8 @@
 import { FlistQueryHandler } from '@sotaoi/api/queries/query-handlers';
 import { QueryResult, FlistQuery } from '@sotaoi/omni/transactions';
-import { db } from '@sotaoi/api/db';
 import { UserModel } from '@app/api/models/user-model';
 import { Model } from '@sotaoi/api/models/model';
+import { logger } from '@sotaoi/api/logger';
 
 class AllUsersQuery extends FlistQueryHandler {
   public async model(): Promise<Model> {
@@ -15,9 +15,17 @@ class AllUsersQuery extends FlistQueryHandler {
     }
 
     try {
-      const users = await db('user').orderBy('id', 'desc');
-      return new QueryResult(200, 'Query success', 'Query was successful', await this.transform(users, null), null);
+      const users = new UserModel().db().find({});
+      users.sort([['createdAt', -1]]);
+      return new QueryResult(
+        200,
+        'Query success',
+        'Query was successful',
+        await this.transform(await users.lean(), null),
+        null,
+      );
     } catch (err) {
+      logger().error(err && err.stack ? err.stack : err);
       return new QueryResult(400, 'Error', 'Query failed', null, null);
     }
   }

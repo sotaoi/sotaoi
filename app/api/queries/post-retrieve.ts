@@ -1,8 +1,9 @@
 import { RetrieveHandler } from '@sotaoi/api/queries/retrieve-handler';
 import { RetrieveResult } from '@sotaoi/omni/transactions';
 import { Retrieve } from '@sotaoi/omni/transactions';
-import { db } from '@sotaoi/api/db';
 import { GenericModel } from '@sotaoi/api/models/generic-model';
+import { UserModel } from '@app/api/models/user-model';
+import { logger } from '@sotaoi/api/logger';
 
 class PostRetrieve extends RetrieveHandler {
   public async model(): Promise<GenericModel> {
@@ -10,11 +11,16 @@ class PostRetrieve extends RetrieveHandler {
   }
   public async handle(retrieve: Retrieve): Promise<RetrieveResult> {
     try {
-      const post = await db('post').where('uuid', retrieve.uuid).first();
-      const category = await db('category').where('uuid', JSON.parse(post.category).uuid).first();
+      const post = await new GenericModel('post').db().findOne({ uuid: retrieve.uuid }).lean();
+      const category = await new GenericModel('category')
+        .db()
+        .findOne({ uuid: JSON.parse(post.category).uuid })
+        .lean();
       post.categoryName = category.name;
-      // post.category = category;
-      const user = await db('user').where('uuid', JSON.parse(post.createdBy).uuid).first();
+      const user = await new UserModel()
+        .db()
+        .findOne({ uuid: JSON.parse(post.createdBy).uuid })
+        .lean();
       post.userName = user.email;
 
       if (!post) {
@@ -30,6 +36,7 @@ class PostRetrieve extends RetrieveHandler {
         null,
       );
     } catch (err) {
+      logger().error(err && err.stack ? err.stack : err);
       return new RetrieveResult(400, 'Error', 'Retrieve failed', null, null);
     }
   }

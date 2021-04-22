@@ -15,7 +15,7 @@ const taskRoute: ServerRoute = {
       const result = await Output.runCommand('task', request, handler, logger);
       return result;
     } catch (err) {
-      logger().warn(err && err.stack ? err.stack : err);
+      logger().error(err && err.stack ? err.stack : err);
       const code = 400;
       const error: ErrorResult = {
         code,

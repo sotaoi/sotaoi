@@ -13,6 +13,7 @@ class AllCountriesQuery extends FlistQueryHandler {
     try {
       const countries = new CountryModel().db().find(query.filters?.where || {});
       query.filters?.limit && countries.limit(query.filters.limit);
+      countries.sort([['createdAt', -1]]);
       return new QueryResult(
         200,
         'Query success',

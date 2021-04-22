@@ -416,3 +416,4 @@ export {
   RequestAbortHandlerAbstract,
 };
 export type { RetrieveAction, QueryAction };
+export { Model as DbModel } from 'mongoose';

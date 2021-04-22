@@ -19,26 +19,6 @@ abstract class Model {
     modelOperations.cleanupDocs();
   }
 
-  public async standardize(record: { [key: string]: any } | { [key: string]: any }[]): Promise<Record | Record[]> {
-    const modelOperations = this.getModelOperations();
-    const records = record instanceof Array ? record : [record];
-    for (let i = 0; i < records.length; i++) {
-      const standardized = await modelOperations.standardize(records[i]);
-      Object.keys(record).map((prop) => {
-        if (typeof standardized[prop] !== 'undefined') {
-          records[i][prop] = standardized[prop];
-          delete standardized[prop];
-          return;
-        }
-        delete records[i][prop];
-      });
-      Object.keys(standardized).map((prop) => {
-        records[i][prop] = standardized[prop];
-      });
-    }
-    return (record instanceof Array ? records : records[0]) as Record | Record[];
-  }
-
   public async with(record: RecordEntry | RecordEntry[], relstring: string, key = 'uuid'): Promise<void> {
     const records = record instanceof Array ? record : [record];
     const [rel, relVariant = null] = relstring.split(':');
@@ -60,10 +40,11 @@ abstract class Model {
       }
       const modelDb = ModelOperations.get(model.repository());
       const relRecords: { [key: string]: RecordEntry } = {};
-      for (const relRecord of (await modelDb.find({ [key]: { $in: refs[repository] } })).map((record) =>
-        record.lean(),
-      ) || []) {
-        relRecords[new RecordRef(rel, relRecord.uuid).serialize(false)] = await model.transform(relRecord, relVariant);
+      for (const relRecord of (await modelDb.find({ [key]: { $in: refs[repository] } }).lean()) || []) {
+        relRecords[new RecordRef(rel, relRecord.uuid).serialize(false)] = await model.transform(
+          Record.make(relRecord),
+          relVariant,
+        );
       }
       records.map((record) => {
         record[rel] && (record[rel] = relRecords[record[rel]]);

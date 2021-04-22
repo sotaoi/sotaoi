@@ -85,7 +85,7 @@ const WebStorePostForm = (props: { form: StoreForm; categories: RecordEntry[] })
               ))}
             </fields.category.component>
             <br />
-            <Label className={'leading-7 text-sm text-gray-600'} labelText={'Title'} />
+            <Label className={'leading-7 text-sm text-gray-600'} labelText={'Cover Image'} />
             {fields.image.wasTouched() &&
               fields.image.getErrors().map((error: any, index: any) => (
                 <div key={index} style={{ color: '#ff3333', marginBottom: 10 }}>

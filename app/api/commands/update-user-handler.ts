@@ -1,18 +1,18 @@
 import { CommandResult } from '@sotaoi/omni/transactions';
 import { UpdateCommand } from '@sotaoi/api/commands';
-import { db } from '@sotaoi/api/db';
 import { Artifact } from '@sotaoi/omni/artifacts';
 import { UpdateHandler } from '@sotaoi/api/commands/update-handler';
 import { storage } from '@sotaoi/api/storage';
 import { Asset } from '@sotaoi/omni/input';
+import { UserModel } from '../models/user-model';
+import { AddressModel } from '../models/address-model';
 
 class UpdateUserHandler extends UpdateHandler {
   public getFormId = async (): Promise<string> => 'user-update-form';
 
   public async handle(command: UpdateCommand): Promise<CommandResult> {
     const { email, avatar, gallery, address } = command.payload;
-    const addressUuid = JSON.parse((await db('user').select('address').where('uuid', command.uuid).first()).address)
-      .uuid;
+    const addressUuid = JSON.parse((await new UserModel().db().findOne({ uuid: command.uuid }).lean()).address).uuid;
     const [saveAvatar, avatarAsset, removeAvatar] = storage('main').handle(
       {
         domain: 'public',
@@ -31,19 +31,21 @@ class UpdateUserHandler extends UpdateHandler {
     if (!addressUuid) {
       throw new Error('something went wrong - failed to fetch address for user while updating');
     }
-    await db('address')
-      .update({
+    await new AddressModel().db().updateOne(
+      { uuid: addressUuid },
+      {
         street: address.street.serialize(true),
         country: address.country.serialize(true),
-      })
-      .where('uuid', addressUuid);
-    await db('user')
-      .update({
+      },
+    );
+    await new UserModel().db().updateOne(
+      { uuid: command.uuid },
+      {
         email: email.serialize(true),
         avatar: avatarAsset.serialize(true),
         gallery: Asset.serializeMulti(galleryAssets),
-      })
-      .where('uuid', command.uuid);
+      },
+    );
 
     avatar ? saveAvatar() : removeAvatar();
     gallery ? saveGallery() : removeGallery();

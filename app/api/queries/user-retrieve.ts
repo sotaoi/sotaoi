@@ -1,8 +1,8 @@
 import { RetrieveHandler } from '@sotaoi/api/queries/retrieve-handler';
 import { RetrieveResult } from '@sotaoi/omni/transactions';
 import { Retrieve } from '@sotaoi/omni/transactions';
-import { db } from '@sotaoi/api/db';
 import { UserModel } from '@app/api/models/user-model';
+import { logger } from '@sotaoi/api/logger';
 
 class UserRetrieve extends RetrieveHandler {
   public async model(): Promise<UserModel> {
@@ -10,7 +10,7 @@ class UserRetrieve extends RetrieveHandler {
   }
   public async handle(retrieve: Retrieve): Promise<RetrieveResult> {
     try {
-      const user = await db('user').where('uuid', retrieve.uuid).first();
+      const user = await new UserModel().db().findOne({ uuid: retrieve.uuid }).lean();
       if (!user) {
         const error = new Error('Retrieve failed');
         error.message = 'Not found';
@@ -28,6 +28,7 @@ class UserRetrieve extends RetrieveHandler {
       }
       return result;
     } catch (err) {
+      logger().error(err && err.stack ? err.stack : err);
       return new RetrieveResult(
         400,
         err && err.name ? err.name : 'Error',

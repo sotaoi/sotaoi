@@ -1,10 +1,10 @@
 import { StoreHandler } from '@sotaoi/api/commands/store-handler';
 import { CommandResult } from '@sotaoi/omni/transactions';
 import { StoreCommand } from '@sotaoi/api/commands';
-import { db } from '@sotaoi/api/db';
 import { Helper } from '@sotaoi/api/helper';
 import { Artifact } from '@sotaoi/omni/artifacts';
 import { storage } from '@sotaoi/api/storage';
+import { GenericModel } from '@sotaoi/api/models/generic-model';
 
 class StorePostHandler extends StoreHandler {
   public getFormId = async (): Promise<string> => 'post-form';
@@ -17,14 +17,16 @@ class StorePostHandler extends StoreHandler {
       image,
     );
 
-    await db('post').insert({
-      uuid: postUuid,
-      title: title.serialize(true),
-      content: content.serialize(true),
-      image: imageAsset.serialize(true),
-      createdBy: user.serialize(true),
-      category: category.serialize(true),
-    });
+    await new GenericModel('post').db().insertMany([
+      {
+        uuid: postUuid,
+        title: title.serialize(true),
+        content: content.serialize(true),
+        image: imageAsset.serialize(true),
+        createdBy: user.serialize(true),
+        category: category.serialize(true),
+      },
+    ]);
 
     saveImage();
 

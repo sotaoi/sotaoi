@@ -3,8 +3,6 @@ import { config } from '@sotaoi/api/config';
 import fs from 'fs';
 import path from 'path';
 import { Job } from '@sotaoi/api/job';
-// import { QueryBuilder } from '@sotaoi/omni/transactions';
-// import knex from 'knex';
 
 let connected = false;
 
@@ -18,11 +16,6 @@ const connect = async (): Promise<void> => {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   });
-};
-
-// const db = (repository: string): QueryBuilder => {
-const db = (repository: string): any => {
-  // return knex(app().config('db'))(repository);
 };
 
 const seed = async (): Promise<void> => {
@@ -48,5 +41,5 @@ const seed = async (): Promise<void> => {
   }
 };
 
-export { connect, db, seed };
+export { connect, seed };
 export * from 'mongoose';

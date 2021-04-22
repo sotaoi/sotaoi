@@ -1,8 +1,9 @@
 import { RetrieveHandler } from '@sotaoi/api/queries/retrieve-handler';
 import { RetrieveResult } from '@sotaoi/omni/transactions';
 import { Retrieve } from '@sotaoi/omni/transactions';
-import { db } from '@sotaoi/api/db';
 import { GenericModel } from '@sotaoi/api/models/generic-model';
+import { Record } from '@sotaoi/omni/artifacts';
+import { logger } from '@sotaoi/api/logger';
 
 class CategoryRetrieve extends RetrieveHandler {
   public async model(): Promise<GenericModel> {
@@ -10,7 +11,7 @@ class CategoryRetrieve extends RetrieveHandler {
   }
   public async handle(retrieve: Retrieve): Promise<RetrieveResult> {
     try {
-      const category = await db('category').where('uuid', retrieve.uuid).first();
+      const category = new GenericModel('category').db().findOne({ uuid: retrieve.uuid }).lean();
       if (!category) {
         const error = new Error('Retrieve failed');
         error.message = 'Not found';
@@ -20,10 +21,11 @@ class CategoryRetrieve extends RetrieveHandler {
         200,
         'Retrieve success',
         'Retrieve was successful',
-        await this.transform(category, null),
+        await this.transform(Record.make(category), null),
         null,
       );
     } catch (err) {
+      logger().error(err && err.stack ? err.stack : err);
       return new RetrieveResult(400, 'Error', 'Retrieve failed', null, null);
     }
   }

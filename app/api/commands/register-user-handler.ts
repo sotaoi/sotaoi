@@ -1,7 +1,6 @@
 import { StoreHandler } from '@sotaoi/api/commands/store-handler';
 import { CommandResult } from '@sotaoi/omni/transactions';
 import { StoreCommand } from '@sotaoi/api/commands';
-import { db } from '@sotaoi/api/db';
 import { Helper } from '@sotaoi/api/helper';
 import { RecordRef, AuthRecord } from '@sotaoi/omni/artifacts';
 import { storage } from '@sotaoi/api/storage';

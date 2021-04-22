@@ -113,7 +113,7 @@ class Server {
       await server.start();
       app().get<Logger>(Logger).info(`Hapi server running on ${server.info.uri}`);
     } catch (err) {
-      console.error(err);
+      console.error(err && err.stack ? err.stack : err);
     }
   }
 }

@@ -1,5 +1,4 @@
 import { AppContainer } from '@sotaoi/api/app-container';
-import { db } from '@sotaoi/api/db';
 import { Helper } from '@sotaoi/api/helper';
 import { InputValidator, Logger, Permissions, Storage, StoredItem } from '@sotaoi/api/contracts';
 import { LoggerService } from '@sotaoi/api/services/logger-service';
@@ -8,6 +7,7 @@ import { PermissionsService } from '@sotaoi/api/services/permissions-service';
 import { StorageService } from '@sotaoi/api/services/storage-service';
 import path from 'path';
 import { ResponseToolkit } from '@hapi/hapi';
+import { GenericModel } from './models/generic-model';
 
 let appContainer: AppContainer;
 let app: () => AppContainer = () => appContainer;
@@ -47,7 +47,7 @@ class AppKernel {
       app().singleton<InputValidator>(
         InputValidator,
         (): InputValidatorOmni => {
-          return new InputValidatorOmni({}, db, null);
+          return new InputValidatorOmni({}, (repository: string) => new GenericModel(repository).db(), null);
         },
       );
 

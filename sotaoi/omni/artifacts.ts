@@ -82,11 +82,18 @@ class Record {
   [key: string]: any;
   public uuid: string;
 
-  constructor(uuid: string, data: { [key: string]: any }) {
-    this.uuid = uuid;
+  constructor(data: { uuid: string; [key: string]: any }) {
     for (const key of Object.keys(data)) {
       this[key] = data[key];
     }
+    this.uuid = data.uuid;
+  }
+
+  public static make(data: any): Record {
+    if (typeof data !== 'object' || typeof data.uuid !== 'string' || !data.uuid) {
+      throw new Error('Bad record data');
+    }
+    return new Record(data);
   }
 }
 
@@ -94,8 +101,10 @@ class RecordEntry extends Record {
   public __repository__: string;
 
   constructor(repository: string, uuid: string, data: { [key: string]: any }) {
-    super(uuid, data);
+    super({ uuid, ...data });
     this.__repository__ = repository;
+    delete this.__v;
+    delete this._id;
   }
 }
 

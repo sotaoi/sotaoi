@@ -26,7 +26,10 @@ class RegisterUserForm extends ViewComponent<RegisterUserFormProps> {
   }
 
   public init({ results, props }: ViewData<RegisterUserFormProps>): { form: StoreForm; countries: RecordEntry[] } {
-    const countries = results?.countries?.result?.records || [];
+    const countries = results?.countries?.records || [];
+    if (!countries.length) {
+      throw new Error('No country found');
+    }
 
     const RegisterUserFormConstructor = FormConstructor(
       {

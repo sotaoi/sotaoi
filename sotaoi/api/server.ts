@@ -31,6 +31,7 @@ const HapiCors = require('hapi-cors');
 
 class Server {
   public static async init(
+    noServer: boolean,
     appInfo: AppInfo,
     appKernel: AppKernel,
     handlers: { [key: string]: RepositoryHandlers },
@@ -52,6 +53,10 @@ class Server {
 
       appKernel.bootstrap();
       await Setup.init(handlers, models, forms);
+
+      if (noServer) {
+        return;
+      }
 
       const certs = {
         key: fs.readFileSync(keyPath),

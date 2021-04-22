@@ -3,7 +3,6 @@ import { payloadOptions } from '@sotaoi/api/routes/payload-options';
 import { ErrorResult } from '@sotaoi/omni/transactions';
 import { Output } from '@sotaoi/api/output';
 import { logger } from '@sotaoi/api/logger';
-import { disconnect } from '@sotaoi/api/db';
 
 const taskRoute: ServerRoute = {
   method: 'POST',
@@ -14,7 +13,6 @@ const taskRoute: ServerRoute = {
   handler: async (request: Request, handler: ResponseToolkit): Promise<ResponseObject> => {
     try {
       const result = await Output.runCommand('task', request, handler, logger);
-      await disconnect();
       return result;
     } catch (err) {
       logger().warn(err && err.stack ? err.stack : err);
@@ -25,7 +23,6 @@ const taskRoute: ServerRoute = {
         msg: err.message || 'Something went wrong',
         validations: null,
       };
-      await disconnect();
       return handler.response(error).code(400);
     }
   },

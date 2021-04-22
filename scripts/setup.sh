@@ -89,7 +89,6 @@ elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
       sudo apt install -y mongodb-org
       sudo systemctl daemon-reload
       sudo systemctl start mongod
-      sudo systemctl enable mongod
     fi
     sudo bash -c 'echo "net.ipv4.ip_unprivileged_port_start=0" > /etc/sysctl.d/50-unprivileged-ports.conf'
     sudo sysctl --system

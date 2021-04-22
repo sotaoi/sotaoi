@@ -416,4 +416,3 @@ export {
   RequestAbortHandlerAbstract,
 };
 export type { RetrieveAction, QueryAction };
-export type { QueryBuilder } from 'knex';

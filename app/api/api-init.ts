@@ -12,16 +12,20 @@ import {
   BooleanInput,
 } from '@sotaoi/omni/input';
 import { AuthRecord, RecordRef } from '@sotaoi/omni/artifacts';
-import { db } from '@sotaoi/api/db';
 import { AuthHandler } from '@sotaoi/api/commands/auth-handler';
 import { ResponseToolkit } from '@hapi/hapi';
+import { GenericModel } from '@sotaoi/api/models/generic-model';
 
 class ApiInit {
   // { -->
+  private static _kernel: null | AppKernel = null;
 
   // app kernel
   public static kernel(): AppKernel {
-    return new AppKernel(config);
+    if (!ApiInit._kernel) {
+      ApiInit._kernel = new AppKernel(config);
+    }
+    return ApiInit._kernel;
   }
 
   // for automatic payload deserialization
@@ -45,12 +49,12 @@ class ApiInit {
     if (!accessToken || typeof accessToken !== 'string' || accessTokenInState !== accessToken) {
       return [null, null];
     }
-    const accessTokenRecord = await db('access-token').where('token', accessToken).first();
+    const accessTokenRecord = await new GenericModel('access-token').db().findOne({ token: accessToken }).lean();
     if (!accessTokenRecord) {
       return [null, null];
     }
     const ref = RecordRef.deserialize(accessTokenRecord.user);
-    const record = await db(ref.repository).where('uuid', ref.uuid).first();
+    const record = await new GenericModel(ref.repository).db().findOne({ uuid: ref.uuid }).lean();
     if (!record) {
       return [null, null];
     }

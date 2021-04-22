@@ -1,4 +1,5 @@
-import type { QueryBuilder, ErrorResult } from '@sotaoi/omni/transactions';
+// import type { QueryBuilder, ErrorResult } from '@sotaoi/omni/transactions';
+import type { ErrorResult } from '@sotaoi/omni/transactions';
 import { InputValidator, RequesterFn, InputValidatorConfig, InputValidationResult } from '@sotaoi/client/contracts';
 import {
   StringInput,
@@ -21,7 +22,8 @@ class InputValidatorOmni extends InputValidator {
 
   constructor(
     config: InputValidatorConfig,
-    db: null | ((repository: string) => QueryBuilder),
+    // db: null | ((repository: string) => QueryBuilder),
+    db: null | ((repository: string) => any),
     requester: null | RequesterFn,
   ) {
     config.t = config.t || ((key: string, ...args: any[]): string => key);

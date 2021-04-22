@@ -28,7 +28,6 @@
     "./index.js",
     "./ios",
     "./jest.config.js",
-    "./knexfile.ts",
     "./metro.config.js",
     "./node_modules",
     "./php",

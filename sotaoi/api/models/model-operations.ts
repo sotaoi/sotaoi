@@ -13,7 +13,7 @@ class ModelOperations {
     try {
       return dbModel(model);
     } catch (err) {
-      return dbModel(model, new Schema({}, { strict: false }));
+      return dbModel(model, new Schema({}, { collection: model, strict: false }));
     }
   }
 

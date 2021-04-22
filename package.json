@@ -22,13 +22,13 @@
     "start:cweb:prod": "cross-env NODE_ENV=production PORT=8080 node ./app/client/cweb.entry.js --servebuild yes",
     "start:proxy:prod": "cross-env NODE_ENV=production node ./app/api/proxy.entry.js",
     "db:seed:prod": "node ./scripts/db-seed.js",
-    "db:create": "ts-node ./scripts/db-create.ts",
     "db:seed": "ts-node ./scripts/db-seed.ts",
     "db:migrate:todel": "knex migrate:latest",
     "db:migrate:make:todel": "knex migrate:make",
     "db:migrate:rollback:todel": "knex migrate:rollback",
     "db:migrate:down:todel": "knex migrate:down",
     "db:migrate:undo:todel": "knex migrate:down",
+    "dev:install": "ts-node ./scripts/dev-install.ts",
     "format": "prettier './**/*.ts' --write && prettier './**/*.tsx' --write",
     "postinstall": "node ./var/pmhook.js",
     "rr": "adb reverse tcp:8081 tcp:8081",
@@ -143,5 +143,22 @@
     "webpack-dev-server": "^3.11.0",
     "webpack-node-externals": "^2.5.2",
     "yargs": "^16.1.1"
-  }
+  },
+  "envVarWhitelist": [
+    "NODE_ENV",
+    "APP_NAME",
+    "BUNDLE_ID",
+    "PACKAGE_NAME",
+    "LOCAL_DOMAIN",
+    "LOCAL_DOMAIN_ALIAS",
+    "DEV_DOMAIN",
+    "DEV_DOMAIN_ALIAS",
+    "STAGE_DOMAIN",
+    "STAGE_DOMAIN_ALIAS",
+    "PROD_DOMAIN",
+    "PROD_DOMAIN_ALIAS",
+    "MOBILE_BUNDLE_LOCATION",
+    "GREENLOCK_EXECUTION",
+    "SSL_MAINTAINER"
+  ]
 }

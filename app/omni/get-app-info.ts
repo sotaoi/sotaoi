@@ -1,26 +1,9 @@
 typeof window === 'undefined' && require('dotenv').config();
 import appInfo from '@app/omni/app-info.json';
+import { envVarWhitelist } from '@sotaoi/omni/app-package.json';
 import { AppInfo } from '@sotaoi/omni/state';
 
 let appInfoParsed: AppInfo;
-
-const envVarWhitelist = [
-  'NODE_ENV',
-  'APP_NAME',
-  'BUNDLE_ID',
-  'PACKAGE_NAME',
-  'LOCAL_DOMAIN',
-  'LOCAL_DOMAIN_ALIAS',
-  'DEV_DOMAIN',
-  'DEV_DOMAIN_ALIAS',
-  'STAGE_DOMAIN',
-  'STAGE_DOMAIN_ALIAS',
-  'PROD_DOMAIN',
-  'PROD_DOMAIN_ALIAS',
-  'MOBILE_BUNDLE_LOCATION',
-  'GREENLOCK_EXECUTION',
-  'SSL_MAINTAINER',
-];
 
 const processEnv = (): { [key: string]: string } => {
   const envVars: { [key: string]: string } = {};

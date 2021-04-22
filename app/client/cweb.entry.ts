@@ -9,7 +9,6 @@ import { paths } from '@sotaoi/omni/build/paths';
 import yargs from 'yargs';
 import express from 'express';
 import https from 'https';
-// import { AppInfo } from '@sotaoi/omni/state';
 
 let serverInitInterval: any = null;
 let serverInitTries = 0;
@@ -70,11 +69,6 @@ const main = async (): Promise<void> => {
 
     return;
   }
-
-  // if (!argv.info) {
-  //   throw new Error('File path for app app-info.json is missing. --info is required');
-  // }
-  // const info: AppInfo = JSON.parse(fs.readFileSync(path.resolve(argv.info)).toString());
 
   const config = WebpackConfigFactory('development');
 

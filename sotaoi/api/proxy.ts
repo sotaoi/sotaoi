@@ -11,7 +11,6 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import fs from 'fs';
 import { AppInfo } from '@sotaoi/omni/state';
 import { spawn } from 'child_process';
-import { getAppDomain } from '@app/omni/get-app-info';
 
 let greenlock = false;
 
@@ -27,7 +26,7 @@ const certs = () => ({
 
 const getTimestamp = () => new Date().toISOString().substr(0, 19).replace('T', ' ');
 
-const startServer = async (app: Express): Promise<void> => {
+const startServer = async (app: Express, domain: string): Promise<void> => {
   https
     .createServer(
       {
@@ -54,7 +53,7 @@ const startServer = async (app: Express): Promise<void> => {
   console.info(`[${getTimestamp()}] Proxy server running on port ${process.env.PORT}`);
 };
 
-const proxy = async (appInfo: AppInfo): Promise<void> => {
+const proxy = async (appInfo: AppInfo, domain: string): Promise<void> => {
   const app = express();
 
   const validDomains = [
@@ -67,8 +66,6 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
     appInfo.localDomain,
     appInfo.localDomainAlias,
   ];
-
-  const domain = getAppDomain();
 
   app.use((req, res, next) => {
     if (req.url === '/') {
@@ -192,7 +189,7 @@ const proxy = async (appInfo: AppInfo): Promise<void> => {
       return;
     }
     clearInterval(startServerInterval);
-    await startServer(app);
+    await startServer(app, domain);
   }, 5000);
 
   // # REDIRECT HTTP to HTTPS

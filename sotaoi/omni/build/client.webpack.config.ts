@@ -4,7 +4,7 @@ import HtmlWebpackPlugin from 'html-webpack-plugin';
 import { paths } from '@sotaoi/omni/build/paths';
 import TerserPlugin from 'terser-webpack-plugin';
 import path from 'path';
-import { envVarWhitelist } from '@app/omni/get-app-info';
+import { envVarWhitelist } from '@sotaoi/omni/app-package.json';
 
 const WebpackConfigFactory = (webpackEnv: string): webpack.Configuration => {
   process.env.NODE_ENV = webpackEnv;

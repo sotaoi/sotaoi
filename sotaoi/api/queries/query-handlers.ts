@@ -1,6 +1,6 @@
 import { FlistQuery, QueryResult, PlistQuery, SlistQuery } from '@sotaoi/omni/transactions';
 import { BaseHandler } from '@sotaoi/api/base-handler';
-import { Errors } from '@app/client/errors';
+import { Errors } from '@sotaoi/omni/errors';
 import { RecordEntry, Record } from '@sotaoi/omni/artifacts';
 import { Model } from '@sotaoi/api/models/model';
 

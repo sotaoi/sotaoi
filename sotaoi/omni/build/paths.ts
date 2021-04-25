@@ -21,8 +21,9 @@ const paths = {
   sotaoiOmniPath: resolveRoot('./sotaoi/omni'),
   appBuild: resolveRoot('./var/build/release'),
   appPath: resolveRoot('./app'),
-  sotaoiPath: resolveRoot('./sotaoi'),
   nodeModulesPath: resolveRoot('./node_modules'),
+  scriptsPath: resolveRoot('./scripts'),
+  sotaoiPath: resolveRoot('./sotaoi'),
   storagePath: resolveRoot('./storage'),
   phpPath: resolveRoot('./php'),
   //

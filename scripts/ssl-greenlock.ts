@@ -4,14 +4,29 @@ import path from 'path';
 import _package from '@sotaoi/omni/app-package.json';
 import { getAppInfo } from '@app/omni/get-app-info';
 import fs from 'fs';
-import { exec } from 'child_process';
+import express from 'express';
+import { Helper } from '@sotaoi/api/helper';
+import { Server as HttpServer } from 'http';
+import https from 'https';
 const Greenlock = require('greenlock');
-const Tail = require('tail').Tail;
 
 let _checkCertificatesInterval: any = null;
-let proxyProcess: any = null;
 
+const servers: (https.Server | HttpServer)[] = [];
 const appInfo = getAppInfo();
+
+const getTimestamp = Helper.getTimestamp;
+const shutDown = Helper.shutDown;
+
+process.on('SIGTERM', () => {
+  shutDown(servers, null);
+});
+process.on('SIGINT', () => {
+  shutDown(servers, null);
+});
+process.on('SIGQUIT', () => {
+  shutDown(servers, null);
+});
 
 const altnames =
   process.env.NODE_ENV === 'production'
@@ -53,7 +68,6 @@ const checkCertificatesInterval = (): void => {
     ) {
       if (intervalCount > 19) {
         console.error('certificate files (all or some) appear to be missing');
-        proxyProcess && proxyProcess.kill();
         process.exit(1);
       }
       intervalCount++;
@@ -66,7 +80,6 @@ const checkCertificatesInterval = (): void => {
 
       console.info('greenlock ok. all done');
       _checkCertificatesInterval && clearInterval(_checkCertificatesInterval);
-      proxyProcess && proxyProcess.kill();
       process.exit(0);
     }
   }, 1000);
@@ -96,17 +109,23 @@ const main = async (): Promise<void> => {
   fs.rmdirSync(path.resolve('./var/greenlock.d'), { recursive: true });
   fs.mkdirSync(path.resolve('./var/greenlock.d'));
   fs.writeFileSync(path.resolve('./var/greenlock.d/.gitkeep'), '');
-  fs.writeFileSync(path.resolve('./var/greenlock.d/output.log'), '');
 
-  const greenlockTail = new Tail('./var/greenlock.d/output.log');
-  greenlockTail.on('line', (data: string) => console.info(data));
-  proxyProcess = exec(
-    'npx cross-env NODE_ENV=development PORT=443 GREENLOCK=yes ts-node ./app/api/proxy.entry.ts >> ./var/greenlock.d/output.log 2>&1',
-  );
-
-  await setTimeout((): void => {
-    //
-  }, 1500);
+  const expressrdr = express();
+  expressrdr.get('*', (req, res) => {
+    if (req.url.substr(0, 12) === '/.well-known') {
+      console.info(`running acme verification: ${req.url}`);
+      const acme = fs.readdirSync(path.resolve('./var/greenlock.d/accounts'));
+      const urlSplit = req.url.substr(1).split('/');
+      const credentials = require(path.resolve(
+        `./var/greenlock.d/accounts/${acme[0]}/directory/${appInfo.sslMaintainer}.json`,
+      ));
+      console.info('greenlock credentials:', credentials);
+      return res.send(urlSplit[2] + '.' + credentials.publicKeyJwk.kid);
+    }
+    return res.send('waiting for greenlock...');
+  });
+  servers.push(expressrdr.listen(80));
+  console.info(`[${getTimestamp()}] Proxy server redirecting from port 80`);
 
   const greenlock = Greenlock.create({
     configDir: path.resolve('./var/greenlock.d'),
@@ -135,7 +154,6 @@ const main = async (): Promise<void> => {
     })
     .catch((err: any) => {
       console.error(err && err.stack ? err.stack : err);
-      proxyProcess && proxyProcess.kill();
       process.exit(1);
     });
 };

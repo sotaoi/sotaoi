@@ -6,6 +6,9 @@
   "engines": {
     "node": "14.x"
   },
+  "flags": {
+    "isBuild": false
+  },
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./start.js",
     "start:api": "cross-env NODE_ENV=development PORT=3000 NODE_TLS_REJECT_UNAUTHORIZED=0 nodemon --config ./sotaoi/api/cfg-nodemon-api.json",
@@ -34,6 +37,7 @@
     "postinstall": "node ./var/pmhook.js",
     "rr": "adb reverse tcp:8081 tcp:8081",
     "ssl:greenlock": "cross-env NODE_ENV=development ts-node ./scripts/ssl-greenlock.ts",
+    "ssl:greenlock:prod": "cross-env NODE_ENV=production node ./scripts/ssl-greenlock.js",
     "test": "",
     "todo here:stage:greenlock": "npx cross-env NODE_ENV=staging node ./scripts/greenlock.js",
     "todo here:prod:greenlock": "npx cross-env NODE_ENV=production node ./scripts/greenlock.js"

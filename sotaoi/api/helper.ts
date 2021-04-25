@@ -4,6 +4,10 @@ import crypto from 'crypto';
 import fs from 'fs';
 import path from 'path';
 import jsonic from 'jsonic';
+import { Server as HttpsServer } from 'https';
+import { Server as HttpServer } from 'http';
+import { Logger } from '@sotaoi/api/contracts/logger';
+import appPackageJson from '@sotaoi/omni/app-package.json';
 
 interface FileInfo {
   dir: string;
@@ -87,6 +91,35 @@ class Helper extends OmniHelper {
   public static copyFileSync(from: string, to: string): void {
     fs.mkdirSync(path.dirname(to), { recursive: true });
     fs.copyFileSync(from, to);
+  }
+
+  public static shutDown(servers: (HttpsServer | HttpServer)[], logger: null | (() => Logger)): void {
+    const output = logger || (() => console);
+
+    if (!servers.length) {
+      output().info('No servers to close, terminating...');
+      process.exit(0);
+    }
+
+    let serverShutDownCount = 0;
+    output().info('\nReceived kill signal, shutting down servers\n');
+    servers.map((server) => {
+      server.close(() => {
+        serverShutDownCount++;
+        if (servers.length === serverShutDownCount) {
+          process.exit(0);
+        }
+      });
+    });
+
+    setTimeout(() => {
+      output().error('\nCould not close connections in time, forcefully shutting down\n');
+      process.exit(1);
+    }, 10000);
+  }
+
+  public static isBuild(): boolean {
+    return !!appPackageJson.flags.isBuild;
   }
 }
 

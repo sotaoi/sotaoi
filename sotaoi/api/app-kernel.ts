@@ -8,9 +8,16 @@ import { StorageService } from '@sotaoi/api/services/storage-service';
 import path from 'path';
 import { ResponseToolkit } from '@hapi/hapi';
 import { GenericModel } from '@sotaoi/api/models/generic-model';
+import { config } from '@sotaoi/api/config';
 
 let appContainer: AppContainer;
-let app: () => AppContainer = () => appContainer;
+let app: () => AppContainer = () => {
+  if (!appContainer) {
+    new AppKernel(config);
+    return appContainer;
+  }
+  return appContainer;
+};
 
 class AppKernel {
   public bootstrapped: boolean;

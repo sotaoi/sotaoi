@@ -3,11 +3,8 @@ import path from 'path';
 import { paths } from '@sotaoi/omni/build/paths';
 import { Helper } from '@sotaoi/api/helper';
 import { execSync } from 'child_process';
-// import yargs from 'yargs';
 
 const main = async (): Promise<void> => {
-  // const argv = yargs.help().alias('help', 'h').argv;
-
   // npm install
   execSync('npm install', { stdio: 'inherit' });
 
@@ -23,9 +20,16 @@ const main = async (): Promise<void> => {
 
   // copy folders
   Helper.copyRecursiveSync(paths.appPath, `${paths.appBuild}/app`);
+  Helper.copyRecursiveSync(paths.phpPath, `${paths.appBuild}/php`);
+  Helper.copyRecursiveSync(paths.scriptsPath, `${paths.appBuild}/scripts`);
   Helper.copyRecursiveSync(paths.sotaoiPath, `${paths.appBuild}/sotaoi`);
   Helper.copyRecursiveSync(paths.storagePath, `${paths.appBuild}/storage`);
-  Helper.copyRecursiveSync(paths.phpPath, `${paths.appBuild}/php`);
+  // remove all shell files from scripts
+  fs.readdirSync(`${paths.appBuild}/scripts`).map((filename) => {
+    const file = path.resolve(`${paths.appBuild}/scripts/${filename}`);
+    const extname = path.extname(filename);
+    ['.sh'].indexOf(extname) !== -1 && fs.rmSync(file);
+  });
   //
   fs.mkdirSync(`${paths.appBuild}/logs`);
   Helper.copyRecursiveSync(paths.publicPath, `${paths.appBuild}/public`);
@@ -49,8 +53,10 @@ const main = async (): Promise<void> => {
   Helper.copyFileSync(path.resolve('./tsconfig.build.json'), path.resolve(paths.appBuild, 'tsconfig.json'));
   Helper.copyFileSync(path.resolve('./var/pmhook.js'), path.resolve(paths.appBuild, 'var', 'pmhook.js'));
   Helper.copyFileSync(path.resolve('./start.js'), path.resolve(paths.appBuild, 'start.js'));
+  // process package json
   const _package = JSON.parse(fs.readFileSync(path.resolve(paths.appBuild, 'package.json')).toString());
   _package.scripts.postinstall = 'node ./var/pmhook.js --skipSdk';
+  _package.flags.isBuild = true;
   fs.writeFileSync(path.resolve(paths.appBuild, 'package.json'), JSON.stringify(_package, null, 2));
 
   // install and ts compile

@@ -5,6 +5,12 @@ const fs = require('fs');
 const path = require('path');
 const { exec } = require('child_process');
 const tail = require('tail').Tail;
+const express = require('express');
+const https = require('https');
+const { createProxyMiddleware } = require('http-proxy-middleware');
+
+let serverInitInterval = null;
+let serverInitTries = 0;
 
 const log = console.log;
 
@@ -23,17 +29,29 @@ const runSchedule = () =>
 setInterval(() => runSchedule(), 60000);
 runSchedule();
 
-const express = require('express');
-const https = require('https');
-const { createProxyMiddleware } = require('http-proxy-middleware');
-
 process.env.PORT = process.env.PORT || '4000';
 
+const keyPath = path.resolve(process.env.SSL_KEY || '');
+const certPath = path.resolve(process.env.SSL_CERT || '');
+const chainPath = path.resolve(process.env.SSL_CA || '');
+
 const main = async () => {
+  clearTimeout(serverInitInterval);
+
+  if (!fs.existsSync(keyPath) || !fs.existsSync(certPath) || !fs.existsSync(chainPath)) {
+    if (serverInitTries === 60) {
+      console.error('server failed to start because at least one ssl certificate file is missing');
+      return;
+    }
+    serverInitTries++;
+    console.warn('at least one certificate file is missing. retrying in 5 seconds...');
+    serverInitInterval = setTimeout(async () => {
+      await main(false);
+    }, 5000);
+    return;
+  }
+
   const app = express();
-  const keyPath = path.resolve(process.env.SSL_KEY || '');
-  const certPath = path.resolve(process.env.SSL_CERT || '');
-  const chainPath = path.resolve(process.env.SSL_CA || '');
 
   app.use(
     '/',

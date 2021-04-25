@@ -25,7 +25,7 @@ const main = async (noServer: boolean): Promise<void> => {
       return;
     }
     serverInitTries++;
-    console.error('at least one certificate file is missing. retrying in 5 seconds...');
+    console.warn('at least one certificate file is missing. retrying in 5 seconds...');
     serverInitInterval = setTimeout(async (): Promise<void> => {
       await main(false);
     }, 5000);

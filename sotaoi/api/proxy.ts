@@ -11,6 +11,7 @@ import { createProxyMiddleware } from 'http-proxy-middleware';
 import fs from 'fs';
 import { AppInfo } from '@sotaoi/omni/state';
 import { spawn } from 'child_process';
+import { Helper } from '@sotaoi/api/helper';
 
 let greenlock = false;
 
@@ -24,7 +25,7 @@ const certs = () => ({
   ca: fs.readFileSync(chainPath),
 });
 
-const getTimestamp = () => new Date().toISOString().substr(0, 19).replace('T', ' ');
+const getTimestamp = Helper.getTimestamp;
 
 const startServer = async (app: Express, domain: string): Promise<void> => {
   https
@@ -53,8 +54,17 @@ const startServer = async (app: Express, domain: string): Promise<void> => {
   console.info(`[${getTimestamp()}] Proxy server running on port ${process.env.PORT}`);
 };
 
-const proxy = async (appInfo: AppInfo, domain: string): Promise<void> => {
+const proxy = async (appInfo: AppInfo, domain: string, testserver: boolean): Promise<void> => {
   const app = express();
+
+  if (testserver) {
+    app.get('*', (req, res) => {
+      return res.send('ok');
+    });
+    app.listen(80);
+    console.info(`[${getTimestamp()}] Test non https server listening on port 80`);
+    return;
+  }
 
   const validDomains = [
     appInfo.prodDomain,

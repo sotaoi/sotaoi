@@ -87,6 +87,10 @@ class Helper {
     let camelString = capital.join('');
     return camelString;
   }
+
+  public static getTimestamp(): string {
+    return new Date().toISOString().substr(0, 19).replace('T', ' ');
+  }
 }
 
 export { Helper };

@@ -5,10 +5,10 @@ import _package from '@sotaoi/omni/app-package.json';
 import { getAppInfo } from '@app/omni/get-app-info';
 import fs from 'fs';
 import { exec } from 'child_process';
-import { logger } from '@sotaoi/api/logger';
 const Greenlock = require('greenlock');
 const Tail = require('tail').Tail;
 
+let _checkCertificatesInterval: any = null;
 let proxyProcess: any = null;
 
 const appInfo = getAppInfo();
@@ -43,7 +43,7 @@ const newFullchainPath = path.resolve(process.env.SSL_FCHAIN || '');
 
 const checkCertificatesInterval = (): void => {
   let intervalCount = 0;
-  setInterval(() => {
+  _checkCertificatesInterval = setInterval(() => {
     if (
       fs.existsSync(keyPath) &&
       fs.existsSync(certPath) &&
@@ -52,7 +52,7 @@ const checkCertificatesInterval = (): void => {
       fs.existsSync(fullchainPath)
     ) {
       if (intervalCount > 19) {
-        logger().error('certificate files (all or some) appear to be missing');
+        console.error('certificate files (all or some) appear to be missing');
         proxyProcess && proxyProcess.kill();
         process.exit(1);
       }
@@ -65,6 +65,7 @@ const checkCertificatesInterval = (): void => {
       fs.copyFileSync(fullchainPath, newFullchainPath);
 
       console.info('greenlock ok. all done');
+      _checkCertificatesInterval && clearInterval(_checkCertificatesInterval);
       proxyProcess && proxyProcess.kill();
       process.exit(0);
     }
@@ -116,7 +117,7 @@ const main = async (): Promise<void> => {
     notify: (event: any, details: any) => {
       if ('error' === event) {
         // `details` is an error object in this case
-        logger().error(details);
+        console.error(details);
       }
     },
   });
@@ -133,7 +134,7 @@ const main = async (): Promise<void> => {
       checkCertificatesInterval();
     })
     .catch((err: any) => {
-      logger().error(err && err.stack ? err.stack : err);
+      console.error(err && err.stack ? err.stack : err);
       proxyProcess && proxyProcess.kill();
       process.exit(1);
     });

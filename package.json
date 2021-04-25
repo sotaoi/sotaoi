@@ -21,6 +21,7 @@
     "start:php:prod": "cross-env NODE_ENV=production node ./php/var/phpprx.js",
     "start:cweb:prod": "cross-env NODE_ENV=production PORT=8080 node ./app/client/cweb.entry.js --servebuild yes",
     "start:proxy:prod": "cross-env NODE_ENV=production node ./app/api/proxy.entry.js",
+    "start:testserver": "cross-env ts-node ./app/api/proxy.entry.ts --testserver",
     "db:seed:prod": "node ./scripts/db-seed.js",
     "db:seed": "ts-node ./scripts/db-seed.ts",
     "db:migrate:todel": "knex migrate:latest",

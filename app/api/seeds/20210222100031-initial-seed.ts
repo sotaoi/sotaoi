@@ -5,7 +5,7 @@ import { AddressModel } from '@app/api/models/address-model';
 import { CountryModel } from '@app/api/models/country-model';
 import { GenericModel } from '@sotaoi/api/models/generic-model';
 import { Job } from '@sotaoi/api/job';
-import { Record } from '@sotaoi/omni/artifacts';
+import { Record, RecordRef } from '@sotaoi/omni/artifacts';
 
 class InitialSeed extends Job {
   public async handle(): Promise<void> {
@@ -73,8 +73,8 @@ class InitialSeed extends Job {
         uuid: Helper.uuid(),
         title: 'Hello Post',
         content: 'This is a post content',
-        createdBy: userUuids[0],
-        category: categories[0].uuid,
+        createdBy: new RecordRef('user', userUuids[0]).serialize(true),
+        category: new RecordRef('category', categories[0].uuid).serialize(true),
       },
     ];
 

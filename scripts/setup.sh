@@ -1,8 +1,11 @@
 #!/bin/bash
 
-export HOMEPATH=$HOME
-#export SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-#export NVM_DIR="$HOME/.nvm"
+HOMEPATH=$HOME
+SCRIPT_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
+NVM_DIR="$HOME/.nvm"
+NODE_EXEC="$NVM_DIR/versions/node/v14.16.1/bin/node"
+NPM_EXEC="$NVM_DIR/versions/node/v14.16.1/bin/npm"
+NPX_EXEC="$NVM_DIR/versions/node/v14.16.1/bin/npx"
 
 refreshSourceLinux() {
     source $HOMEPATH/.bashrc > /dev/null 2>&1
@@ -41,8 +44,8 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   echo -e "\ndone\n"
 elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
   if [[ $(which apt) != "" ]]; then
-    if [[ $(which systemctl) == "" ]]; then
-      echo -e "\nsystemctl unavailable, exiting script...\n"
+    if [[ $(which service) == "" ]]; then
+      echo -e "\service command unavailable, exiting script...\n"
       exit 1
     fi
 
@@ -50,10 +53,15 @@ elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
     refreshSourceLinux
     sudo apt -y update
 
-    sudo systemctl stop apache2
-    sudo systemctl disable apache2
+    if [[ $(which systemctl) == "" ]]; then
+      sudo service apache2 stop
+    else
+      sudo systemctl stop apache2
+      sudo systemctl disable apache2
+    fi
 
-    sudo apt -y install build-essential curl file git libpcre3-dev libssl-dev software-properties-common openssl gitk
+    sudo apt -y install build-essential curl file git gitk libpcre3-dev libssl-dev software-properties-common openssl wget
+
     if [[ $(which node) == "" ]]; then
       if [[ $(which nvm) == "" ]]; then
         echo "Installing NVM..."
@@ -61,8 +69,11 @@ elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
         refreshSourceLinux
       fi
       echo "Setting up Node..."
-      nvm install 14
-      nvm use 14
+      nvm install 14.16.1
+      nvm use 14.16.1
+      sudo ln -s "$NODE_EXEC" "/usr/bin/node"
+      sudo ln -s "$NPM_EXEC" "/usr/bin/npm"
+      sudo ln -s "$NPX_EXEC" "/usr/bin/npx"
     fi
     if [[ $(which php) == "" ]]; then
       echo "Installing PHP..."
@@ -87,14 +98,16 @@ elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
       echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/4.4 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-4.4.list
       sudo apt -y update
       sudo apt install -y mongodb-org
-      sudo systemctl daemon-reload
-      sudo systemctl start mongod
+      if [[ $(which systemctl) != "" ]]; then
+        sudo systemctl daemon-reload
+        sudo systemctl stop mongod
+        sudo systemctl disable mongod
+      fi
     fi
     sudo bash -c 'echo "net.ipv4.ip_unprivileged_port_start=0" > /etc/sysctl.d/50-unprivileged-ports.conf'
     sudo sysctl --system
     echo fs.inotify.max_user_watches=2097152 | sudo tee -a /etc/sysctl.conf
     sudo sysctl -p
-    exec bash
     echo -e "\ndone\n"
   elif [[ $(whichwhich yum) != "" ]]; then
     echo -e "\nCentOS / RedHat are not supported, exiting...\n"

@@ -7,7 +7,7 @@ import { storage } from '@sotaoi/api/storage';
 import { Asset } from '@sotaoi/omni/input';
 import { AddressModel } from '@app/api/models/address-model';
 import { UserModel } from '@app/api/models/user-model';
-import { GenericModel } from '@sotaoi/api/models/generic-model';
+import { GenericModel } from '@sotaoi/api/db/generic-model';
 
 class RegisterUserHandler extends StoreHandler {
   public getFormId = async (): Promise<string> => 'user-register-form';

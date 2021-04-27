@@ -2,7 +2,7 @@ import { FlistQuery, QueryResult, PlistQuery, SlistQuery } from '@sotaoi/omni/tr
 import { BaseHandler } from '@sotaoi/api/base-handler';
 import { Errors } from '@sotaoi/omni/errors';
 import { RecordEntry, Record } from '@sotaoi/omni/artifacts';
-import { Model } from '@sotaoi/api/models/model';
+import { Model } from '@sotaoi/api/db/model';
 
 abstract class QueryHandler extends BaseHandler {
   abstract async model(): Promise<Model>;

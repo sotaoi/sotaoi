@@ -7,7 +7,7 @@ import { PermissionsService } from '@sotaoi/api/services/permissions-service';
 import { StorageService } from '@sotaoi/api/services/storage-service';
 import path from 'path';
 import { ResponseToolkit } from '@hapi/hapi';
-import { GenericModel } from '@sotaoi/api/models/generic-model';
+import { GenericModel } from '@sotaoi/api/db/generic-model';
 import { config } from '@sotaoi/api/config';
 
 let appContainer: AppContainer;

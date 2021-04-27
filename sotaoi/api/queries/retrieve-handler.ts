@@ -1,6 +1,6 @@
 import { RetrieveResult } from '@sotaoi/omni/transactions';
 import { Retrieve } from '@sotaoi/omni/transactions';
-import { Model } from '@sotaoi/api/models/model';
+import { Model } from '@sotaoi/api/db/model';
 import { RecordEntry, Record } from '@sotaoi/omni/artifacts';
 import { Errors } from '@sotaoi/omni/errors';
 

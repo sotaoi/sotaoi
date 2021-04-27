@@ -14,7 +14,7 @@ import {
 import { AuthRecord, RecordRef } from '@sotaoi/omni/artifacts';
 import { AuthHandler } from '@sotaoi/api/commands/auth-handler';
 import { ResponseToolkit } from '@hapi/hapi';
-import { GenericModel } from '@sotaoi/api/models/generic-model';
+import { GenericModel } from '@sotaoi/api/db/generic-model';
 
 class ApiInit {
   // { -->

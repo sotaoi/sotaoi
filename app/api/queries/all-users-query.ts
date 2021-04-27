@@ -1,7 +1,7 @@
 import { FlistQueryHandler } from '@sotaoi/api/queries/query-handlers';
 import { QueryResult, FlistQuery } from '@sotaoi/omni/transactions';
 import { UserModel } from '@app/api/models/user-model';
-import { Model } from '@sotaoi/api/models/model';
+import { Model } from '@sotaoi/api/db/model';
 import { logger } from '@sotaoi/api/logger';
 
 class AllUsersQuery extends FlistQueryHandler {

@@ -1,7 +1,7 @@
 import { RetrieveHandler } from '@sotaoi/api/queries/retrieve-handler';
 import { RetrieveResult } from '@sotaoi/omni/transactions';
 import { Retrieve } from '@sotaoi/omni/transactions';
-import { GenericModel } from '@sotaoi/api/models/generic-model';
+import { GenericModel } from '@sotaoi/api/db/generic-model';
 import { Record } from '@sotaoi/omni/artifacts';
 import { logger } from '@sotaoi/api/logger';
 

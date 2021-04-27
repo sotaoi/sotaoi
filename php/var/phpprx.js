@@ -22,13 +22,6 @@ exec('php artisan serve --host 0.0.0.0 --port 4001 >> ./output.log 2>&1', { cwd:
 const logTail = new tail(path.resolve('./storage/logs/laravel.log'));
 logTail.on('line', (data) => log(data));
 
-// exec('npm run watch >> ./output.log 2>&1', { cwd: path.resolve(__dirname, '../') });
-
-const runSchedule = () =>
-  exec('php artisan schedule:run >> ./output.log 2>&1', { cwd: path.resolve(__dirname, '../') });
-setInterval(() => runSchedule(), 60000);
-runSchedule();
-
 process.env.PORT = process.env.PORT || '4000';
 
 const keyPath = path.resolve(process.env.SSL_KEY || '');

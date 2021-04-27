@@ -4,7 +4,7 @@ import { AuthRecord } from '@sotaoi/omni/artifacts';
 import { AuthHandler } from '@sotaoi/api/commands/auth-handler';
 import { Helper } from '@sotaoi/api/helper';
 import { UserModel } from '@app/api/models/user-model';
-import { GenericModel } from '@sotaoi/api/models/generic-model';
+import { GenericModel } from '@sotaoi/api/db/generic-model';
 
 // todo mediumprio: generate token
 

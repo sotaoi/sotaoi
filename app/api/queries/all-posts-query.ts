@@ -1,7 +1,7 @@
 import { FlistQueryHandler } from '@sotaoi/api/queries/query-handlers';
 import { QueryResult, FlistQuery } from '@sotaoi/omni/transactions';
-import { GenericModel } from '@sotaoi/api/models/generic-model';
-import { Model } from '@sotaoi/api/models/model';
+import { GenericModel } from '@sotaoi/api/db/generic-model';
+import { Model } from '@sotaoi/api/db/model';
 import { logger } from '@sotaoi/api/logger';
 
 class AllPostsQuery extends FlistQueryHandler {

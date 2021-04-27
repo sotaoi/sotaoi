@@ -3,7 +3,7 @@ import { UpdateCommand } from '@sotaoi/api/commands';
 import { Artifact } from '@sotaoi/omni/artifacts';
 import { UpdateHandler } from '@sotaoi/api/commands/update-handler';
 import { storage } from '@sotaoi/api/storage';
-import { GenericModel } from '@sotaoi/api/models/generic-model';
+import { GenericModel } from '@sotaoi/api/db/generic-model';
 
 class UpdatePostHandler extends UpdateHandler {
   public getFormId = async (): Promise<string> => 'post-update-form';

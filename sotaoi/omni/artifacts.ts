@@ -103,8 +103,6 @@ class RecordEntry extends Record {
   constructor(repository: string, uuid: string, data: { [key: string]: any }) {
     super({ uuid, ...data });
     this.__repository__ = repository;
-    delete this.__v;
-    delete this._id;
   }
 }
 

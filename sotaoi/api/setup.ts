@@ -8,7 +8,7 @@ import { TaskHandler } from '@sotaoi/api/commands/task-handler';
 import { FormValidations } from '@sotaoi/omni/input';
 import { QueryFilters } from '@sotaoi/omni/transactions';
 import { ResponseToolkit } from '@hapi/hapi';
-import { Model } from '@sotaoi/api/models/model';
+import { Model } from '@sotaoi/api/db/model';
 
 interface RepositoryHandlers {
   store?: typeof StoreHandler;

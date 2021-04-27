@@ -4,7 +4,7 @@ import { StoreCommand } from '@sotaoi/api/commands';
 import { Helper } from '@sotaoi/api/helper';
 import { Artifact } from '@sotaoi/omni/artifacts';
 import { storage } from '@sotaoi/api/storage';
-import { GenericModel } from '@sotaoi/api/models/generic-model';
+import { GenericModel } from '@sotaoi/api/db/generic-model';
 
 class StorePostHandler extends StoreHandler {
   public getFormId = async (): Promise<string> => 'post-form';

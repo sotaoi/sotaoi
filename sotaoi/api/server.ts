@@ -25,7 +25,7 @@ import { AuthHandler } from '@sotaoi/api/commands/auth-handler';
 import socketio from 'socket.io';
 import express from 'express';
 import https from 'https';
-import { Model } from '@sotaoi/api/models/model';
+import { Model } from '@sotaoi/api/db/model';
 
 const HapiCors = require('hapi-cors');
 

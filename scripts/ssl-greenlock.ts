@@ -10,6 +10,9 @@ import { Server as HttpServer } from 'http';
 import https from 'https';
 const Greenlock = require('greenlock');
 
+// todo here highprio: check if domain points to server location
+// if not, create snakeoil certificates and add domain along with domain alias to /etc/hosts
+
 let _checkCertificatesInterval: any = null;
 
 const servers: (https.Server | HttpServer)[] = [];

@@ -1,7 +1,7 @@
 import { FlistQueryHandler } from '@sotaoi/api/queries/query-handlers';
 import { QueryResult, FlistQuery } from '@sotaoi/omni/transactions';
 import { logger } from '@sotaoi/api/logger';
-import { Model } from '@sotaoi/api/models/model';
+import { Model } from '@sotaoi/api/db/model';
 import { CountryModel } from '@app/api/models/country-model';
 
 class AllCountriesQuery extends FlistQueryHandler {

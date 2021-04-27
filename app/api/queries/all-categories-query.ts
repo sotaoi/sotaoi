@@ -1,8 +1,8 @@
 import { FlistQueryHandler } from '@sotaoi/api/queries/query-handlers';
 import { QueryResult, FlistQuery } from '@sotaoi/omni/transactions';
 import { logger } from '@sotaoi/api/logger';
-import { GenericModel } from '@sotaoi/api/models/generic-model';
-import { Model } from '@sotaoi/api/models/model';
+import { GenericModel } from '@sotaoi/api/db/generic-model';
+import { Model } from '@sotaoi/api/db/model';
 
 class AllCategoriesQuery extends FlistQueryHandler {
   public async model(): Promise<Model> {

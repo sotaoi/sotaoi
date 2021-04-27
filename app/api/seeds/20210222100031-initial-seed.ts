@@ -3,7 +3,7 @@ import _ from 'lodash';
 import { UserModel } from '@app/api/models/user-model';
 import { AddressModel } from '@app/api/models/address-model';
 import { CountryModel } from '@app/api/models/country-model';
-import { GenericModel } from '@sotaoi/api/models/generic-model';
+import { GenericModel } from '@sotaoi/api/db/generic-model';
 import { Job } from '@sotaoi/api/job';
 import { Record, RecordRef } from '@sotaoi/omni/artifacts';
 

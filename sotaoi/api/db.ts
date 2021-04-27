@@ -45,4 +45,3 @@ const seed = async (): Promise<void> => {
 };
 
 export { connect, seed };
-export * from 'mongoose';

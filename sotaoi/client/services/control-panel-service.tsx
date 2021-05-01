@@ -1,7 +1,8 @@
 import React from 'react';
 import { LayoutProps } from '@sotaoi/omni/state';
+import { ControlPanel } from '@sotaoi/client/contracts/control-panel';
 
-class ControlPanelService {
+class ControlPanelService extends ControlPanel {
   public getControlPanelLayout(props: LayoutProps): React.ReactElement {
     return (
       <div>

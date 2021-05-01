@@ -6,17 +6,30 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 interface LinkProps {
   children: any;
-  to: string;
+  to: string | ((ev: any) => Promise<void>);
   noGoTop?: boolean;
 }
 const Link: React.FunctionComponent<LinkProps> = (props: LinkProps) => {
   if (Helper.isWeb()) {
+    if (typeof props.to === 'function') {
+      return (
+        <a
+          onClick={(ev): boolean => {
+            ev.preventDefault();
+            typeof props.to === 'function' && props.to(ev);
+            return false;
+          }}
+        >
+          {props.children}
+        </a>
+      );
+    }
     return (
       <a
         href={props.to}
         onClick={(ev): boolean => {
           ev.preventDefault();
-          RouteChange.pushRoute(props.to, !props.noGoTop);
+          RouteChange.pushRoute(typeof props.to === 'string' ? props.to : '/', !props.noGoTop);
           return false;
         }}
       >
@@ -35,7 +48,13 @@ const Link: React.FunctionComponent<LinkProps> = (props: LinkProps) => {
           right: 10,
           top: 10,
         }}
-        onPressOut={(): void => RouteChange.pushRoute(props.to)}
+        onPressOut={(ev): void => {
+          if (typeof props.to === 'function') {
+            props.to(ev);
+            return;
+          }
+          RouteChange.pushRoute(props.to);
+        }}
         style={{ opacity: 0.9 }}
       >
         {item}

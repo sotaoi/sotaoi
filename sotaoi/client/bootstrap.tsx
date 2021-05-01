@@ -11,6 +11,16 @@ import { store } from '@sotaoi/client/store';
 import { AppInfo } from '@sotaoi/omni/state';
 import { socket } from '@sotaoi/client/socket';
 import { lang } from '@sotaoi/client/lang';
+import { StorageService } from '@sotaoi/client/services/storage-service';
+import { InputValidatorOmni } from '@sotaoi/omni/services/input-validator-omni';
+import { Logger } from '@sotaoi/client/contracts/logger';
+import { LoggerService } from '@sotaoi/client/services/logger-service';
+import { Lang } from '@sotaoi/client/contracts/lang';
+import { LangService } from '@sotaoi/client/services/lang-service';
+import { Notification } from '@sotaoi/omni/contracts/notification';
+import { NotificationService } from '@sotaoi/client/services/notification-service';
+import { pushRoute } from '@sotaoi/client/router';
+import { BaseForm } from '@sotaoi/client/forms/form-classes/base-form';
 
 class Bootstrap {
   static routerComponent: null | React.ReactElement = null;
@@ -24,16 +34,42 @@ class Bootstrap {
     createStore: StoreCreator,
     Loading: React.FunctionComponent,
     ErrorComponent: React.FunctionComponent<{ error: Error }>,
+    formNotifications: boolean,
   ): Promise<void> {
+    BaseForm.NOTIFY = formNotifications;
+
     appKernel.bootstrap((app) => {
-      const inputValidator = app().get<InputValidator>(InputValidator);
-      const storage = app().get<Storage>(Storage);
+      // input validator
+      app().singleton<InputValidator>(
+        InputValidator,
+        (): InputValidatorOmni => {
+          return new InputValidatorOmni({}, null, () => Promise.resolve([]));
+        },
+      );
+
+      // storage
+      app().singleton<Storage>(
+        Storage,
+        (): StorageService => {
+          return new StorageService(['authRecord', 'currentPath']);
+        },
+      );
+
+      // logger
+      app().singleton<Logger>(
+        Logger,
+        (): LoggerService => {
+          return new LoggerService();
+        },
+      );
 
       // Store
       !app().has(Store) &&
         app().singleton<Store>(
           Store,
           (): StoreService => {
+            const inputValidator = app().get<InputValidator>(InputValidator);
+            const storage = app().get<Storage>(Storage);
             return new StoreService(appInfo, apiUrl, createStore, inputValidator, storage);
           },
         );
@@ -47,6 +83,24 @@ class Bootstrap {
           },
         );
 
+      // Lang
+      !app().has(Lang) &&
+        app().singleton<Lang>(
+          Lang,
+          (): LangService => {
+            return new LangService();
+          },
+        );
+
+      // Notification
+      !app().has(Notification) &&
+        app().singleton<Notification>(
+          Notification,
+          (): NotificationService => {
+            return new NotificationService(pushRoute);
+          },
+        );
+
       // Control Panel
       !app().has(ControlPanelService) &&
         app().singleton<ControlPanelService>(
@@ -56,6 +110,7 @@ class Bootstrap {
           },
         );
     });
+
     Helper.setTitle(appTitle);
 
     const init = async (): Promise<void> => {

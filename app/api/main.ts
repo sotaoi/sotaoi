@@ -5,7 +5,6 @@ import { Server } from '@sotaoi/api/server';
 import { handlers } from '@app/api/handlers';
 import * as forms from '@app/omni/forms';
 import { ApiInit } from '@app/api/api-init';
-import { getAppInfo } from '@app/omni/get-app-info';
 import { AddressModel } from '@app/api/models/address-model';
 import { UserModel } from '@app/api/models/user-model';
 import { CountryModel } from '@app/api/models/country-model';
@@ -32,9 +31,6 @@ const main = async (noServer: boolean): Promise<void> => {
     return;
   }
 
-  // app info
-  const appInfo = getAppInfo();
-
   // app kernel
   const appKernel = ApiInit.kernel();
 
@@ -57,7 +53,7 @@ const main = async (noServer: boolean): Promise<void> => {
   await connect();
 
   // start
-  await Server.init(noServer, appInfo, appKernel, handlers, models, forms, translateAccessToken, deauth);
+  await Server.init(noServer, appKernel, handlers, models, forms, translateAccessToken, deauth);
 };
 
 export { main };

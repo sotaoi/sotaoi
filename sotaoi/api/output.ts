@@ -20,12 +20,13 @@ import _ from 'lodash';
 import { app } from '@sotaoi/api/app-kernel';
 import { Logger } from '@sotaoi/api/contracts';
 import { InputValidator } from '@sotaoi/api/contracts';
-import { StoreCommand, UpdateCommand, AuthCommand, TaskCommand } from '@sotaoi/api/commands';
+import { StoreCommand, UpdateCommand, AuthCommand, TaskCommand, RemoveCommand } from '@sotaoi/api/commands';
 import { StoreHandler } from '@sotaoi/api/commands/store-handler';
 import { UpdateHandler } from '@sotaoi/api/commands/update-handler';
 import { AuthHandler } from '@sotaoi/api/commands/auth-handler';
 import { Output as OmniOutput } from '@sotaoi/omni/output';
 import { TaskHandler } from '@sotaoi/api/commands/task-handler';
+import { RemoveHandler } from '@sotaoi/api/commands/remove-handler';
 
 class Output extends OmniOutput {
   protected static registeredInputs: typeof BaseInput[] = [];
@@ -151,12 +152,15 @@ class Output extends OmniOutput {
     let storeHandler: StoreHandler;
     let updateCommand: UpdateCommand;
     let updateHandler: UpdateHandler;
+    let removeCommand: RemoveCommand;
+    let removeHandler: RemoveHandler;
     let authCommand: AuthCommand;
     let authHandler: AuthHandler;
     let taskCommand: TaskCommand;
     let taskHandler: TaskHandler;
-    let output: (payload: { [key: string]: any }) => Promise<CommandResult | AuthResult | TaskResult>;
-    let formId: string;
+    let output: null | ((payload: { [key: string]: any }) => Promise<CommandResult | AuthResult | TaskResult>) = null;
+    let removeOutput: null | (() => Promise<CommandResult>) = null;
+    let formId: null | string = null;
     switch (true) {
       case type === 'store':
         storeHandler = Setup.getStoreHandler(repository, handler);
@@ -178,7 +182,15 @@ class Output extends OmniOutput {
         };
         break;
       case type === 'remove':
-        throw new Error('remove not yet implemented');
+        if (!uuid) {
+          throw new Error('something went wrong - remove command has no uuid');
+        }
+        removeHandler = Setup.getRemoveHandler(repository, handler);
+        removeOutput = async (): Promise<CommandResult> => {
+          removeCommand = new RemoveCommand(authRecord, new Artifacts(artifacts), role, repository, uuid);
+          return this.parseCommand(await removeHandler.__handle__(removeCommand));
+        };
+        break;
       case type === 'auth':
         authHandler = Setup.getAuthHandler(repository, handler);
         formId = await authHandler.getFormId();
@@ -197,6 +209,21 @@ class Output extends OmniOutput {
         break;
       default:
         throw new Error('failed to run command');
+    }
+
+    if (type === 'remove') {
+      if (!removeOutput) {
+        throw new Error('remove output is not initialized');
+      }
+      const result = await removeOutput();
+      return handler.response(result).code(result.getCode());
+    }
+
+    if (!formId) {
+      throw new Error('form id is missing');
+    }
+    if (typeof output === 'undefined') {
+      throw new Error('output is not initialized');
     }
 
     const form = Setup.getForm(repository, formId);
@@ -246,6 +273,9 @@ class Output extends OmniOutput {
     });
     cleanupUndefined.map((fn) => fn());
 
+    if (!output) {
+      throw new Error('output is not initialized');
+    }
     const result = await output(payload);
     return handler.response(result).code(result.getCode());
   }

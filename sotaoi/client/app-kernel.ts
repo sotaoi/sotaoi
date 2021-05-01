@@ -1,7 +1,4 @@
 import { AppContainer } from '@sotaoi/client/app-container';
-import { Storage, InputValidator } from '@sotaoi/client/contracts';
-import { StorageService } from '@sotaoi/client/services/storage-service';
-import { InputValidatorOmni } from '@sotaoi/omni/services/input-validator-omni';
 
 let appContainer: AppContainer;
 let app: () => AppContainer = () => appContainer;
@@ -26,21 +23,7 @@ class AppKernel {
   }
 
   protected static bootstrap(): void {
-    // input validator
-    app().singleton<InputValidator>(
-      InputValidator,
-      (): InputValidatorOmni => {
-        return new InputValidatorOmni({}, null, () => Promise.resolve([]));
-      },
-    );
-
-    // storage
-    app().singleton<Storage>(
-      Storage,
-      (): StorageService => {
-        return new StorageService(['authRecord', 'currentPath']);
-      },
-    );
+    //
   }
 }
 

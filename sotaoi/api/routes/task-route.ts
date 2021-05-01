@@ -12,10 +12,9 @@ const taskRoute: ServerRoute = {
   },
   handler: async (request: Request, handler: ResponseToolkit): Promise<ResponseObject> => {
     try {
-      const result = await Output.runCommand('task', request, handler, logger);
-      return result;
+      return await Output.runCommand('task', request, handler, logger);
     } catch (err) {
-      logger().error(err && err.stack ? err.stack : err);
+      logger().estack(err && err.stack ? err.stack : err);
       const code = 400;
       const error: ErrorResult = {
         code,

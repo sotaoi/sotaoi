@@ -1,6 +1,8 @@
 import { Request, ServerRoute, ResponseToolkit, ResponseObject } from '@hapi/hapi';
 import { payloadOptions } from '@sotaoi/api/routes/payload-options';
 import { ErrorResult } from '@sotaoi/omni/transactions';
+import { Output } from '@sotaoi/api/output';
+import { logger } from '@sotaoi/api/logger';
 
 const removeRoute: ServerRoute = {
   method: 'POST',
@@ -10,8 +12,7 @@ const removeRoute: ServerRoute = {
   },
   handler: async (request: Request, handler: ResponseToolkit): Promise<ResponseObject> => {
     try {
-      const code = 200;
-      return handler.response({}).code(code);
+      return await Output.runCommand('remove', request, handler, logger);
     } catch (err) {
       const code = 400;
       const error: ErrorResult = {

@@ -19,7 +19,7 @@ const storageRoute: ServerRoute = {
       });
       return result;
     } catch (err) {
-      logger().error(err && err.stack ? err.stack : err);
+      logger().estack(err && err.stack ? err.stack : err);
       return handler
         .response({
           statusCode: 404,

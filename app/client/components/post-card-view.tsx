@@ -34,7 +34,7 @@ class PostCardView extends ViewComponent<ViewComponentProps> {
               <h1 className="title-font text-lg font-medium text-gray-900 mb-3">{props.title}</h1>
               <DateComponent date={props.createdAt} />
               <div className="flex items-center flex-wrap ">
-                <PostLink postUuid={props.uuid} linkText={'Read More'} />{' '}
+                <PostLink postUuid={props.uuid} linkText={'Read More'} />
               </div>
             </div>
           </div>

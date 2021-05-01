@@ -22,7 +22,7 @@ const deauthRoute: ServerRoute = {
         msg: err.message || 'Something went wrong',
         validations: null,
       };
-      logger().error(err && err.stack ? err.stack : err);
+      logger().estack(err && err.stack ? err.stack : err);
       return handler.response(error).code(400);
     }
   },

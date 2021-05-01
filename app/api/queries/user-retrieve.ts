@@ -28,7 +28,7 @@ class UserRetrieve extends RetrieveHandler {
       }
       return result;
     } catch (err) {
-      logger().error(err && err.stack ? err.stack : err);
+      logger().estack(err);
       return new RetrieveResult(
         400,
         err && err.name ? err.name : 'Error',

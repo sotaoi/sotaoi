@@ -9,7 +9,7 @@ const main = async (): Promise<void> => {
     console.log('\nSeeding complete\n');
     process.exit(0);
   } catch (err) {
-    logger().error(err && err.stack ? err.stack : err);
+    logger().estack(err && err.stack ? err.stack : err);
     process.exit(1);
   }
 };

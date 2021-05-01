@@ -1,4 +1,4 @@
-import { PostRetrieve } from '@app/api/queries/post-retrieve';
+import { RetrievePostHandler } from '@app/api/queries/post-retrieve';
 import { RegisterUserHandler } from '@app/api/commands/register-user-handler';
 import { UpdateUserHandler } from '@app/api/commands/update-user-handler';
 import { AuthUserHandler } from '@app/api/commands/auth-user-handler';
@@ -11,6 +11,7 @@ import { AllCategoriesQuery } from '@app/api/queries/all-categories-query';
 import { StorePostHandler } from '@app/api/commands/store-post-handler';
 import { CategoryRetrieve } from '@app/api/queries/category-retrieve';
 import { UpdatePostHandler } from '@app/api/commands/update-post-handler';
+import { RemovePostHandler } from '@app/api/commands/remove-post-handler';
 
 const handlers = {
   country: {
@@ -20,7 +21,8 @@ const handlers = {
     store: StorePostHandler,
     update: UpdatePostHandler,
     query: { 'get-all': AllPostsQuery },
-    retrieve: PostRetrieve,
+    retrieve: RetrievePostHandler,
+    remove: RemovePostHandler,
   },
   category: { retrieve: CategoryRetrieve, query: { 'get-all': AllCategoriesQuery } },
   user: {

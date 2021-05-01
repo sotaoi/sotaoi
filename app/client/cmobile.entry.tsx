@@ -42,6 +42,7 @@ const App = (): React.ReactElement => {
       createStore,
       Loading,
       ErrorComponent,
+      true,
     )
       .then(() => {
         setState({ flag: 'started', error: null });

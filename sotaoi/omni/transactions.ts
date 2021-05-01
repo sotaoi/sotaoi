@@ -1,4 +1,6 @@
 import { Artifacts, AuthRecord, RecordEntry, Artifact } from '@sotaoi/omni/artifacts';
+import { SweetAlertResult, Awaited } from '@sotaoi/omni/definitions/notification-interface';
+import { Notification } from '@sotaoi/omni/contracts/notification';
 
 abstract class ResponseToolkit<ResponseObject> {
   abstract response: (value: any) => ResponseObject;
@@ -395,6 +397,63 @@ type QueryAction = (
 
 //
 
+class ActionConclusion<T = any> {
+  protected _result: CommandResult | QueryResult | AuthResult | TaskResult;
+  protected notification: Notification;
+  protected pushRoute: (to: string, goTop?: boolean) => void;
+  constructor(
+    result: CommandResult | QueryResult | AuthResult | TaskResult,
+    notification: Notification,
+    pushRoute: (to: string, goTop?: boolean) => void,
+  ) {
+    this._result = result;
+    this.notification = notification;
+    this.pushRoute = pushRoute;
+  }
+  public result(): CommandResult | QueryResult | AuthResult | TaskResult {
+    return this._result;
+  }
+  public commandResult(): CommandResult {
+    if (!(this._result instanceof CommandResult)) {
+      throw new Error('command result is corrupt');
+    }
+    return this._result;
+  }
+  public queryResult(): QueryResult {
+    if (!(this._result instanceof QueryResult)) {
+      throw new Error('query result is corrupt');
+    }
+    return this._result;
+  }
+  public authResult(): AuthResult {
+    if (!(this._result instanceof AuthResult)) {
+      throw new Error('query result is corrupt');
+    }
+    return this._result;
+  }
+  public taskResult(): TaskResult {
+    if (!(this._result instanceof TaskResult)) {
+      throw new Error('query result is corrupt');
+    }
+    return this._result;
+  }
+  public async notify(nextRoute: null | string = null): Promise<void> {
+    await this.notification.process(this._result);
+    if (!nextRoute) {
+      return;
+    }
+    this.pushRoute(nextRoute);
+  }
+  public xnotify(): Promise<SweetAlertResult<Awaited<T>>> {
+    return this.notification.process(this._result);
+  }
+  public successful(): boolean {
+    return this._result.success;
+  }
+}
+
+//
+
 export {
   Command,
   ErrorResult,
@@ -414,6 +473,7 @@ export {
   PlistFilters,
   SlistFilters,
   RequestAbortHandlerAbstract,
+  ActionConclusion,
 };
 export type { RetrieveAction, QueryAction };
 export { Model as DbModel } from 'mongoose';

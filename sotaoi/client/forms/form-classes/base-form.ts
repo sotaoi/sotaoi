@@ -1,7 +1,7 @@
 import React from 'react';
 import { BaseField, FieldConstructor } from '@sotaoi/client/forms/fields/base-field';
 import { assignFields } from '@sotaoi/client/forms/fields/assign-fields';
-import { Payload, CommandResult, AuthResult, TaskResult } from '@sotaoi/omni/transactions';
+import { Payload, CommandResult, AuthResult, TaskResult, ActionConclusion } from '@sotaoi/omni/transactions';
 import { AuthRecord, Artifacts } from '@sotaoi/omni/artifacts';
 import { BaseInput, FormValidations } from '@sotaoi/omni/input';
 import { Helper } from '@sotaoi/client/helper';
@@ -48,6 +48,7 @@ abstract class BaseForm {
 
   public destroy: () => void;
 
+  public static NOTIFY = false;
   public static instances: { [key: string]: any } = {};
   public static formSerials: { [key: string]: string } = {};
 
@@ -180,6 +181,7 @@ abstract class BaseForm {
 
   public async action(type: 'store' | 'update' | 'auth' | 'task'): Promise<void> {
     try {
+      let conclusion: ActionConclusion;
       let commandOutput: CommandResult;
       let authOutput: AuthResult;
       let taskOutput: TaskResult;
@@ -210,7 +212,7 @@ abstract class BaseForm {
           payloadInit = Helper.flatten(
             Helper.iterate(Helper.clone(this._getFormState().getFields()), '', Output.getFieldTransformer(false)),
           );
-          commandOutput = await Action.store(
+          conclusion = await Action.store(
             // access token
             store().getAccessToken(),
             // artifacts
@@ -222,6 +224,8 @@ abstract class BaseForm {
             // payload
             new Payload(payloadInit),
           );
+          BaseForm.NOTIFY && (await conclusion.notify());
+          commandOutput = conclusion.commandResult();
           break;
         case type === 'update':
           payloadInit = Helper.flatten(
@@ -230,7 +234,7 @@ abstract class BaseForm {
           if (!this.uuid) {
             throw new Error('something went wrong - update form is missing uuid');
           }
-          commandOutput = await Action.update(
+          conclusion = await Action.update(
             // access token
             store().getAccessToken(),
             // artifacts
@@ -244,6 +248,8 @@ abstract class BaseForm {
             // payload
             new Payload(payloadInit),
           );
+          BaseForm.NOTIFY && (await conclusion.notify());
+          commandOutput = conclusion.commandResult();
           break;
         case type === 'auth':
           payloadInit = Helper.flatten(
@@ -252,7 +258,7 @@ abstract class BaseForm {
           if (!this.strategy) {
             throw new Error('something went wrong - auth form is missing strategy');
           }
-          authOutput = await Action.auth(
+          conclusion = await Action.auth(
             // artifacts
             this.artifacts,
             // repository
@@ -262,6 +268,8 @@ abstract class BaseForm {
             // payload
             new Payload(payloadInit),
           );
+          BaseForm.NOTIFY && (await conclusion.notify());
+          authOutput = conclusion.authResult();
 
           if (!authOutput.success) {
             this.formValidation.setErrorResult(authOutput.getError());
@@ -290,7 +298,7 @@ abstract class BaseForm {
           if (!this.task) {
             throw new Error('something went wrong - no task in form');
           }
-          taskOutput = await Action.task(
+          conclusion = await Action.task(
             // access token
             store().getAccessToken(),
             // artifacts
@@ -304,6 +312,8 @@ abstract class BaseForm {
             // payload
             new Payload(payloadInit),
           );
+          BaseForm.NOTIFY && (await conclusion.notify());
+          taskOutput = conclusion.taskResult();
 
           if (!taskOutput.success) {
             this.formValidation.setErrorResult(taskOutput.getError());

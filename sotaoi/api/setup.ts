@@ -68,10 +68,17 @@ class Setup {
   }
   public static getRetrieveHandler(repository: string, handler: ResponseToolkit): RetrieveHandler {
     const retrieveHandler = this.handlers[repository].retrieve;
-    if (!RetrieveHandler) {
+    if (!retrieveHandler) {
       throw new Error('no handler found');
     }
     return new (retrieveHandler as any)(handler);
+  }
+  public static getRemoveHandler(repository: string, handler: ResponseToolkit): RemoveHandler {
+    const removeHandler = this.handlers[repository].remove;
+    if (!removeHandler) {
+      throw new Error('no handler found');
+    }
+    return new (removeHandler as any)(handler);
   }
   // get remove handler
   public static getAuthHandler(repository: string, handler: ResponseToolkit): AuthHandler {

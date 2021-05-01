@@ -76,6 +76,34 @@ class LoggerService extends Logger {
     });
   }
 
+  public estack(err: any): void {
+    if (this.suppressed || this.disabledLogging) {
+      return;
+    }
+
+    this.opLogfile();
+    const text = err && err.stack ? err.stack : typeof err === 'string' ? err : JSON.stringify(err);
+    let header = new Date().toISOString().substr(0, 19).replace('T', ' ');
+    header = `[${header}] ERROR:`;
+    error(chalk.red(header, text));
+    const flatText = typeof text === 'object' ? stringify(text) : String(text);
+    fs.appendFileSync(this.logfile, header + ' ' + flatText + '\n\n');
+  }
+
+  public wstack(err: any): void {
+    if (this.suppressed || this.disabledLogging) {
+      return;
+    }
+
+    this.opLogfile();
+    const text = err && err.stack ? err.stack : typeof err === 'string' ? err : JSON.stringify(err);
+    let header = new Date().toISOString().substr(0, 19).replace('T', ' ');
+    header = `[${header}] WARNING:`;
+    error(chalk.yellow(header, text));
+    const flatText = typeof text === 'object' ? stringify(text) : String(text);
+    fs.appendFileSync(this.logfile, header + ' ' + flatText + '\n\n');
+  }
+
   public suppress(): void {
     this.suppressed = true;
   }

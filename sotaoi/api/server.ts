@@ -32,7 +32,6 @@ const HapiCors = require('hapi-cors');
 class Server {
   public static async init(
     noServer: boolean,
-    appInfo: AppInfo,
     appKernel: AppKernel,
     handlers: { [key: string]: RepositoryHandlers },
     models: { [key: string]: Model },

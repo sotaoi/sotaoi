@@ -25,7 +25,7 @@ class CategoryRetrieve extends RetrieveHandler {
         null,
       );
     } catch (err) {
-      logger().error(err && err.stack ? err.stack : err);
+      logger().estack(err);
       return new RetrieveResult(400, 'Error', 'Retrieve failed', null, null);
     }
   }

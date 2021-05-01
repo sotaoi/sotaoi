@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 
 abstract class Logger {
-  protected logfile: string = path.resolve('./app-log.log');
+  protected logfile: string = path.resolve('./app.log');
   protected disabledLogging: boolean;
   protected suppressed = false;
 
@@ -26,9 +26,9 @@ abstract class Logger {
   abstract info(...textArr: any[]): void;
   abstract warn(...textArr: any[]): void;
   abstract error(...textArr: any[]): void;
+  abstract estack(err: any): void;
   abstract suppress(): void;
   abstract unsuppress(): void;
 }
 
 export { Logger };
-export * from '@sotaoi/omni/contracts';

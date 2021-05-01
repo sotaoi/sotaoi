@@ -25,6 +25,7 @@ const main = async (): Promise<void> => {
     createStore,
     Loading,
     ErrorComponent,
+    true,
   );
 };
 

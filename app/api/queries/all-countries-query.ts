@@ -22,7 +22,7 @@ class AllCountriesQuery extends FlistQueryHandler {
         null,
       );
     } catch (err) {
-      logger().error(err && err.stack ? err.stack : err);
+      logger().estack(err);
       return new QueryResult(400, 'Error', 'Query failed', null, null);
     }
   }

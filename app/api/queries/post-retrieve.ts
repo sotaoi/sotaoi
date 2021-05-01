@@ -5,7 +5,7 @@ import { GenericModel } from '@sotaoi/api/db/generic-model';
 import { UserModel } from '@app/api/models/user-model';
 import { logger } from '@sotaoi/api/logger';
 
-class PostRetrieve extends RetrieveHandler {
+class RetrievePostHandler extends RetrieveHandler {
   public async model(): Promise<GenericModel> {
     return new GenericModel('post');
   }
@@ -36,10 +36,10 @@ class PostRetrieve extends RetrieveHandler {
         null,
       );
     } catch (err) {
-      logger().error(err && err.stack ? err.stack : err);
+      logger().estack(err);
       return new RetrieveResult(400, 'Error', 'Retrieve failed', null, null);
     }
   }
 }
 
-export { PostRetrieve };
+export { RetrievePostHandler };

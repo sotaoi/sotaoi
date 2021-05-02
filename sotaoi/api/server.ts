@@ -26,6 +26,7 @@ import socketio from 'socket.io';
 import express from 'express';
 import https from 'https';
 import { Model } from '@sotaoi/api/db/model';
+import { logger } from '@sotaoi/api/logger';
 
 const HapiCors = require('hapi-cors');
 
@@ -34,7 +35,7 @@ class Server {
     noServer: boolean,
     appKernel: AppKernel,
     handlers: { [key: string]: RepositoryHandlers },
-    models: { [key: string]: Model },
+    models: Model[],
     forms: { [key: string]: { [key: string]: () => Promise<FormValidations> } },
     translateAccessToken: (
       handler: ResponseToolkit,
@@ -51,7 +52,7 @@ class Server {
       AuthHandler.setDeauth(deauth);
 
       appKernel.bootstrap();
-      await Setup.init(handlers, models, forms);
+      await Setup.init(handlers, forms);
 
       if (noServer) {
         return;
@@ -90,6 +91,8 @@ class Server {
 
       await server.register([Inert, Vision, HapiCors]);
 
+      models.map((model) => logger().notice(`Acknowleding model ${model.repository()}`));
+
       const expressApp = express();
       const httpsServer = https.createServer(
         {
@@ -97,17 +100,20 @@ class Server {
         },
         expressApp,
       );
+
+      // todo medium prio: #socket.io [[
       const io = (socketio as any)(httpsServer);
       io.on('connection', (socket: any) => {
         // do nothing
       });
-      setTimeout(
-        () => io.emit('db.records.update:{"repository":"user","uuid":"5e919eef-3f8c-4672-9005-2d580f68bd53"}', 'yo'),
-        2000,
-      );
+      // setTimeout(
+      //   () => io.emit('db.records.update:{"repository":"user","uuid":"5e919eef-3f8c-4672-9005-2d580f68bd53"}', 'yo'),
+      //   2000,
+      // );
       httpsServer.listen(3001, () => {
         console.info('listening on *:3001 (socket.io)');
       });
+      // ]]
 
       await server.start();
       app().get<Logger>(Logger).info(`Hapi server running on ${server.info.uri}`);

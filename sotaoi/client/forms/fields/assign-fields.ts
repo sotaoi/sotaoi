@@ -55,7 +55,7 @@ const assignFields = (
       () => form.rerender,
       constructor.value,
     ) as BaseField<any>;
-    // !! do a test here and see if constructor.name works on prod env
+    // todo mediumprio: do a test here and see if constructor.name works on prod env
   });
 
   return assignedFields;

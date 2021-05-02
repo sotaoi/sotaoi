@@ -268,7 +268,9 @@ abstract class BaseForm {
             // payload
             new Payload(payloadInit),
           );
-          BaseForm.NOTIFY && (await conclusion.notify());
+          // no await notify here
+          // BaseForm.NOTIFY && (await conclusion.notify());
+          BaseForm.NOTIFY && conclusion.notify();
           authOutput = conclusion.authResult();
 
           if (!authOutput.success) {

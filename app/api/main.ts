@@ -5,9 +5,7 @@ import { Server } from '@sotaoi/api/server';
 import { handlers } from '@app/api/handlers';
 import * as forms from '@app/omni/forms';
 import { ApiInit } from '@app/api/api-init';
-import { AddressModel } from '@app/api/models/address-model';
 import { UserModel } from '@app/api/models/user-model';
-import { CountryModel } from '@app/api/models/country-model';
 import { connect } from '@sotaoi/api/db';
 
 let serverInitInterval: any = null;
@@ -44,11 +42,7 @@ const main = async (noServer: boolean): Promise<void> => {
   const deauth = ApiInit.deauth;
 
   // models
-  const models = {
-    address: new AddressModel(),
-    country: new CountryModel(),
-    user: new UserModel(),
-  };
+  const models = [new UserModel()];
 
   await connect();
 

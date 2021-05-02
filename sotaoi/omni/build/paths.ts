@@ -9,7 +9,7 @@ const resolveRoot = (relativePath: any): any => path.resolve(rootPath, relativeP
 const paths = {
   // client
   apiEntry: resolveRoot('./app/api/api.entry.ts'),
-  cwebDevcomponent: resolveRoot('./app/client/cweb.devcomponent.tsx'),
+  main: resolveRoot('./app/client/main.tsx'),
   clientBuild: resolveRoot('./public/build'),
   clientHtml: resolveRoot('./public/index.html'),
   appApiPath: resolveRoot('./app/api'),

@@ -27,11 +27,9 @@ class Setup {
 
   public static async init(
     handlers: { [key: string]: RepositoryHandlers },
-    models: { [key: string]: Model },
     formSet: { [key: string]: { [key: string]: () => Promise<FormValidations> } },
   ): Promise<void> {
     this.handlers = handlers;
-    this.models = models;
     this.forms = {};
     for (const [repository, form] of Object.entries(formSet)) {
       this.forms[repository] = {};

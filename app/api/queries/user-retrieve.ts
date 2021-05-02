@@ -11,11 +11,13 @@ class UserRetrieve extends RetrieveHandler {
   public async handle(retrieve: Retrieve): Promise<RetrieveResult> {
     try {
       const user = await new UserModel().db().findOne({ uuid: retrieve.uuid }).lean();
+
       if (!user) {
         const error = new Error('Retrieve failed');
         error.message = 'Not found';
         throw error;
       }
+
       const result = new RetrieveResult(
         200,
         'Retrieve success',
@@ -23,9 +25,7 @@ class UserRetrieve extends RetrieveHandler {
         await this.transform(user, retrieve.variant),
         null,
       );
-      if (!user.address) {
-        throw new Error('failed to fetch address for user');
-      }
+
       return result;
     } catch (err) {
       logger().estack(err);

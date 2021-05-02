@@ -11,3 +11,6 @@
 /php/node_modules
 /php/vendor
 /storage/framework
+
+/app/example
+/sotaoi/example

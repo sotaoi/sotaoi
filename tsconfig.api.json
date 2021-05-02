@@ -3,6 +3,7 @@
   "exclude": [
     "./android",
     "./app/client",
+    "./app/example",
     "./babel.config.js",
     "./greenlock.js",
     "./index.js",

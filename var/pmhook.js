@@ -15,6 +15,14 @@ const main = async () => {
 
   // @app {
 
+  !fs.existsSync(path.resolve(__dirname, '../sotaoi/omni/app-package.json')) &&
+    fs.symlinkSync(
+      path.resolve(__dirname, '../package.json'),
+      path.resolve(__dirname, '../sotaoi/omni/app-package.json'),
+    );
+  !fs.existsSync(path.resolve(__dirname, '../app/example')) &&
+    fs.symlinkSync(path.resolve(__dirname, '../sotaoi/example'), path.resolve(__dirname, '../app/example'));
+
   const appSymlinkPath = path.resolve(__dirname, '../node_modules/@app');
   const sotaoiSymlinkPath = path.resolve(__dirname, '../node_modules/@sotaoi');
 

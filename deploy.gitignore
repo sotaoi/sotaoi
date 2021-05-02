@@ -1,6 +1,7 @@
 !.gitkeep
 
 # app
+/app/example
 /todo.txt
 /node_modules
 /var/build/release

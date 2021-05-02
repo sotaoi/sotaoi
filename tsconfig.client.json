@@ -3,6 +3,7 @@
   "exclude": [
     "./android",
     "./app/api",
+    "./app/example",
     "./public/build",
     "./babel.config.js",
     "./greenlock.js",

@@ -1,0 +1,21 @@
+{
+  "name": "%{APP_NAME}%",
+  "bundleId": "%{BUNDLE_ID}%",
+  "packageName": "%{PACKAGE_NAME}%",
+  "localDomain": "%{LOCAL_DOMAIN}%",
+  "localDomainAlias": "%{LOCAL_DOMAIN_ALIAS}%",
+  "devDomain": "%{DEV_DOMAIN}%",
+  "devDomainAlias": "%{DEV_DOMAIN_ALIAS}%",
+  "stageDomain": "%{STAGE_DOMAIN}%",
+  "stageDomainAlias": "%{STAGE_DOMAIN_ALIAS}%",
+  "prodDomain": "%{PROD_DOMAIN}%",
+  "prodDomainAlias": "%{PROD_DOMAIN_ALIAS}%",
+  "mobileBundleLocation": "%{MOBILE_BUNDLE_LOCATION}%",
+  "translationsUrl": "",
+  "privacyPolicyUrl": "https://www.dummies.com/privacy-policy",
+  "termsOfUseUrl": "https://www.termsandcondiitionssample.com",
+  "streamingBaseUrl": "https://%{DEV_DOMAIN}%",
+  "streamingPort": "3001",
+  "greenlockExecution": "%{GREENLOCK_EXECUTION}%",
+  "sslMaintainer": "%{SSL_MAINTAINER}%"
+}

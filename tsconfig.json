@@ -22,6 +22,7 @@
   },
   "exclude": [
     "./android",
+    "./app/example",
     "./public/build",
     "./babel.config.js",
     "./greenlock.js",

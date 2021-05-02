@@ -23,7 +23,7 @@
   },
   "exclude": [
     "./android",
-    "./public/build",
+    "./app/example",
     "./babel.config.js",
     "./greenlock.js",
     "./index.js",
@@ -33,6 +33,7 @@
     "./node_modules",
     "./php",
     "./postcss.config.js",
+    "./public/build",
     "./tailwind.config.js",
     "./sotaoi/client/mocks",
     "./start.js",

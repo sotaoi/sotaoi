@@ -30,7 +30,7 @@ class AuthUserForm extends ViewComponent<AuthUserFormProps> {
 
     React.useEffect(() => {
       return (): void => {
-        Form.destroy();
+        Form.unmount();
       };
     }, []);
 

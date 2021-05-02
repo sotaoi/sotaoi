@@ -38,6 +38,8 @@ abstract class BaseForm {
   public fields: { [key: string]: BaseField<any> };
   public formValidation: InputValidator<(key: string) => void | null | BaseInput<any, any>>;
 
+  public unmounted = false;
+
   public setState: <StateType = { [key: string]: any }>(state: StateType) => void;
   public getState: () => { [key: string]: any };
 
@@ -138,6 +140,7 @@ abstract class BaseForm {
   }
 
   public init = (initialState: { [key: string]: any } = {}): void => {
+    this.unmounted = false;
     if (this.initialState === null || this.state === null) {
       this.initialState = Helper.clone({
         ...initialState,
@@ -156,6 +159,9 @@ abstract class BaseForm {
     this.getState = (): { [key: string]: any } => state;
 
     this.rerender = (force = false): void => {
+      if (this.unmounted) {
+        return;
+      }
       state.form = this._getFormState();
       if (force) {
         _setState({ ...state });
@@ -163,6 +169,11 @@ abstract class BaseForm {
       }
       _setState(state);
     };
+  };
+
+  public unmount = (): void => {
+    this.destroy();
+    this.unmounted = true;
   };
 
   //

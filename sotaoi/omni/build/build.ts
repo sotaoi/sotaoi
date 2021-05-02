@@ -49,7 +49,6 @@ const main = async (): Promise<void> => {
   });
 
   // copy other files
-  fs.renameSync(path.resolve(paths.appBuild, 'deploy.gitignore'), path.resolve(paths.appBuild, '.gitignore'));
   Helper.copyFileSync(path.resolve('./tsconfig.build.json'), path.resolve(paths.appBuild, 'tsconfig.json'));
   Helper.copyFileSync(path.resolve('./var/pmhook.js'), path.resolve(paths.appBuild, 'var', 'pmhook.js'));
   Helper.copyFileSync(path.resolve('./start.js'), path.resolve(paths.appBuild, 'start.js'));

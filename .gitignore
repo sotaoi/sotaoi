@@ -11,6 +11,7 @@
 /node_modules
 /sotaoi/api/certs/*
 !/sotaoi/api/certs/.gitkeep
+/sotaoi/omni/app-package.json
 /todo.txt
 /var/build/release
 /var/build/sdk

@@ -18,7 +18,6 @@ import { taskRoute } from '@sotaoi/api/routes/task-route';
 import { storageRoute } from '@sotaoi/api/routes/storage-route';
 import Inert from '@hapi/inert';
 import Vision from '@hapi/vision';
-import { AppInfo } from '@sotaoi/omni/state';
 import { Logger } from '@sotaoi/api/contracts';
 import { AuthRecord } from '@sotaoi/omni/artifacts';
 import { AuthHandler } from '@sotaoi/api/commands/auth-handler';

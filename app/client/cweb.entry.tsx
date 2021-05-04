@@ -1,5 +1,5 @@
 require('dotenv').config();
-
+//
 import fs from 'fs';
 import path from 'path';
 import webpack from 'webpack';
@@ -9,11 +9,6 @@ import { paths } from '@sotaoi/omni/build/paths';
 import yargs from 'yargs';
 import express from 'express';
 import https from 'https';
-
-let serverInitInterval: any = null;
-let serverInitTries = 0;
-const PORT = '8080';
-const HOST = '0.0.0.0';
 
 const main = async (): Promise<void> => {
   const argv = yargs
@@ -28,6 +23,16 @@ const main = async (): Promise<void> => {
   if (!argv.servebuild) {
     throw new Error('--servebuild is required (--servebuild yes / --servebuild no)');
   }
+
+  if (argv.servebuild === 'main') {
+    //
+    return;
+  }
+
+  let serverInitInterval: any = null;
+  let serverInitTries = 0;
+  const PORT = '8080';
+  const HOST = '0.0.0.0';
 
   clearTimeout(serverInitInterval);
   const keyPath = path.resolve(process.env.SSL_KEY || '');

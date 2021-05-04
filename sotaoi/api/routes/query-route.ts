@@ -1,5 +1,5 @@
 import { Request, ServerRoute, ResponseToolkit, ResponseObject } from '@hapi/hapi';
-import { payloadOptions } from '@sotaoi/api/routes/payload-options';
+import { payloadOptions } from '@sotaoi/api/routes/generic/payload-options';
 import { ErrorResult } from '@sotaoi/omni/transactions';
 import { Output } from '@sotaoi/api/output';
 import { logger } from '@sotaoi/api/logger';

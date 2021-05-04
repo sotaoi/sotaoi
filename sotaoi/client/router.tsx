@@ -8,6 +8,8 @@ import { MobileComponent } from '@sotaoi/client/router/component/mobile.componen
 import { Store as ReduxStore } from 'redux';
 import { ReactReduxContextValue } from 'react-redux';
 import { controlPanel } from '@sotaoi/client/control-panel';
+import { ErrorComponent } from '@sotaoi/client/control-panel/components/generic/error-component';
+import { InstallLayout } from '@sotaoi/client/control-panel/components/install-layout/install-layout';
 
 interface RouterProps {
   config: RouterPropsConfig;
@@ -15,6 +17,7 @@ interface RouterProps {
   reduxStore?: ReduxStore<any, any>;
   reduxProviderContext?: React.Context<ReactReduxContextValue>;
 }
+
 const Router: React.FunctionComponent<RouterProps> = (props: RouterProps) => {
   Navigation.init(
     props.config,
@@ -51,10 +54,39 @@ const redirect = (to: string): void => {
   RouteChange.redirect(to);
 };
 
-const routes = (controlPanelPrefix: string, routerProps: RouterProps): RouterProps => {
+const routes = (controlPanelPrefix: string, routes: RouterProps): RouterProps => {
+  //
+
+  const isInstalled = false;
+  if (!isInstalled) {
+    routes = {
+      config: {
+        install: {
+          prefix: '/',
+          layout: InstallLayout,
+          routes: {
+            '/': () => (
+              <section className={'p-4'}>
+                <h4>Hello</h4>
+                <hr />
+                <p>Welcome</p>
+              </section>
+            ),
+          },
+          condition: () => true,
+        },
+      },
+      errorComponent: ErrorComponent,
+    };
+    return routes;
+  }
+
   const camelizedControlPanelPrefix = Helper.camelizeKebab(controlPanelPrefix);
   controlPanelPrefix.charAt(0) !== '/' && (controlPanelPrefix = '/' + controlPanelPrefix);
-  routerProps.config[camelizedControlPanelPrefix] = {
+  controlPanelPrefix.charAt(controlPanelPrefix.length - 1) === '/' &&
+    (controlPanelPrefix = controlPanelPrefix.substr(0, controlPanelPrefix.length - 1));
+
+  routes.config[camelizedControlPanelPrefix] = {
     prefix: controlPanelPrefix,
     layout: (props: LayoutProps): null | React.ReactElement => controlPanel().getControlPanelLayout(props),
     routes: {
@@ -66,7 +98,8 @@ const routes = (controlPanelPrefix: string, routerProps: RouterProps): RouterPro
       return Helper.isWeb();
     },
   };
-  return routerProps;
+
+  return routes;
 };
 
 export { Router, pushRoute, replaceRoute, redirect, routes };

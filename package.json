@@ -14,7 +14,7 @@
     "start:api:only": "cross-env NODE_ENV=development PORT=3000 NODE_TLS_REJECT_UNAUTHORIZED=0 nodemon --config ./sotaoi/api/cfg-nodemon-api.json",
     "start:api": "concurrently --kill-others \"npm run start:mongo\" \"npm run start:api:only\"",
     "start:php": "cross-env NODE_ENV=development node ./php/var/phpprx.js",
-    "start:cweb": "cross-env NODE_ENV=development ts-node ./app/client/cweb.entry.ts --servebuild no --info ./app/omni/app-info.json",
+    "start:cweb": "cross-env NODE_ENV=development ts-node ./app/client/cweb.entry.tsx --servebuild no --info ./app/omni/app-info.json",
     "start:crns": "react-native start > ./rn.log 2>&1 & tail -f ./rn.log",
     "start:candroid": "node ./var/build/run-android.js",
     "start:cios": "node ./var/build/run-ios.js",

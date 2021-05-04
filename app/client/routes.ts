@@ -1,6 +1,6 @@
 import { store } from '@sotaoi/client/store';
 //
-import { routes, RouterProps, redirect } from '@sotaoi/client/router';
+import { routes as clientRoutes, RouterProps, redirect } from '@sotaoi/client/router';
 import { ErrorComponent } from '@app/client/components/generic/error-component';
 import { HomeRoute } from '@app/client/components/gate-layout/routes/home-route';
 // gate
@@ -24,7 +24,7 @@ import { HomeUserRoute } from '@app/client/components/main-layout/routes/home-us
 //   }
 // });
 
-const routerProps: RouterProps = routes('s-control-panel', {
+const routes: RouterProps = clientRoutes('s-control-panel', {
   config: {
     gateLayout: {
       prefix: '/gate',
@@ -67,4 +67,4 @@ const routerProps: RouterProps = routes('s-control-panel', {
   // reduxStore,
 });
 
-export { routerProps };
+export { routes };

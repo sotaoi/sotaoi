@@ -19,7 +19,7 @@ const MainLayout = (props: LayoutProps): React.ReactElement => {
             'flex text-white items-center justify-between flex-wrap bg-teal py-4 px-6 bg-black shadow sm:items-baseline w-full'
           }
         >
-          <div className="mt-1 ml-2 mb-0 sm:mb-0">
+          <div className={'mt-1 ml-2 mb-0 sm:mb-0'}>
             <span className={'text-2xl no-underline text-grey-darkest hover:text-blue-dark'}>
               <Link to={'/'}>{t('app.general.welcome')}</Link>
             </span>

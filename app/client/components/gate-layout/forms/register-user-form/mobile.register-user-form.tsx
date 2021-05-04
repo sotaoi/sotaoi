@@ -1,6 +1,4 @@
 import React from 'react';
-import { Link } from '@sotaoi/client/router';
-import { Helper } from '@sotaoi/client/helper';
 import { StoreForm } from '@sotaoi/client/forms/form-classes/store-form';
 import { BaseField, SingleCollectionField } from '@sotaoi/client/forms';
 // import { RecordEntry } from '@sotaoi/omni/artifacts';
@@ -21,8 +19,6 @@ const MobileRegisterUserForm = (props: { form: StoreForm }): null | React.ReactE
 
   return (
     <View style={{ marginLeft: 20 }}>
-      <Link to={'/gate/register/user/' + Helper.encodeSegment({ code: 'ro' })}>filter test</Link>
-
       <Form.FormComponent>
         <View style={{ marginTop: 20 }}>
           {fields.email.wasTouched() &&

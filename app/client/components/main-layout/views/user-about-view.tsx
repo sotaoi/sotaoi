@@ -44,7 +44,7 @@ class UserAboutView extends ViewComponent<UserViewProps> {
                       <div className={'relative'}>
                         {avatar && (
                           <img
-                            alt="..."
+                            alt={'...'}
                             src={`${avatar}`}
                             className={
                               'shadow-xl rounded-full h-auto w-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16'

@@ -1,10 +1,8 @@
 import React from 'react';
-import { Link } from '@sotaoi/client/router';
-import { Helper } from '@sotaoi/client/helper';
 import { StoreForm } from '@sotaoi/client/forms/form-classes/store-form';
 // import { BaseField, SingleCollectionField } from '@sotaoi/client/forms';
 import { BaseField } from '@sotaoi/client/forms';
-import { RecordEntry } from '@sotaoi/omni/artifacts';
+// import { RecordEntry } from '@sotaoi/omni/artifacts';
 import { FileField } from '@sotaoi/client/forms/fields/file-field';
 
 interface FieldState {
@@ -22,9 +20,6 @@ const WebRegisterUserForm = (props: { form: StoreForm }): null | React.ReactElem
 
   return (
     <section style={{ margin: 20 }}>
-      <Link to={'/gate/register/user/' + Helper.encodeSegment({ code: 'ro' })}>filter test</Link>
-      <br />
-      <br />
       <div className={'w-full max-w-md m-auto bg-white-100 shadow-md rounded p-5'}>
         <h1 className={'text-center sm:text-3xl text-2xl font-medium title-font mb-4 text-indigo-900'}>Sign Up</h1>
 

@@ -14,10 +14,12 @@ const HomeRoute = (): null | React.ReactElement => {
           {/* <span id={'blackOverlay'} className={'w-full h-full absolute opacity-20 bg-white'}></span> */}
           {/* <style>{@import `url('https://fonts.googleapis.com/css2?family=Lusitana&display=swap)`}</style> */}
           <section
-            className="font-sans h-screen w-full bg-opacity-50 bg-cover text-center flex flex-col items-center justify-center"
+            className={
+              'font-sans h-screen w-full bg-opacity-50 bg-cover text-center flex flex-col items-center justify-center'
+            }
             style={{ backgroundImage: 'url(banner-background.jpg)' }}
           >
-            <h3 className="text-gray mx-auto max-w-lg overlay mt-4 font-normal text-5xl leading-norma cover-fulll">
+            <h3 className={'text-gray mx-auto max-w-lg overlay mt-4 font-normal text-5xl leading-norma cover-fulll'}>
               Read stories
             </h3>
           </section>

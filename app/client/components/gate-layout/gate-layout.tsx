@@ -9,21 +9,21 @@ const GateLayout = (props: LayoutProps): React.ReactElement => {
       <section>
         <nav
           className={
-            'font-sans text-white flex mt-0 ml-0 mb-0 flex-col sm:flex-row sm:text-left sm:justify-between py-2 px-6 bg-black shadow sm:items-baseline w-full'
+            'font-sans text-white flex flex-col sm:flex-row sm:text-left sm:justify-between py-2 px-6 bg-black shadow sm:items-baseline w-full'
           }
         >
-          <div className="mb-2 sm:mb-0">
-            <span className={'text-2xl no-underline text-grey-darkest hover:text-blue-dark'}>
+          <div className={'mb-2 sm:mb-0'}>
+            <span className={'mx-2 text-2xl no-underline text-grey-darkest hover:text-blue-dark'}>
               <Link to={'/'}>Alarmer</Link>
             </span>
             <span
               className={
-                'bg-blue-700 hover:bg-pink-700 text-white font-bold py-2 px-4 mb-6 rounded no-underline text-grey-darkest hover:text-blue-dark ml-2'
+                'mx-2 py-2 px-4 bg-blue-700 hover:bg-pink-700 text-white font-bold mb-6 rounded no-underline text-grey-darkest hover:text-blue-dark'
               }
             >
               <Link to={'/gate/register/user'}>Sign Up</Link>
             </span>
-            <span className={'text-lg no-underline text-grey-darkest hover:text-blue-dark ml-2'}>
+            <span className={'mx-2 text-lg no-underline text-grey-darkest hover:text-blue-dark'}>
               <Link to={'/gate/auth/user'}>Login</Link>
             </span>
           </div>

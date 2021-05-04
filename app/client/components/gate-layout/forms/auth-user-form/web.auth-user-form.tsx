@@ -17,7 +17,7 @@ const WebAuthUserForm = (props: { form: AuthForm }): null | React.ReactElement =
     <section style={{ margin: 20 }}>
       <Form.FormComponent>
         {/*  */}
-        <div className="w-full max-w-xs m-auto bg-gray-100 rounded p-5">
+        <div className={'w-full max-w-xs m-auto bg-gray-100 rounded p-5'}>
           <h1 className={'text-center sm:text-3xl text-2xl font-medium title-font mb-4 text-indigo-900'}>LOGIN</h1>
 
           {/* email */}

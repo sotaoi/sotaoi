@@ -49,7 +49,7 @@ const HomeUserRoute = (): null | React.ReactElement => {
                       <div className={'w-full lg:w-12/12 px-4 lg:order-7 flex justify-center'}>
                         <div className={'relative'}>
                           <img
-                            alt="..."
+                            alt={'...'}
                             src={'profile.jpg'}
                             className={
                               'shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16'

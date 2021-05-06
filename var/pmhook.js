@@ -13,13 +13,14 @@ const main = async () => {
     .help()
     .alias('help', 'h').argv;
 
+  !fs.existsSync(path.resolve(__dirname, '../sotaoi/omni/bundle.json')) &&
+    fs.writeFileSync(
+      path.resolve(__dirname, '../sotaoi/omni/bundle.json'),
+      JSON.stringify({ installed: false }, null, 2),
+    );
+
   // @app {
 
-  !fs.existsSync(path.resolve(__dirname, '../sotaoi/omni/app-package.json')) &&
-    fs.symlinkSync(
-      path.resolve(__dirname, '../package.json'),
-      path.resolve(__dirname, '../sotaoi/omni/app-package.json'),
-    );
   !fs.existsSync(path.resolve(__dirname, '../app/example')) &&
     fs.symlinkSync(path.resolve(__dirname, '../sotaoi/example'), path.resolve(__dirname, '../app/example'));
 
@@ -44,16 +45,18 @@ const main = async () => {
 
   // ensure symlinks {
 
+  !fs.existsSync(path.resolve(__dirname, '../sotaoi/omni/app-package.json')) &&
+    fs.symlinkSync(
+      path.resolve(__dirname, '../package.json'),
+      path.resolve(__dirname, '../sotaoi/omni/app-package.json'),
+    );
+
   if (!fs.existsSync(appSymlinkPath)) {
     createAppSymlinks();
   }
   if (!fs.existsSync(sotaoiSymlinkPath)) {
     createSotaoiSymlinks();
   }
-
-  fs.existsSync(path.resolve(`./sotaoi/omni/app-package.json`)) &&
-    fs.unlinkSync(path.resolve(`./sotaoi/omni/app-package.json`));
-  fs.symlinkSync('../../package.json', path.resolve(`./sotaoi/omni/app-package.json`));
 
   fs.writeFileSync(
     path.resolve('./.greenlockrc'),

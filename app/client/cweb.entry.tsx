@@ -24,11 +24,6 @@ const main = async (): Promise<void> => {
     throw new Error('--servebuild is required (--servebuild yes / --servebuild no)');
   }
 
-  if (argv.servebuild === 'main') {
-    //
-    return;
-  }
-
   let serverInitInterval: any = null;
   let serverInitTries = 0;
   const PORT = '8080';

@@ -10,6 +10,7 @@ import { ReactReduxContextValue } from 'react-redux';
 import { controlPanel } from '@sotaoi/client/control-panel';
 import { ErrorComponent } from '@sotaoi/client/control-panel/components/generic/error-component';
 import { InstallLayout } from '@sotaoi/client/control-panel/components/install-layout/install-layout';
+import { InstallForm } from '@sotaoi/client/control-panel/components/install-layout/forms/install-form';
 
 interface RouterProps {
   config: RouterPropsConfig;
@@ -55,23 +56,16 @@ const redirect = (to: string): void => {
 };
 
 const routes = (controlPanelPrefix: string, routes: RouterProps): RouterProps => {
-  //
-
-  const isInstalled = false;
-  if (!isInstalled) {
+  if (process.env.installed !== 'yes' && window.localStorage.getItem('app.env.freshInstalled') !== 'yes') {
     routes = {
       config: {
         install: {
           prefix: '/',
           layout: InstallLayout,
           routes: {
-            '/': () => (
-              <section className={'p-4'}>
-                <h4>Hello</h4>
-                <hr />
-                <p>Welcome</p>
-              </section>
-            ),
+            '/': () => {
+              return <InstallForm />;
+            },
           },
           condition: () => true,
         },

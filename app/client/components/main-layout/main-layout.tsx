@@ -13,52 +13,39 @@ const MainLayout = (props: LayoutProps): React.ReactElement => {
   const authRecord = store().getAuthRecord();
   if (Helper.isWeb()) {
     return (
-      <section>
-        <nav
-          className={
-            'flex text-white items-center justify-between flex-wrap bg-teal py-4 px-6 bg-black shadow sm:items-baseline w-full'
-          }
-        >
-          <div className={'mt-1 ml-2 mb-0 sm:mb-0'}>
-            <span className={'text-2xl no-underline text-grey-darkest hover:text-blue-dark'}>
-              <Link to={'/'}>{t('app.general.welcome')}</Link>
-            </span>
-            <span className={'text-lg no-underline text-grey-darkest hover:text-blue-dark ml-3'}>
-              <button
-                onClick={() => {
-                  alert('to do');
-                }}
-              >
-                My Alarms
-              </button>
-            </span>
-            <span className={'text-lg no-underline text-grey-darkest hover:text-blue-dark ml-3'}>
-              <Link to={'/user/list/all'}>Users</Link>
-            </span>
+      <div>
+        <nav className={'flex pl-4 flex-row row w-full items-center text-white bg-black shadow'}>
+          <div className={'flex-grow'} style={{}}>
+            <Link to={'/'}>
+              <h1 className={'m-2 p-2 inline-block text-white rounded text-2xl'}>{t('app.general.welcome')}</h1>
+            </Link>
+            <Link to={'/todo'}>
+              <button className={'m-2 p-2 text-white rounded'}>My Alarms</button>
+            </Link>
+            <Link to={'/user/list/all'}>
+              <button className={'m-2 p-2 text-white rounded'}>Users</button>
+            </Link>
             {authRecord && (
-              <span className={'text-lg no-underline text-grey-darkest hover:text-blue-dark ml-3'}>
-                <Link to={`/${authRecord.repository}/view/${authRecord.uuid}`}>My Profile</Link>
-              </span>
+              <Link to={`/${authRecord.repository}/view/${authRecord.uuid}`}>
+                <button className={'m-2 p-2 text-white rounded'}>My Profile</button>
+              </Link>
             )}
           </div>
-          <div></div>
-
           <div>
-            <span className={'text-lg justify-right no-underline text-grey-darkest hover:text-blue-dark ml-2'}>
+            <Link to={'/gate/auth/user'}>
               <button
-                type={'button'}
                 onClick={async (): Promise<void> => {
                   await Action.deauth();
                 }}
+                className={'m-2 p-2 text-white rounded'}
               >
                 Logout
               </button>
-            </span>
+            </Link>
           </div>
         </nav>
-
-        <section>{props.children}</section>
-      </section>
+        <div>{props.children}</div>
+      </div>
     );
   }
   if (Helper.isMobile()) {

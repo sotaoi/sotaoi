@@ -15,9 +15,10 @@ const ErrorComponent = (props: { error: Error }): null | React.ReactElement => {
         // generic errors
         case props.error instanceof Errors.NotFoundView:
           return (
-            <section>
+            <section className={'p-4'}>
               <h2>Not Found</h2>
-              <section>We did not find what you were looking for</section>
+              <hr />
+              <p>We did not find what you were looking for</p>
             </section>
           );
         case props.error instanceof Errors.ComponentFail:

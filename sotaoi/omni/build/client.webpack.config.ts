@@ -5,11 +5,13 @@ import { paths } from '@sotaoi/omni/build/paths';
 import TerserPlugin from 'terser-webpack-plugin';
 import path from 'path';
 import { envVarWhitelist } from '@sotaoi/omni/app-package.json';
+import BundleJson from '@sotaoi/omni/bundle.json';
 
 const WebpackConfigFactory = (webpackEnv: string): webpack.Configuration => {
   process.env.NODE_ENV = webpackEnv;
   const envVars: { [key: string]: any } = {};
   envVarWhitelist.map((varName) => ((envVars as any)[varName] = process.env[varName]));
+  envVars.installed = BundleJson.installed ? 'yes' : 'no';
 
   const isEnvProduction = process.env.NODE_ENV !== 'development';
   return {

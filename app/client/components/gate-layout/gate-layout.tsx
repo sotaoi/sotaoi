@@ -6,30 +6,20 @@ import { Helper } from '@sotaoi/client/helper';
 const GateLayout = (props: LayoutProps): React.ReactElement => {
   if (Helper.isWeb()) {
     return (
-      <section>
-        <nav
-          className={
-            'font-sans text-white flex flex-col sm:flex-row sm:text-left sm:justify-between py-2 px-6 bg-black shadow sm:items-baseline w-full'
-          }
-        >
-          <div className={'mb-2 sm:mb-0'}>
-            <span className={'mx-2 text-2xl no-underline text-grey-darkest hover:text-blue-dark'}>
-              <Link to={'/'}>Alarmer</Link>
-            </span>
-            <span
-              className={
-                'mx-2 py-2 px-4 bg-blue-700 hover:bg-pink-700 text-white font-bold mb-6 rounded no-underline text-grey-darkest hover:text-blue-dark'
-              }
-            >
-              <Link to={'/gate/register/user'}>Sign Up</Link>
-            </span>
-            <span className={'mx-2 text-lg no-underline text-grey-darkest hover:text-blue-dark'}>
-              <Link to={'/gate/auth/user'}>Login</Link>
-            </span>
-          </div>
+      <div>
+        <nav className={'flex pl-4 flex-row w-full items-center text-white bg-black shadow'}>
+          <Link to={'/'}>
+            <h1 className={'m-2 p-2 text-white rounded text-2xl'}>Alarmer</h1>
+          </Link>
+          <Link to={'/gate/register/user'}>
+            <button className={'m-2 p-2 text-white rounded bg-blue-700'}>Sign up</button>
+          </Link>
+          <Link to={'/gate/auth/user'}>
+            <button className={'m-2 p-2 text-white rounded'}>Login</button>
+          </Link>
         </nav>
         <div>{props.children}</div>
-      </section>
+      </div>
     );
   }
 

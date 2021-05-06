@@ -128,7 +128,7 @@ const WebRegisterUserForm = (props: { form: StoreForm }): null | React.ReactElem
           <br /> */}
 
           <button
-            className={'w-full bg-green-700 hover:bg-pink-700 text-white font-bold py-2 px-4 mb-6 rounded'}
+            className={'w-full bg-green-700 text-white font-bold py-2 px-4 mb-6 rounded'}
             disabled={!Form.getFormState().canSubmit}
             type={'submit'}
             onClick={(): void => Form.submit()}
@@ -136,7 +136,7 @@ const WebRegisterUserForm = (props: { form: StoreForm }): null | React.ReactElem
             Create User
           </button>
           <button
-            className={'w-full bg-red-700 hover:bg-pink-700 text-white font-bold py-2 px-4 mb-6 rounded'}
+            className={'w-full bg-red-700 text-white font-bold py-2 px-4 mb-6 rounded'}
             onClick={(): void => Form.reset()}
             type={'button'}
           >

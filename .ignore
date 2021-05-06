@@ -1,4 +1,5 @@
 !/.env
+!/sotaoi/omni/bundle.json
 !/.greenlockrc
 !/todo.txt
 /public/build

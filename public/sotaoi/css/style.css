@@ -6,3 +6,7 @@ hr {
 body {
   overflow-y: scroll !important;
 }
+
+button:focus {
+  outline: none;
+}

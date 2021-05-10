@@ -27,6 +27,13 @@ class Helper extends OmniHelper {
     return crypto.createHash('sha1').update(str).digest('hex');
   }
 
+  public static getBundleJson(): { [key: string]: any; installed: boolean } {
+    delete require.cache[require.resolve('@sotaoi/omni/bundle.json')];
+    const BundleJson = require('@sotaoi/omni/bundle.json');
+    BundleJson.installed = !!BundleJson.installed;
+    return BundleJson;
+  }
+
   public static rootPath(pathInRoot = ''): string {
     const rootPath = path.resolve(path.dirname(require.resolve('@sotaoi/omni/package.json')), '../../');
     return path.resolve(rootPath, pathInRoot);

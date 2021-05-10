@@ -5,15 +5,21 @@ import { paths } from '@sotaoi/omni/build/paths';
 import TerserPlugin from 'terser-webpack-plugin';
 import path from 'path';
 import { envVarWhitelist } from '@sotaoi/omni/app-package.json';
-import BundleJson from '@sotaoi/omni/bundle.json';
+
+const getBundleJson = (): { [key: string]: any; installed: boolean } => {
+  delete require.cache[require.resolve('@sotaoi/omni/bundle.json')];
+  const BundleJson = require('@sotaoi/omni/bundle.json');
+  BundleJson.installed = !!BundleJson.installed;
+  return BundleJson;
+};
 
 const WebpackConfigFactory = (webpackEnv: string): webpack.Configuration => {
   process.env.NODE_ENV = webpackEnv;
   const envVars: { [key: string]: any } = {};
   envVarWhitelist.map((varName) => ((envVars as any)[varName] = process.env[varName]));
-  envVars.installed = BundleJson.installed ? 'yes' : 'no';
 
   const isEnvProduction = process.env.NODE_ENV !== 'development';
+  const minimizeFlag = !!isEnvProduction;
   return {
     mode: isEnvProduction ? 'production' : 'development',
     devtool: 'source-map',
@@ -66,7 +72,7 @@ const WebpackConfigFactory = (webpackEnv: string): webpack.Configuration => {
       extensions: ['.tsx', '.ts', '.js'],
     },
     optimization: {
-      minimize: !!isEnvProduction,
+      minimize: minimizeFlag,
       minimizer: [
         new TerserPlugin({
           terserOptions: {
@@ -81,29 +87,28 @@ const WebpackConfigFactory = (webpackEnv: string): webpack.Configuration => {
         inject: true,
         template: paths.clientHtml,
         isEnvProduction,
-        // minify: isEnvProduction
+        // minify: minimizeFlag
         //   ? {
-        //     removeComments: false,
-        //     collapseWhitespace: false,
-        //     removeRedundantAttributes: false,
-        //     useShortDoctype: false,
-        //     removeEmptyAttributes: false,
-        //     removeStyleLinkTypeAttributes: false,
-        //     keepClosingSlash: true,
-        //     minifyJS: false,
-        //     minifyCSS: false,
-        //     minifyURLs: false,
-        //   }
+        //       removeComments: false,
+        //       collapseWhitespace: false,
+        //       removeRedundantAttributes: false,
+        //       useShortDoctype: false,
+        //       removeEmptyAttributes: false,
+        //       removeStyleLinkTypeAttributes: false,
+        //       keepClosingSlash: true,
+        //       minifyJS: false,
+        //       minifyCSS: false,
+        //       minifyURLs: false,
+        //     }
         //   : {
-        //     //
-        //   },
-        minify: {
-          // no minify
-        },
+        //       //
+        //     },
+        minify: false,
       }),
       new webpack.DefinePlugin({
         __REACT_DEVTOOLS_GLOBAL_HOOK__: '({ isDisabled: true })',
         'process.env': JSON.stringify(JSON.stringify(envVars)),
+        'process.env.installed': getBundleJson().installed ? '"yes"' : '"no"',
       }),
     ],
   };
@@ -116,4 +121,4 @@ const mocks = (modules: string[]): { [key: string]: string } => {
   return _mocks;
 };
 
-export { WebpackConfigFactory };
+export { WebpackConfigFactory, getBundleJson };

@@ -56,7 +56,7 @@ const redirect = (to: string): void => {
 };
 
 const routes = (controlPanelPrefix: string, routes: RouterProps): RouterProps => {
-  if (process.env.installed !== 'yes' && window.localStorage.getItem('app.env.freshInstalled') !== 'yes') {
+  if (process.env.installed !== 'yes') {
     routes = {
       config: {
         install: {

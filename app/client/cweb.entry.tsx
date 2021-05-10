@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
-import { WebpackConfigFactory } from '@sotaoi/omni/build/client.webpack.config';
+import { WebpackConfigFactory, getBundleJson } from '@sotaoi/omni/build/client.webpack.config';
 import { paths } from '@sotaoi/omni/build/paths';
 import yargs from 'yargs';
 import express from 'express';
@@ -26,6 +26,7 @@ const main = async (): Promise<void> => {
 
   let serverInitInterval: any = null;
   let serverInitTries = 0;
+  let bundleInstallInterval: any = null;
   const PORT = '8080';
   const HOST = '0.0.0.0';
 
@@ -105,6 +106,17 @@ const main = async (): Promise<void> => {
   });
 
   devServer.listen(parseInt(PORT), HOST);
+
+  !getBundleJson().installed &&
+    (bundleInstallInterval = setInterval(() => {
+      const BundleJson = getBundleJson();
+      if (!BundleJson.installed) {
+        return;
+      }
+      clearInterval(bundleInstallInterval);
+      devServer.close();
+      main();
+    }, 3000));
 };
 
 main();

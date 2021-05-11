@@ -56,7 +56,7 @@ const main = async (): Promise<void> => {
       res.sendFile(publicPath + '/index.html');
     });
 
-    https
+    const server = https
       .createServer(
         {
           key: fs.readFileSync(keyPath),
@@ -67,6 +67,17 @@ const main = async (): Promise<void> => {
         app,
       )
       .listen(PORT);
+
+    !getBundleJson().installed &&
+      (bundleInstallInterval = setInterval(() => {
+        const BundleJson = getBundleJson();
+        if (!BundleJson.installed) {
+          return;
+        }
+        clearInterval(bundleInstallInterval);
+        server.close();
+        setTimeout(main, 3000);
+      }, 3000));
 
     return;
   }
@@ -115,7 +126,7 @@ const main = async (): Promise<void> => {
       }
       clearInterval(bundleInstallInterval);
       devServer.close();
-      main();
+      setTimeout(main, 3000);
     }, 3000));
 };
 

@@ -79,7 +79,7 @@ class Output {
         case typeof output.msg !== 'string':
         case typeof output.data === 'undefined':
         case typeof output.validations === 'undefined':
-          throw new Error('bad auth output');
+          throw new Error('bad task output');
         default:
           return new TaskResult(output.code, output.title, output.msg, output.data || null, output.validations || null);
       }

@@ -16,9 +16,10 @@ const InstallForm = () => {
     setState({ install: null });
   };
 
-  const finish = (): void => {
-    installBundleAction();
-    setState({ install: true });
+  const finish = async (): Promise<void> => {
+    const conclusion = await installBundleAction();
+    conclusion.notify();
+    conclusion.result().success && setState({ install: true });
   };
 
   return (

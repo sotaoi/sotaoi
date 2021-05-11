@@ -9,6 +9,9 @@ import { FormValidations } from '@sotaoi/omni/input';
 import { QueryFilters } from '@sotaoi/omni/transactions';
 import { ResponseToolkit } from '@hapi/hapi';
 import { Model } from '@sotaoi/api/db/model';
+import { controlPanel as controlPanelForms } from '@sotaoi/omni/control-panel/forms';
+import { SetInstallStatusTask } from '@sotaoi/api/control-panel/handlers/set-install-status-task';
+import { Helper } from '@sotaoi/api/helper';
 
 interface RepositoryHandlers {
   store?: typeof StoreHandler;
@@ -19,6 +22,10 @@ interface RepositoryHandlers {
   auth?: typeof AuthHandler;
   task?: { [key: string]: typeof TaskHandler };
 }
+
+const controlPanelHandlers: RepositoryHandlers = {
+  task: { 'set-install-status-task': SetInstallStatusTask },
+};
 
 class Setup {
   protected static handlers: { [key: string]: RepositoryHandlers };
@@ -87,11 +94,19 @@ class Setup {
     return new (authHandler as any)(handler);
   }
   public static getTaskHandler(repository: string, task: string, handler: ResponseToolkit): TaskHandler {
-    const taskHandlers = this.handlers[repository].task;
-    if (!taskHandlers || !taskHandlers[task]) {
-      throw new Error('no handler found');
+    try {
+      const taskHandlers = this.handlers[repository].task;
+      if (!taskHandlers || !taskHandlers[task]) {
+        throw new Error('no handler found');
+      }
+      return new (taskHandlers[task] as any)(handler);
+    } catch (err) {
+      // control panel tasks for uninstalled bundles
+      if (!Helper.getBundleJson().installed && controlPanelHandlers.task && controlPanelHandlers.task[task]) {
+        return new (controlPanelHandlers.task[task] as any)(handler);
+      }
+      throw err;
     }
-    return new (taskHandlers[task] as any)(handler);
   }
 
   public static getModel(key: string): Model {
@@ -100,6 +115,9 @@ class Setup {
 
   public static getForm(repository: string, formId: string): FormValidations {
     if (!this.forms[repository] || !this.forms[repository][formId]) {
+      if (!Helper.getBundleJson().installed && controlPanelForms[formId]) {
+        return controlPanelForms[formId]();
+      }
       throw new Error('form does not exist');
     }
     return this.forms[repository][formId];

@@ -20,7 +20,7 @@ class SetInstallStatusTask extends TaskHandler {
       return new TaskResult(200, 'Install success', 'Install was successful', { ok: true }, null);
     } catch (err) {
       logger().estack(err);
-      return new TaskResult(200, 'Install failed', 'Install was not successful', { ok: false }, null);
+      return new TaskResult(400, 'Install failed', 'Install was not successful', { ok: false }, null);
     }
   }
 }

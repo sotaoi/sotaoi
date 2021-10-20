@@ -1,15 +1,15 @@
 # optional / source debian
-wget -O debian.sh https://raw.githubusercontent.com/sotaoi/sotaoieco/dev/shell/source/debian.sh && source ./debian.sh && rm -f ./debian.sh
+wget -O debian.sh https://raw.githubusercontent.com/sotaoi/sotaoi/dev/shell/source/debian.sh && source ./debian.sh && rm -f ./debian.sh
 # optional / setup debian
-git clone https://github.com/sotaoi/sotaoieco sotaoieco && cd ./sotaoieco
+git clone https://github.com/sotaoi/sotaoi sotaoi && cd ./sotaoi
 cp .env.example .env
 nano .env
 ./shell/setup.sh .env
 
 # optional / source centos
-wget -O centos.sh https://raw.githubusercontent.com/sotaoi/sotaoieco/dev/shell/source/centos.sh && source ./centos.sh && rm -f ./centos.sh
+wget -O centos.sh https://raw.githubusercontent.com/sotaoi/sotaoi/dev/shell/source/centos.sh && source ./centos.sh && rm -f ./centos.sh
 # optional / setup centos
-git clone https://github.com/sotaoi/sotaoieco sotaoieco && cd ./sotaoieco
+git clone https://github.com/sotaoi/sotaoi sotaoi && cd ./sotaoi
 cp .env.example .env
 nano .env
 ./shell/setup.sh .env

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# wget -O debian.sh https://raw.githubusercontent.com/sotaoi/sotaoieco/dev/shell/source/debian.sh && source ./debian.sh && rm -f ./debian.sh
+# wget -O debian.sh https://raw.githubusercontent.com/sotaoi/sotaoi/dev/shell/source/debian.sh && source ./debian.sh && rm -f ./debian.sh
 
 <<'COMMENT'
 sudo apt autoremove -y nodejs && \

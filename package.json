@@ -1,5 +1,5 @@
 {
-  "name": "@sotaoi/sotaoieco",
+  "name": "@sotaoi/sotaoi",
   "private": true,
   "scripts": {
     "set:ecosystem": "node ./scripts/set-ecosystem",

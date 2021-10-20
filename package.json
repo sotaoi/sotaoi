@@ -44,6 +44,7 @@
     "start:php": "node ./scripts/start-php",
     "start:web": "node ./scripts/start-web",
     "start:web:prod": "node ./scripts/start-web-prod",
+    "stop:web:prod": "node ./scripts/stop-web-prod",
     "start:rn": "node ./scripts/start-rn",
     "start:ios": "node ./scripts/start-ios",
     "start:android": "node ./scripts/start-android",

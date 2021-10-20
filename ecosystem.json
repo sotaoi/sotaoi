@@ -1,0 +1,91 @@
+{
+  "sets": {
+    "ecosystem": [
+      "app-kotlin",
+      "app-api",
+      "app-auth",
+      "app-client",
+      "app-electron",
+      "app-mobile",
+      "app-omni",
+      "app-php",
+      "app-proxy",
+      "app-streaming",
+      "app-web"
+    ],
+    "super-api": ["app-kotlin", "app-api", "app-auth", "app-omni", "app-php", "app-proxy"],
+    "api": ["app-api", "app-auth", "app-omni", "app-php", "app-proxy"],
+    "client": ["app-client", "app-electron", "app-mobile", "app-omni", "app-proxy", "app-web"],
+    "web": ["app-client", "app-omni", "app-proxy", "app-web"],
+    "mobile": ["app-client", "app-mobile", "app-omni", "app-proxy"],
+    "desktop": ["app-client", "app-electron", "app-omni", "app-proxy"]
+  },
+  "apps": {
+    "app-kotlin": {
+      "repo": "git@github.com:sotaoi/app-kotlin",
+      "version": "master"
+    },
+    "app-api": {
+      "repo": "git@github.com:sotaoi/app-api",
+      "version": "master"
+    },
+    "app-auth": {
+      "repo": "git@github.com:sotaoi/app-auth",
+      "version": "master"
+    },
+    "app-client": {
+      "repo": "git@github.com:sotaoi/app-client",
+      "version": "master"
+    },
+    "app-electron": {
+      "repo": "git@github.com:sotaoi/app-electron",
+      "version": "master"
+    },
+    "app-mobile": {
+      "repo": "git@github.com:sotaoi/app-mobile",
+      "version": "master"
+    },
+    "app-omni": {
+      "repo": "git@github.com:sotaoi/app-omni",
+      "version": "master"
+    },
+    "app-php": {
+      "repo": "git@github.com:sotaoi/app-php",
+      "version": "master"
+    },
+    "app-proxy": {
+      "repo": "git@github.com:sotaoi/app-proxy",
+      "version": "master"
+    },
+    "app-streaming": {
+      "repo": "git@github.com:sotaoi/app-streaming",
+      "version": "master"
+    },
+    "app-web": {
+      "repo": "git@github.com:sotaoi/app-web",
+      "version": "master"
+    }
+  },
+  "packages": {
+    "sotaoi-api": {
+      "repo": "git@github.com:sotaoi/api",
+      "version": "master"
+    },
+    "sotaoi-auth": {
+      "repo": "git@github.com:sotaoi/auth",
+      "version": "master"
+    },
+    "sotaoi-client": {
+      "repo": "git@github.com:sotaoi/client",
+      "version": "master"
+    },
+    "sotaoi-omni": {
+      "repo": "git@github.com:sotaoi/omni",
+      "version": "master"
+    },
+    "sotaoi-strider": {
+      "repo": "git@github.com:sotaoi/strider",
+      "version": "master"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+// let exitHandled = false;
+// process.stdin.resume();
+// const exitHandler = () => {
+  if (exitHandled) {
+    return;
+  }
+  // shut down
+  // ... //
+  process.exit(0);
+// };
+// process.on('exit', exitHandler.bind(null, { code: 0 }));
+// process.on('SIGINT', exitHandler.bind(null, { code: 0 }));
+// process.on('SIGTERM', exitHandler.bind(null, { code: 0 }));
+// process.on('SIGQUIT', exitHandler.bind(null, { code: 0 }));
+// process.on('SIGUSR1', exitHandler.bind(null, { code: 0 }));
+// // process.on('SIGUSR2', exitHandler.bind(null, { code: 0 })); // <-- this is nodemon
+// // process.on('uncaughtException', exitHandler.bind(null, { code: 1 })); // <-- you don't want shutdown on uncaughtException

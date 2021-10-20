@@ -1,0 +1,9 @@
+**/node_modules/**
+
+/app-*
+
+!**/.gitkeep/**
+
+/output.log
+/todo.txt
+/.env

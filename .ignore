@@ -4,6 +4,8 @@
 /packages/sotaoi-strider/*
 !/packages/sotaoi-strider/package.json
 
+/pocket/var/*
+
 /app-mobile/android/.gradle/**/*
 /app-mobile/android/app/src/**/*
 /app-mobile/ios/Pods/**/*

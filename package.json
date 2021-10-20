@@ -20,7 +20,7 @@
     "db:migrate:down": "node ./scripts/db-migrate-down",
     "db:seed": "node ./scripts/db-seed",
     "start:servers": "concurrently --kill-others \"npm run detach:proxy\" \"npm run start:api\" \"npm run start:auth\" \"npm run start:streaming\"",
-    "start:servers:prod": "npm run start:api:prod && npm run start:auth:prod && np run start:proxy:prod && npm run start:streaming:prod",
+    "start:servers:prod": "npm run start:api:prod && npm run start:auth:prod && npm run start:proxy:prod && npm run start:streaming:prod",
     "start:api": "node ./scripts/start-api",
     "start:api:prod": "node ./scripts/start-api-prod",
     "restart:api:prod": "node ./scripts/restart-api-prod",

@@ -66,7 +66,8 @@
     "pkill": "pkill -f 'npm run start'",
     "ssl:greenlock": "node ./scripts/ssl/ssl-greenlock",
     "ssl:greenlock:prod": "node ./scripts/ssl/ssl-greenlock-prod",
-    "ssl:snakeoil": "node ./scripts/ssl/ssl-snakeoil"
+    "ssl:snakeoil": "node ./scripts/ssl/ssl-snakeoil",
+    "shell:tail": "concurrently \"tail -f ./app-api/logs/*\" \"tail -f ./app-auth/logs/*\" \"tail -f ./app-php/logs/*\" \"tail -f ./app-proxy/logs\" \"tail -f ./app-php/storage/logs/*\" \"tail -f ./app-streaming/logs/*\" \"tail -f ./app-web/server-output.log\""
   },
   "dependencies": {
     "@types/node": "^14",

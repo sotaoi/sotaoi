@@ -7,7 +7,7 @@ const main = async () => {
   if (!fs.existsSync(path.resolve('./scripts/service.main.js'))) {
     return;
   }
-  require('./scripts/service.main.js');
+  require(path.resolve('./scripts/service.main.js'));
 };
 
 main();

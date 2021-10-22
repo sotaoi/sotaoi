@@ -8,5 +8,5 @@
 /todo.txt
 /.env
 
-/scripts/service.js
+/scripts/service.main.js
 /service-test.log

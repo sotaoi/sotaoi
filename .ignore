@@ -21,3 +21,5 @@
 !/todo.txt
 !**/.env/**
 !**/*/env.json
+
+!/scripts/service.js

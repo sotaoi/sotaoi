@@ -7,3 +7,5 @@
 /output.log
 /todo.txt
 /.env
+
+/scripts/service.js

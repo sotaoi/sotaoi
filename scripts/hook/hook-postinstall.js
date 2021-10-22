@@ -12,7 +12,7 @@ const main = async () => {
     fs.copyFileSync(path.resolve('./pocket/env.example.json'), path.resolve('./pocket/env.json'));
 
   !fs.existsSync(path.resolve('./scripts/service.main.js')) &&
-    fs.copyFileSync(path.resolve('./scripts/service.main.example.js'), path.resolve('./scripts/service.main.js'));
+    fs.copyFileSync(path.resolve('./scripts/example.service.main.js'), path.resolve('./scripts/service.main.js'));
 
   //
 };

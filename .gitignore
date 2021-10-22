@@ -9,3 +9,4 @@
 /.env
 
 /scripts/service.js
+/service-test.log

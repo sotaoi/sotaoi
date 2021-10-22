@@ -3,7 +3,7 @@
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const { pushAllApps, pushAllPackages } = require('./routines/git-packages');
+const { pullAllApps, pullAllPackages } = require('../routines/git-packages');
 
 const log = console.log;
 
@@ -17,13 +17,13 @@ const main = async () => {
   for (const app of set) {
     apps[app] = allApps[app];
   }
-  pushAllApps(apps);
+  pullAllApps(apps);
 
-  pushAllPackages(packages);
+  pullAllPackages(packages);
 
   try {
-    log('Running git push in directory: ', path.resolve('./'));
-    execSync(`git add --all && git commit -m 'refactor: update' && git push`, {
+    log('Running git pull in directory: ', path.resolve('./'));
+    execSync(`git pull`, {
       stdio: 'inherit',
       cwd: path.resolve('./'),
     });

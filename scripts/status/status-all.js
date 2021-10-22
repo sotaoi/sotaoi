@@ -3,7 +3,7 @@
 const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
-const { pullAllApps, pullAllPackages } = require('./routines/git-packages');
+const { statusAllApps, statusAllPackages } = require('../routines/git-packages');
 
 const log = console.log;
 
@@ -17,13 +17,13 @@ const main = async () => {
   for (const app of set) {
     apps[app] = allApps[app];
   }
-  pullAllApps(apps);
+  statusAllApps(apps);
 
-  pullAllPackages(packages);
+  statusAllPackages(packages);
 
   try {
-    log('Running git pull in directory: ', path.resolve('./'));
-    execSync(`git pull`, {
+    log('Running git status in directory: ', path.resolve('./'));
+    execSync(`git status`, {
       stdio: 'inherit',
       cwd: path.resolve('./'),
     });

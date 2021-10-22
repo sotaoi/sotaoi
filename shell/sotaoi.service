@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 WorkingDirectory=/root/sotaoi
-ExecStart=/usr/bin/node ./scripts/service.js
+ExecStart=/usr/bin/node ./scripts/service.entry.js
 KillMode=process
 StandardOutput=syslog
 StandardError=syslog

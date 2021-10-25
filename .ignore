@@ -18,7 +18,7 @@
 **/package-lock.json
 **/composer.lock
 
-!/todo.txt
+!/todo.tt
 !**/.env/**
 !**/*/env.json
 

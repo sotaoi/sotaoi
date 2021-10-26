@@ -77,14 +77,11 @@ const pullAllApps = (apps) => {
     }
     try {
       log('Running git pull in directory: ', path.resolve(appName));
-      try {
+      fs.existsSync(path.resolve(appName, 'package.json')) &&
         execSync(`git checkout -- ./package-lock.json`, {
           cwd: path.resolve(appName),
           stdio: 'inherit',
         });
-      } catch (err) {
-        console.warn(err);
-      }
       execSync(`git pull`, {
         cwd: path.resolve(appName),
         stdio: 'inherit',
@@ -103,14 +100,11 @@ const pullAllPackages = (packages) => {
     }
     try {
       log('Running git pull in directory: ', path.resolve('./packages', packageName));
-      try {
+      fs.existsSync(path.resolve('./packages', packageName, 'package.json')) &&
         execSync(`git checkout -- ./package-lock.json`, {
           cwd: path.resolve('./packages', packageName),
           stdio: 'inherit',
         });
-      } catch (err) {
-        console.warn(err);
-      }
       execSync(`git pull`, {
         cwd: path.resolve('./packages', packageName),
         stdio: 'inherit',

@@ -23,11 +23,7 @@ const main = async () => {
 
   try {
     log('Running git pull in directory: ', path.resolve('./'));
-    try {
-      execSync('git checkout -- ./package-lock.json', { stdio: 'inherit', cwd: path.resolve('./') });
-    } catch (err) {
-      console.warn(err);
-    }
+    execSync('git checkout -- ./package-lock.json', { stdio: 'inherit', cwd: path.resolve('./') });
     execSync(`git pull`, {
       stdio: 'inherit',
       cwd: path.resolve('./'),

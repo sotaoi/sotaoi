@@ -21,7 +21,7 @@
     "db:seed": "node ./scripts/db/db-seed",
     "start:servers": "concurrently --kill-others \"npm run detach:proxy\" \"npm run start:api\" \"npm run start:auth\" \"npm run start:streaming\"",
     "start:servers:prod": "node ./scripts/start/start-servers-prod",
-    "restop:servers:prod": "npm run stop:servers:prod && npm run start:servers:prod",
+    "restart:servers:prod": "npm run stop:servers:prod && npm run start:servers:prod",
     "stop:servers:prod": "node ./scripts/stop/stop-servers-prod",
     "start:api": "node ./scripts/start/start-api",
     "start:api:prod": "node ./scripts/start/start-api-prod",

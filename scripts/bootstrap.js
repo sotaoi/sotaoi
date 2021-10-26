@@ -17,8 +17,6 @@ const main = async (dirpath, noSubset) => {
 
   const isPackages = !!noSubset;
 
-  const items = !isPackages ? getApps() : getPackages();
-
   fs.readdirSync(dirpath).map((item) => {
     const fullpath = path.resolve(dirpath, item);
     if (!fs.lstatSync(fullpath).isDirectory()) {
@@ -46,6 +44,7 @@ const bootstrap = (packageJsonPath) => {
     execSync('composer -n install', { cwd: dirpath, stdio: 'inherit' });
   }
   execSync('npm install --no-audit --no-fund', { cwd: dirpath, stdio: 'inherit' });
+  execSync('git checkout -- ./package-lock.json', { cwd: dirpath, stdio: 'inherit' });
 };
 
 main(path.resolve('./'), false);

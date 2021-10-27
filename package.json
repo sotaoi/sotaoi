@@ -5,6 +5,7 @@
     "set:ecosystem": "node ./scripts/set/set-ecosystem",
     "set:super-api": "node ./scripts/set/set-super-api",
     "set:api": "node ./scripts/set/set-api",
+    "set:x-api": "node ./scripts/set/set-x-api",
     "set:client": "node ./scripts/set/set-client",
     "set:web": "node ./scripts/set/set-web",
     "set:mobile": "node ./scripts/set/set-mobile",

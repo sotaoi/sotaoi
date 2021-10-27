@@ -4,6 +4,10 @@
 
 echo "Running setup for Mac...";
 
+if [[ $(which gls) == "" ]]; then
+  brew install coreutils
+fi
+
 ## NODE
 
 if [[ $(which node) == "" ]]; then

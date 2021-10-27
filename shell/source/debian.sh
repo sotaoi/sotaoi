@@ -16,8 +16,14 @@ COMMENT
 sudo DEBIAN_FRONTEND=noninteractive apt -y update
 sudo DEBIAN_FRONTEND=noninteractive apt install -y nano git curl zip unzip
 sudo DEBIAN_FRONTEND=noninteractive apt autoremove -y vim
+
 echo "" >> ~/.bashrc
-echo 'alias ls="ls -ahl"' >> ~/.bashrc
-echo 'alias ll="ls -ahl"' >> ~/.bashrc
-echo 'alias l="ls -ahl"' >> ~/.bashrc
+echo "parse_git_branch() {" >> ~/.bashrc
+echo "  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'" >> ~/.bashrc
+echo "}" >> ~/.bashrc
+echo 'export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "' >> ~/.bashrc
+echo "" >> ~/.bashrc
+echo 'alias ll="ls --color -ahl --group-directories-first"' >> ~/.bashrc
+echo 'alias l="ls --color -ahl --group-directories-first"' >> ~/.bashrc
+echo 'alias ls="ls --color -ahl --group-directories-first"' >> ~/.bashrc
 source ~/.bashrc

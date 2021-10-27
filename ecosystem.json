@@ -15,6 +15,7 @@
     ],
     "super-api": ["app-kotlin", "app-api", "app-auth", "app-omni", "app-php", "app-proxy"],
     "api": ["app-api", "app-auth", "app-omni", "app-php", "app-proxy"],
+    "x-api": ["app-api", "app-omni", "app-proxy"],
     "client": ["app-client", "app-electron", "app-mobile", "app-omni", "app-proxy", "app-web"],
     "web": ["app-client", "app-omni", "app-proxy", "app-web"],
     "mobile": ["app-client", "app-mobile", "app-omni", "app-proxy"],

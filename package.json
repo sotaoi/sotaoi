@@ -57,6 +57,7 @@
     "clean:ios": "node ./scripts/clean/clean-ios",
     "clean:android": "node ./scripts/clean/clean-android",
     "push:all": "node ./scripts/push/push-all",
+    "push:apps": "node ./scripts/push/push-apps",
     "pull:all": "node ./scripts/pull/pull-all",
     "status:all": "node ./scripts/status/status-all",
     "shell:clear-mc": "node ./scripts/shell/shell-clear-mc",

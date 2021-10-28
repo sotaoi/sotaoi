@@ -3,8 +3,11 @@
 const fs = require('fs');
 const path = require('path');
 const { installApps, installPackages } = require('../routines/install-items');
+const { execSync } = require('child_process');
 
 const main = async () => {
+  execSync('npm run force:remove');
+
   const envJson = JSON.parse(fs.readFileSync(path.resolve('./ecosystem.json')).toString());
   const set = envJson.sets.desktop;
   const allApps = envJson.apps;

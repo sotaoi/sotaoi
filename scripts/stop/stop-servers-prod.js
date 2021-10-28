@@ -14,6 +14,11 @@ try {
   console.error(err);
 }
 try {
+  execSync('npm run stop:php:prod', { cwd: path.resolve('./app-php'), stdio: 'inherit' });
+} catch (err) {
+  console.error(err);
+}
+try {
   execSync('npm run stop:auth:prod', { cwd: path.resolve('./app-auth'), stdio: 'inherit' });
 } catch (err) {
   console.error(err);

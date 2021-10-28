@@ -6,7 +6,7 @@ const { installApps, installPackages } = require('../routines/install-items');
 
 const main = async () => {
   const envJson = JSON.parse(fs.readFileSync(path.resolve('./ecosystem.json')).toString());
-  const set = envJson.sets['x-api'];
+  const set = envJson.sets['strong-api'];
   const allApps = envJson.apps;
   const packages = envJson.packages;
 

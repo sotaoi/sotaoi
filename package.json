@@ -60,6 +60,7 @@
     "push:apps": "node ./scripts/push/push-apps",
     "pull:all": "node ./scripts/pull/pull-all",
     "status:all": "node ./scripts/status/status-all",
+    "status:apps": "node ./scripts/status/status-apps",
     "shell:clear-mc": "node ./scripts/shell/shell-clear-mc",
     "shell:rnr": "npm run shell:clear-mc && npm run start:rn",
     "app:up": "node ./scripts/app/app-up",

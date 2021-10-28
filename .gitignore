@@ -12,4 +12,5 @@
 /service-test.log
 /service-output.log
 
+/bak*
 /old

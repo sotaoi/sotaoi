@@ -11,7 +11,6 @@ const main = async () => {
   const envJson = JSON.parse(fs.readFileSync(path.resolve('./ecosystem.json')).toString());
   const set = envJson.sets.ecosystem;
   const allApps = envJson.apps;
-  const packages = envJson.packages;
 
   const apps = {};
   for (const app of set) {

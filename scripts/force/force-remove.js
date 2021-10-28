@@ -10,26 +10,28 @@ const main = async () => {
       [
         '.ds_store',
         '.git',
+        '.vscode',
+        'node_modules',
+        'old',
+        'pocket',
+        'scripts',
+        'shell',
+        '.env',
+        '.env.example',
         '.gitignore',
         '.ignore',
         '.prettierrc',
-        '.vscode',
-        '.env',
-        '.env.example',
         'ecosystem.json',
-        'certs',
-        'node_modules',
         'notes.txt',
-        'old',
-        'package.json',
         'package-lock.json',
-        'pocket',
+        'package.json',
         'readme.txt',
-        'scripts',
-        'shell',
         'todo.txt',
       ].indexOf(item.toLowerCase()) === -1
     ) {
+      if (item.substr(0, 3) === 'bak') {
+        continue;
+      }
       if (!fs.lstatSync(path.resolve(item)).isDirectory()) {
         fs.unlinkSync(path.resolve(item));
         continue;

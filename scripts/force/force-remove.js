@@ -20,7 +20,7 @@ const main = async () => {
         'certs',
         'node_modules',
         'notes.txt',
-        'ofp.js',
+        'old',
         'package.json',
         'package-lock.json',
         'pocket',

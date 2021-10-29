@@ -13,6 +13,18 @@
       "app-streaming",
       "app-web"
     ],
+    "ecosystem-x": [
+      "app-kotlin",
+      "app-api",
+      "app-auth",
+      "app-client",
+      "app-electron",
+      "app-omni",
+      "app-php",
+      "app-proxy",
+      "app-streaming",
+      "app-web"
+    ],
     "super-api": ["app-kotlin", "app-api", "app-auth", "app-omni", "app-php", "app-proxy"],
     "strong-api": ["app-api", "app-auth", "app-omni", "app-php", "app-proxy"],
     "api": ["app-api", "app-omni", "app-proxy"],

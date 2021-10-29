@@ -4,18 +4,8 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-const getApps = () => {
-  return JSON.parse(fs.readFileSync(path.resolve('./ecosystem.json')).toString()).apps;
-};
-
-const getPackages = () => {
-  return JSON.parse(fs.readFileSync(path.resolve('./ecosystem.json')).toString()).packages;
-};
-
 const main = async (dirpath, noSubset) => {
   execSync('npm install --no-audit --no-fund', { stdio: 'inherit' });
-
-  const isPackages = !!noSubset;
 
   fs.readdirSync(dirpath).map((item) => {
     const fullpath = path.resolve(dirpath, item);

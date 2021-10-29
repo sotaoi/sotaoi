@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "set:ecosystem": "node ./scripts/set/set-ecosystem",
+    "set:ecosystem-x": "node ./scripts/set/set-ecosystem-x",
     "set:super-api": "node ./scripts/set/set-super-api",
     "set:api": "node ./scripts/set/set-api",
     "set:php-api": "node ./scripts/set/set-php-api",

@@ -42,7 +42,7 @@ fi
 if [[ $(which php) == "" ]]; then
   echo "Installing PHP..."
   sudo yum-config-manager --enable remi-php73
-  sudo yum install -y php-cli php php-fpm php-gd php-mysql php-common php-curl php-json php-mbstring php-xml php-zip php-bcmath
+  sudo yum install -y php-cli php php-soap php-fpm php-gd php-mysql php-common php-curl php-json php-mbstring php-xml php-zip php-bcmath
 fi
 if [[ $(which httpd) == "" ]]; then
   echo "Installing Apache2..."

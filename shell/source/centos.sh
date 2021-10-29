@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# wget -O centos.sh https://raw.githubusercontent.com/sotaoi/sotaoi/dev/shell/source/centos.sh && source ./centos.sh && rm -f ./centos.sh
+# wget -O centos.sh https://raw.githubusercontent.com/sotaoi/sotaoi/master/shell/source/centos.sh && source ./centos.sh && rm -f ./centos.sh
 
 <<'COMMENT'
 sudo yum autoremove -y nodejs && \

@@ -64,6 +64,7 @@
     "status:apps": "node ./scripts/status/status-apps",
     "shell:clear-mc": "node ./scripts/shell/shell-clear-mc",
     "shell:rnr": "npm run shell:clear-mc && npm run start:rn",
+    "app:config": "node ./scripts/app/app-config",
     "app:up": "node ./scripts/app/app-up",
     "app:down": "node ./scripts/app/app-down",
     "force:remove": "node ./scripts/force/force-remove",

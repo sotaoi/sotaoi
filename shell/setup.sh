@@ -60,8 +60,8 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
   echo -e "\nDone\n"
   exit 0
 
-elif [[ "$OSTYPE" == "linux-gnu"* ]]; then
-  source "$SCRIPT_PATH/routines/setup-linux.sh"
+elif [[ "$OSTYPE" == "linux-gnu"* && "`grep DISTRIB_ID /etc/*-release | awk -F '=' '{print $2}'`" == "Ubuntu" ]]; then
+  source "$SCRIPT_PATH/routines/setup-ubuntu.sh"
   echo -e "\nDone\n"
   exit 0
 

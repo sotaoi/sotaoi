@@ -18,7 +18,7 @@ if [[ $(which service) == "" ]]; then
   exit 1
 fi
 
-echo "Running setup for Debian based distribution...";
+echo "Running setup for Ubuntu...";
 
 DEBIAN_FRONTEND=noninteractive
 

@@ -1,20 +1,21 @@
 #!/bin/bash
 
-# wget -O centos.sh https://raw.githubusercontent.com/sotaoi/sotaoi/master/shell/source/centos.sh && source ./centos.sh && rm -f ./centos.sh
+# wget -O ubuntu.sh https://raw.githubusercontent.com/sotaoi/sotaoi/master/shell/source/ubuntu.sh && source ./ubuntu.sh && rm -f ./ubuntu.sh
 
 <<'COMMENT'
-sudo yum autoremove -y nodejs && \
-  curl -sL https://rpm.nodesource.com/setup_14.x -o ./nodesource_setup.sh && \
+sudo apt autoremove -y nodejs && \
+  curl -sL https://deb.nodesource.com/setup_14.x -o ./nodesource_setup.sh && \
   sudo bash ./nodesource_setup.sh && \
-  rm -f ./nodesource_setup.sh && \
-  sudo yum install -y nodejs && \
+  rm ./nodesource_setup.sh && \
+  DEBIAN_FRONTEND=noninteractive sudo apt install -y nodejs && \
   sudo npm install -g --force npm@7.24.1
 COMMENT
 
-# sudo systemctl disable httpd && sudo systemctl stop httpd
+# sudo systemctl disable apache2 && sudo systemctl stop apache2
 
-sudo yum install -y nano git curl zip unzip
-sudo yum autoremove -y vim
+sudo DEBIAN_FRONTEND=noninteractive apt -y update
+sudo DEBIAN_FRONTEND=noninteractive apt install -y nano git curl zip unzip
+sudo DEBIAN_FRONTEND=noninteractive apt autoremove -y vim
 
 echo "" >> ~/.bashrc
 echo "parse_git_branch() {" >> ~/.bashrc
